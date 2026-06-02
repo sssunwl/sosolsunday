@@ -54,59 +54,54 @@ def scrape_secret_flying_hk() -> list[str]:
     return deals
 
 
-def scrape_holiday_pirates_hk() -> list[str]:
-    """Holiday Pirates — 香港優惠機票"""
+def scrape_the_flight_deal_asia() -> list[str]:
+    """The Flight Deal — 亞洲出發優惠"""
     deals = []
     try:
-        url = "https://en.holidaypirates.com/flights?origin=HKG"
+        url = "https://www.theflightdeal.com/category/asia/"
         resp = requests.get(url, headers=HEADERS, timeout=15)
         resp.raise_for_status()
         soup = BeautifulSoup(resp.text, "lxml")
 
-        items = (
-            soup.select("[class*='deal-card']")
-            or soup.select("[class*='offer']")
-            or soup.select("article")
-        )[:6]
-
-        for item in items:
-            title = item.get_text(" ", strip=True)[:120]
-            if len(title) > 10:
-                deals.append(f"🟢 <b>Holiday Pirates</b>: {title}")
+        articles = soup.select("article")[:6]
+        for article in articles:
+            title_el = article.select_one("h2, h3, .entry-title")
+            link_el = article.select_one("a[href]")
+            title = title_el.get_text(strip=True) if title_el else ""
+            link = link_el["href"] if link_el else ""
+            if title:
+                deals.append(f'🟢 <a href="{link}">{title}</a>')
 
         if not deals:
-            deals.append("🟢 Holiday Pirates: 今日暫無新優惠")
+            deals.append("🟢 The Flight Deal Asia: 今日暫無新優惠")
     except Exception as e:
-        deals.append(f"🟢 Holiday Pirates 抓取失敗: {str(e)[:80]}")
+        deals.append(f"🟢 The Flight Deal 抓取失敗: {str(e)[:80]}")
 
     return deals
 
 
-def scrape_hk_express() -> list[str]:
-    """HK Express 閃購頁面"""
+def scrape_secret_flying_asia() -> list[str]:
+    """Secret Flying — 亞洲出發優惠（補充）"""
     deals = []
     try:
-        url = "https://www.hkexpress.com/zh-hk/promotions/"
+        url = "https://www.secretflying.com/posts/category/asia/"
         resp = requests.get(url, headers=HEADERS, timeout=15)
         resp.raise_for_status()
         soup = BeautifulSoup(resp.text, "lxml")
 
-        items = (
-            soup.select("[class*='promo']")
-            or soup.select("[class*='deal']")
-            or soup.select("[class*='offer']")
-            or soup.select("article")
-        )[:5]
-
-        for item in items:
-            title = item.get_text(" ", strip=True)[:120]
-            if len(title) > 10:
-                deals.append(f"🔴 <b>HK Express</b>: {title}")
+        articles = soup.select("article")[:5]
+        for article in articles:
+            title_el = article.select_one("h2, h3, .entry-title")
+            link_el = article.select_one("a[href]")
+            title = title_el.get_text(strip=True) if title_el else ""
+            link = link_el["href"] if link_el else ""
+            if title:
+                deals.append(f'🔴 <a href="{link}">{title}</a>')
 
         if not deals:
-            deals.append("🔴 HK Express: 頁面結構無法解析（可能需更新）")
+            deals.append("🔴 Secret Flying Asia: 今日暫無新優惠")
     except Exception as e:
-        deals.append(f"🔴 HK Express 抓取失敗: {str(e)[:80]}")
+        deals.append(f"🔴 Secret Flying Asia 抓取失敗: {str(e)[:80]}")
 
     return deals
 
@@ -128,9 +123,9 @@ def main():
     deals = []
     deals.extend(scrape_secret_flying_hk())
     deals.append("")
-    deals.extend(scrape_holiday_pirates_hk())
+    deals.extend(scrape_the_flight_deal_asia())
     deals.append("")
-    deals.extend(scrape_hk_express())
+    deals.extend(scrape_secret_flying_asia())
 
     message = build_message(deals)
     success = send_telegram(message)
