@@ -23,6 +23,8 @@ def send_telegram(message: str) -> bool:
         json={"chat_id": TELEGRAM_CHAT_ID, "text": message, "parse_mode": "HTML"},
         timeout=10,
     )
+    if not resp.ok:
+        print(f"Telegram API 錯誤: {resp.status_code} - {resp.text}")
     return resp.ok
 
 
