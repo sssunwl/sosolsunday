@@ -1,5 +1,6 @@
 import os
 import re
+import json
 import requests
 from bs4 import BeautifulSoup
 from datetime import datetime
@@ -15,9 +16,9 @@ HEADERS = {
         "Chrome/120.0.0.0 Safari/537.36"
     ),
     "Accept-Language": "zh-HK,zh;q=0.9,en;q=0.8",
+    "Accept": "text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8",
 }
 
-# 城市 / 國家名稱對照表
 TRANSLATIONS = {
     "Hong Kong": "香港", "Lisbon": "里斯本", "Portugal": "葡萄牙",
     "Delhi": "新德里", "India": "印度", "Zurich": "蘇黎世",
@@ -35,22 +36,22 @@ TRANSLATIONS = {
     "Madrid": "馬德里", "Frankfurt": "法蘭克福", "Germany": "德國",
     "Kuala Lumpur": "吉隆坡", "Malaysia": "馬來西亞",
     "Philippines": "菲律賓", "Manila": "馬尼拉",
-    "Cebu": "宿霧", "Maldives": "馬爾代夫",
+    "Cebu": "宿霧", "Maldives": "馬爾代夫", "Okinawa": "沖繩",
     "Non-stop": "直航", "roundtrip": "來回", "one-way": "單程",
-    "for only": "只需", "USD": "美元", "EUR": "歐元",
+    "for only": "只需", "USD": "美元", "EUR": "歐元", "HKD": "港幣",
+    "Sale": "特賣", "Promotion": "優惠", "Deal": "優惠",
+    "Special offer": "特別優惠", "Flash sale": "閃購",
 }
 
 
 def translate_title(title: str) -> str:
-    """把英文標題翻譯成繁中（優先用對照表，再用 Google 翻譯）"""
     result = title
     for en, zh in TRANSLATIONS.items():
         result = re.sub(re.escape(en), zh, result, flags=re.IGNORECASE)
-    # 如果大部分還是英文，呼叫 Google 翻譯
     en_ratio = sum(c.isascii() and c.isalpha() for c in result) / max(len(result), 1)
     if en_ratio > 0.4:
         try:
-            result = GoogleTranslator(source="en", target="zh-TW").translate(result)
+            result = GoogleTranslator(source="auto", target="zh-TW").translate(result)
         except Exception:
             pass
     return result
@@ -68,81 +69,182 @@ def send_telegram(message: str) -> bool:
     return resp.ok
 
 
+def extract_embedded_json(soup: BeautifulSoup) -> list[dict]:
+    """嘗試從頁面 <script> 標籤中提取嵌入的 JSON 資料"""
+    results = []
+    for script in soup.find_all("script", type="application/json"):
+        try:
+            data = json.loads(script.string)
+            results.append(data)
+        except Exception:
+            pass
+    return results
+
+
+def scrape_hk_express() -> list[str]:
+    """香港快運 HK Express — 促銷頁面"""
+    deals = []
+    urls_to_try = [
+        "https://www.hkexpress.com/zh-hk/special-offer/",
+        "https://www.hkexpress.com/en-hk/special-offer/",
+        "https://www.hkexpress.com/zh-hk/promotions/",
+    ]
+    for url in urls_to_try:
+        try:
+            resp = requests.get(url, headers=HEADERS, timeout=15)
+            if not resp.ok:
+                continue
+            soup = BeautifulSoup(resp.text, "lxml")
+            items = (
+                soup.select("[class*='promo']")
+                or soup.select("[class*='offer']")
+                or soup.select("[class*='sale']")
+                or soup.select("[class*='deal']")
+                or soup.select("article")
+            )
+            for item in items[:5]:
+                title = item.get_text(" ", strip=True)[:100]
+                if len(title) > 8:
+                    deals.append(f"<b>香港快運</b>：{translate_title(title)}")
+            if deals:
+                break
+        except Exception:
+            continue
+    if not deals:
+        deals.append("香港快運：優惠頁面無法讀取（JavaScript 渲染）")
+    return deals
+
+
+def scrape_hk_airlines() -> list[str]:
+    """香港航空 — 促銷頁面"""
+    deals = []
+    try:
+        url = "https://www.hongkongairlines.com/zh_HK/promotions"
+        resp = requests.get(url, headers=HEADERS, timeout=15)
+        resp.raise_for_status()
+        soup = BeautifulSoup(resp.text, "lxml")
+        items = (
+            soup.select("[class*='promo']")
+            or soup.select("[class*='offer']")
+            or soup.select("[class*='deal']")
+            or soup.select("article")
+            or soup.select(".card")
+        )
+        for item in items[:5]:
+            title = item.get_text(" ", strip=True)[:100]
+            if len(title) > 8:
+                deals.append(f"<b>香港航空</b>：{translate_title(title)}")
+    except Exception as e:
+        deals.append(f"香港航空：無法讀取（{str(e)[:50]}）")
+    if not deals:
+        deals.append("香港航空：優惠頁面無法讀取（JavaScript 渲染）")
+    return deals
+
+
+def scrape_greater_bay() -> list[str]:
+    """大灣區航空 — 促銷頁面"""
+    deals = []
+    urls_to_try = [
+        "https://www.greater-bay-airlines.com/zh-hk/promotion",
+        "https://www.greater-bay-airlines.com/en/promotion",
+    ]
+    for url in urls_to_try:
+        try:
+            resp = requests.get(url, headers=HEADERS, timeout=15)
+            if not resp.ok:
+                continue
+            soup = BeautifulSoup(resp.text, "lxml")
+            items = (
+                soup.select("[class*='promo']")
+                or soup.select("[class*='offer']")
+                or soup.select("[class*='deal']")
+                or soup.select("article")
+                or soup.select(".card")
+            )
+            for item in items[:5]:
+                title = item.get_text(" ", strip=True)[:100]
+                if len(title) > 8:
+                    deals.append(f"<b>大灣區航空</b>：{translate_title(title)}")
+            if deals:
+                break
+        except Exception:
+            continue
+    if not deals:
+        deals.append("大灣區航空：優惠頁面無法讀取（JavaScript 渲染）")
+    return deals
+
+
+def scrape_cathay() -> list[str]:
+    """國泰航空 — 嘗試靜態優惠頁面"""
+    deals = []
+    try:
+        url = "https://www.cathaypacific.com/cx/zh_HK/offers/flights.html"
+        resp = requests.get(url, headers=HEADERS, timeout=15)
+        resp.raise_for_status()
+        soup = BeautifulSoup(resp.text, "lxml")
+        items = (
+            soup.select("[class*='offer']")
+            or soup.select("[class*='promo']")
+            or soup.select("article")
+        )
+        for item in items[:5]:
+            title = item.get_text(" ", strip=True)[:100]
+            if len(title) > 8:
+                deals.append(f"<b>國泰航空</b>：{translate_title(title)}")
+    except Exception as e:
+        deals.append(f"國泰航空：無法讀取（{str(e)[:50]}）")
+    if not deals:
+        deals.append("國泰航空：優惠頁面無法讀取（JavaScript 渲染）")
+    return deals
+
+
 def scrape_secret_flying_hk() -> list[str]:
-    """Secret Flying — 香港出發優惠機票"""
+    """Secret Flying — 香港出發錯價 / 優惠（備用來源）"""
     deals = []
     try:
         url = "https://www.secretflying.com/posts/category/hong-kong/"
         resp = requests.get(url, headers=HEADERS, timeout=15)
         resp.raise_for_status()
         soup = BeautifulSoup(resp.text, "lxml")
-
-        for article in soup.select("article")[:8]:
-            title_el = article.select_one("h2, h3, .entry-title")
-            link_el = article.select_one("a[href]")
-            title = title_el.get_text(strip=True) if title_el else ""
-            link = link_el["href"] if link_el else ""
-            if title:
-                zh_title = translate_title(title)
-                deals.append(f'✈️ <a href="{link}">{zh_title}</a>')
-
-        if not deals:
-            deals.append("✈️ 香港出發：今日暫無新優惠")
-    except Exception as e:
-        deals.append(f"✈️ 香港出發抓取失敗: {str(e)[:80]}")
-
-    return deals
-
-
-def scrape_secret_flying_asia() -> list[str]:
-    """Secret Flying — 亞洲其他出發優惠"""
-    deals = []
-    try:
-        url = "https://www.secretflying.com/posts/category/asia/"
-        resp = requests.get(url, headers=HEADERS, timeout=15)
-        resp.raise_for_status()
-        soup = BeautifulSoup(resp.text, "lxml")
-
         for article in soup.select("article")[:6]:
             title_el = article.select_one("h2, h3, .entry-title")
             link_el = article.select_one("a[href]")
             title = title_el.get_text(strip=True) if title_el else ""
             link = link_el["href"] if link_el else ""
-            # 過濾掉香港出發（已在上面顯示）
-            if title and "hong kong" not in title.lower():
-                zh_title = translate_title(title)
-                deals.append(f'🌏 <a href="{link}">{zh_title}</a>')
-
+            if title:
+                deals.append(f'<a href="{link}">{translate_title(title)}</a>')
         if not deals:
-            deals.append("🌏 亞洲其他優惠：今日暫無新資料")
+            deals.append("Secret Flying：今日暫無香港出發新優惠")
     except Exception as e:
-        deals.append(f"🌏 亞洲優惠抓取失敗: {str(e)[:80]}")
-
+        deals.append(f"Secret Flying 抓取失敗: {str(e)[:60]}")
     return deals
 
 
-def build_message(hk_deals: list[str], asia_deals: list[str]) -> str:
+def build_message(sections: dict) -> str:
     now_str = datetime.utcnow().strftime("%Y-%m-%d %H:%M") + " HKT"
     lines = [
-        "✈️ <b>每日航班優惠速報</b>",
+        "✈️ <b>香港出發航班優惠速報</b>",
         f"🕐 更新時間：{now_str}",
         "",
-        "━━ 🇭🇰 <b>香港出發</b> ━━",
     ]
-    lines.extend(hk_deals)
-    lines.append("")
-    lines.append("━━ 🌏 <b>亞洲其他出發</b> ━━")
-    lines.extend(asia_deals)
-    lines.append("")
+    for label, deals in sections.items():
+        lines.append(f"━━ {label} ━━")
+        lines.extend(deals)
+        lines.append("")
     lines.append("—— Sosol × Steve · Suniverse")
     return "\n".join(lines)
 
 
 def main():
-    hk_deals = scrape_secret_flying_hk()
-    asia_deals = scrape_secret_flying_asia()
+    sections = {
+        "🟠 香港快運": scrape_hk_express(),
+        "🟡 香港航空": scrape_hk_airlines(),
+        "🟢 大灣區航空": scrape_greater_bay(),
+        "🔵 國泰航空": scrape_cathay(),
+        "⚡️ 最新優惠（Secret Flying）": scrape_secret_flying_hk(),
+    }
 
-    message = build_message(hk_deals, asia_deals)
+    message = build_message(sections)
     success = send_telegram(message)
 
     if success:
