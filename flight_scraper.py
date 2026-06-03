@@ -43,26 +43,48 @@ TRANSLATIONS = {
     "from": "出發", "to": "前往",
 }
 
-AIRLINES = [
+SOURCES = [
     {
         "name": "香港快運",
         "url": "https://www.hkexpress.com/zh-hk/special-offer/",
         "selectors": ["[class*='promo']", "[class*='offer']", "[class*='sale']", "article", ".card"],
+        "wait": 4000,
     },
     {
         "name": "香港航空",
         "url": "https://www.hongkongairlines.com/zh_HK/promotions",
         "selectors": ["[class*='promo']", "[class*='offer']", "[class*='deal']", "article", ".card"],
+        "wait": 4000,
     },
     {
         "name": "大灣區航空",
         "url": "https://www.greater-bay-airlines.com/zh-hk/promotion",
         "selectors": ["[class*='promo']", "[class*='offer']", "[class*='deal']", "article", ".card"],
+        "wait": 4000,
     },
     {
         "name": "國泰航空",
         "url": "https://www.cathaypacific.com/cx/zh_HK/offers/flights.html",
         "selectors": ["[class*='offer']", "[class*='promo']", "article", ".card"],
+        "wait": 4000,
+    },
+    {
+        "name": "永安旅遊",
+        "url": "https://www.wingontravel.com/zh-hk/",
+        "selectors": ["[class*='deal']", "[class*='promo']", "[class*='offer']", "[class*='flight']", "article", ".card", "li"],
+        "wait": 3000,
+    },
+    {
+        "name": "Trip.com 機票優惠",
+        "url": "https://hk.trip.com/flights/hong-kong-flights-departure/",
+        "selectors": ["[class*='deal']", "[class*='promo']", "[class*='price']", "[class*='flight']", "article", ".card"],
+        "wait": 5000,
+    },
+    {
+        "name": "Skyscanner 香港出發",
+        "url": "https://www.skyscanner.com.hk/flights-from/hkg/cheap-flights-from-hong-kong.html",
+        "selectors": ["[class*='deal']", "[class*='route']", "[class*='price']", "[class*='destination']", "article", ".card"],
+        "wait": 5000,
     },
 ]
 
@@ -92,25 +114,29 @@ def send_telegram(message: str) -> bool:
     return resp.ok
 
 
-def scrape_airline_playwright(page, airline: dict) -> list[str]:
-    """用 Playwright 抓取航空公司優惠頁面"""
+def scrape_source_playwright(page, source: dict) -> list[str]:
+    """用 Playwright 抓取頁面優惠"""
     deals = []
-    name = airline["name"]
+    name = source["name"]
     try:
-        page.goto(airline["url"], wait_until="domcontentloaded", timeout=25000)
-        # 等待頁面 JS 渲染
+        page.goto(source["url"], wait_until="domcontentloaded", timeout=25000)
         try:
             page.wait_for_load_state("networkidle", timeout=8000)
         except PlaywrightTimeout:
-            pass  # networkidle 超時沒關係，繼續解析
+            pass
+        page.wait_for_timeout(source.get("wait", 3000))
+        # 模擬滾動，觸發懶載入
+        page.evaluate("window.scrollTo(0, document.body.scrollHeight / 2)")
+        page.wait_for_timeout(1000)
 
         content = page.content()
         soup = BeautifulSoup(content, "lxml")
 
         items = []
-        for selector in airline["selectors"]:
-            items = soup.select(selector)
-            if items:
+        for selector in source["selectors"]:
+            candidates = soup.select(selector)
+            if candidates:
+                items = candidates
                 break
 
         seen = set()
@@ -120,10 +146,10 @@ def scrape_airline_playwright(page, airline: dict) -> list[str]:
                 seen.add(title)
                 deals.append(f"<b>{name}</b>：{translate_title(title)}")
 
-        print(f"✅ {name}：找到 {len(deals)} 筆優惠")
+        print(f"{'✅' if deals else '⚠️'} {name}：找到 {len(deals)} 筆")
     except Exception as e:
         print(f"❌ {name} 抓取失敗：{e}")
-        deals.append(f"<b>{name}</b>：無法讀取優惠頁面")
+        deals.append(f"<b>{name}</b>：無法讀取")
 
     if not deals:
         deals.append(f"<b>{name}</b>：今日暫無優惠資料")
@@ -131,18 +157,19 @@ def scrape_airline_playwright(page, airline: dict) -> list[str]:
     return deals
 
 
-def scrape_all_airlines() -> dict[str, list[str]]:
-    """一次開瀏覽器，依序抓取所有航空公司"""
+def scrape_all_sources() -> dict[str, list[str]]:
+    """一次開瀏覽器，依序抓取所有來源"""
     results = {}
     with sync_playwright() as p:
         browser = p.chromium.launch(headless=True)
         context = browser.new_context(
             user_agent=HEADERS["User-Agent"],
             locale="zh-HK",
+            viewport={"width": 1280, "height": 800},
         )
         page = context.new_page()
-        for airline in AIRLINES:
-            results[airline["name"]] = scrape_airline_playwright(page, airline)
+        for source in SOURCES:
+            results[source["name"]] = scrape_source_playwright(page, source)
         browser.close()
     return results
 
@@ -188,8 +215,8 @@ def build_message(airline_results: dict, secret_flying: list[str]) -> str:
 
 
 def main():
-    print("🚀 開始抓取航空公司官網（Playwright）...")
-    airline_results = scrape_all_airlines()
+    print("🚀 開始抓取各平台（Playwright）...")
+    airline_results = scrape_all_sources()
 
     print("📰 抓取 Secret Flying...")
     secret_flying = scrape_secret_flying_hk()
