@@ -6,28 +6,35 @@ on:
     - cron: "0 0 * * *"
     - cron: "0 6 * * *"
     - cron: "0 12 * * *"
-  workflow_dispatch: # 允許手動觸發測試
+  workflow_dispatch:
 
 jobs:
   scrape:
     runs-on: ubuntu-latest
+    env:
+      FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
 
     steps:
       - name: Checkout 代碼
         uses: actions/checkout@v4
-        env:
-          FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
 
       - name: 設定 Python
         uses: actions/setup-python@v5
-        env:
-          FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
         with:
           python-version: "3.11"
           cache: "pip"
 
-      - name: 安裝依賴
+      - name: 安裝 Python 依賴
         run: pip install -r requirements.txt
+
+      - name: 快取 Playwright 瀏覽器
+        uses: actions/cache@v4
+        with:
+          path: ~/.cache/ms-playwright
+          key: playwright-chromium-${{ runner.os }}-v1
+
+      - name: 安裝 Playwright Chromium
+        run: playwright install chromium --with-deps
 
       - name: 執行爬蟲
         env:
