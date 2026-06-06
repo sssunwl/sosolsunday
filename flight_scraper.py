@@ -2,7 +2,7 @@ import os
 import re
 import requests
 from bs4 import BeautifulSoup
-from datetime import datetime
+from datetime import datetime, timezone, timedelta
 from deep_translator import GoogleTranslator
 from playwright.sync_api import sync_playwright, TimeoutError as PlaywrightTimeout
 
@@ -175,22 +175,38 @@ def scrape_all_sources() -> dict[str, list[str]]:
 
 
 def scrape_secret_flying_hk() -> list[str]:
-    """Secret Flying — 香港出發優惠（靜態備用來源）"""
+    """Secret Flying — 香港出發，只顯示 7 天內的新消息"""
     deals = []
+    cutoff = datetime.now(timezone.utc) - timedelta(days=7)
     try:
         url = "https://www.secretflying.com/posts/category/hong-kong/"
         resp = requests.get(url, headers=HEADERS, timeout=15)
         resp.raise_for_status()
         soup = BeautifulSoup(resp.text, "lxml")
-        for article in soup.select("article")[:6]:
+
+        for article in soup.select("article")[:20]:
             title_el = article.select_one("h2, h3, .entry-title")
             link_el = article.select_one("a[href]")
+            time_el = article.select_one("time[datetime]")
+
             title = title_el.get_text(strip=True) if title_el else ""
             link = link_el["href"] if link_el else ""
+
+            if time_el and time_el.get("datetime"):
+                try:
+                    pub_date = datetime.fromisoformat(
+                        time_el["datetime"].replace("Z", "+00:00")
+                    )
+                    if pub_date < cutoff:
+                        continue
+                except Exception:
+                    pass
+
             if title:
                 deals.append(f'<a href="{link}">{translate_title(title)}</a>')
+
         if not deals:
-            deals.append("今日暫無香港出發新優惠")
+            deals.append("過去 7 天暫無香港出發新優惠")
     except Exception as e:
         deals.append(f"抓取失敗：{str(e)[:60]}")
     return deals

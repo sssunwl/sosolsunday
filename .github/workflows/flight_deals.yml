@@ -2,10 +2,8 @@ name: 航班優惠爬蟲
 
 on:
   schedule:
-    # HKT 08:00 / 14:00 / 20:00（UTC 00:00 / 06:00 / 12:00）
+    # 每天 HKT 08:00（UTC 00:00）
     - cron: "0 0 * * *"
-    - cron: "0 6 * * *"
-    - cron: "0 12 * * *"
   workflow_dispatch:
 
 jobs:
