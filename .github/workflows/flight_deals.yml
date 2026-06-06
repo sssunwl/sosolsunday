@@ -8,7 +8,7 @@ on:
 
 jobs:
   scrape:
-    runs-on: ubuntu-22.04
+    runs-on: ubuntu-latest
     env:
       FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
 
@@ -22,17 +22,8 @@ jobs:
           python-version: "3.11"
           cache: "pip"
 
-      - name: 安裝 Python 依賴
+      - name: 安裝依賴
         run: pip install -r requirements.txt
-
-      - name: 快取 Playwright 瀏覽器
-        uses: actions/cache@v4
-        with:
-          path: ~/.cache/ms-playwright
-          key: playwright-chromium-${{ runner.os }}-v1
-
-      - name: 安裝 Playwright Chromium
-        run: playwright install chromium --with-deps
 
       - name: 執行爬蟲
         env:

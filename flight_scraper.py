@@ -3,8 +3,9 @@ import re
 import requests
 from bs4 import BeautifulSoup
 from datetime import datetime, timezone, timedelta
+from email.utils import parsedate_to_datetime
+from xml.etree import ElementTree as ET
 from deep_translator import GoogleTranslator
-from playwright.sync_api import sync_playwright, TimeoutError as PlaywrightTimeout
 
 TELEGRAM_BOT_TOKEN = os.environ.get("TELEGRAM_BOT_TOKEN")
 TELEGRAM_CHAT_ID = os.environ.get("TELEGRAM_CHAT_ID")
@@ -38,54 +39,15 @@ TRANSLATIONS = {
     "Cebu": "宿霧", "Maldives": "馬爾代夫", "Okinawa": "沖繩",
     "Non-stop": "直航", "roundtrip": "來回", "one-way": "單程",
     "for only": "只需", "USD": "美元", "EUR": "歐元", "HKD": "港幣",
-    "Sale": "特賣", "Promotion": "優惠", "Deal": "優惠",
-    "Special offer": "特別優惠", "Flash sale": "閃購",
-    "from": "出發", "to": "前往",
 }
 
-SOURCES = [
-    {
-        "name": "香港快運",
-        "url": "https://www.hkexpress.com/zh-hk/special-offer/",
-        "selectors": ["[class*='promo']", "[class*='offer']", "[class*='sale']", "article", ".card"],
-        "wait": 4000,
-    },
-    {
-        "name": "香港航空",
-        "url": "https://www.hongkongairlines.com/zh_HK/promotions",
-        "selectors": ["[class*='promo']", "[class*='offer']", "[class*='deal']", "article", ".card"],
-        "wait": 4000,
-    },
-    {
-        "name": "大灣區航空",
-        "url": "https://www.greater-bay-airlines.com/zh-hk/promotion",
-        "selectors": ["[class*='promo']", "[class*='offer']", "[class*='deal']", "article", ".card"],
-        "wait": 4000,
-    },
-    {
-        "name": "國泰航空",
-        "url": "https://www.cathaypacific.com/cx/zh_HK/offers/flights.html",
-        "selectors": ["[class*='offer']", "[class*='promo']", "article", ".card"],
-        "wait": 4000,
-    },
-    {
-        "name": "永安旅遊",
-        "url": "https://www.wingontravel.com/zh-hk/",
-        "selectors": ["[class*='deal']", "[class*='promo']", "[class*='offer']", "[class*='flight']", "article", ".card", "li"],
-        "wait": 3000,
-    },
-    {
-        "name": "Trip.com 機票優惠",
-        "url": "https://hk.trip.com/flights/hong-kong-flights-departure/",
-        "selectors": ["[class*='deal']", "[class*='promo']", "[class*='price']", "[class*='flight']", "article", ".card"],
-        "wait": 5000,
-    },
-    {
-        "name": "Skyscanner 香港出發",
-        "url": "https://www.skyscanner.com.hk/flights-from/hkg/cheap-flights-from-hong-kong.html",
-        "selectors": ["[class*='deal']", "[class*='route']", "[class*='price']", "[class*='destination']", "article", ".card"],
-        "wait": 5000,
-    },
+# Google News 搜尋關鍵詞（繁中，香港）
+GOOGLE_NEWS_QUERIES = [
+    "香港機票 特價 優惠",
+    "香港快運 優惠",
+    "國泰航空 機票 優惠",
+    "香港航空 特價",
+    "大灣區航空 優惠",
 ]
 
 
@@ -94,7 +56,7 @@ def translate_title(title: str) -> str:
     for en, zh in TRANSLATIONS.items():
         result = re.sub(re.escape(en), zh, result, flags=re.IGNORECASE)
     en_ratio = sum(c.isascii() and c.isalpha() for c in result) / max(len(result), 1)
-    if en_ratio > 0.4:
+    if en_ratio > 0.5:
         try:
             result = GoogleTranslator(source="auto", target="zh-TW").translate(result)
         except Exception:
@@ -114,70 +76,56 @@ def send_telegram(message: str) -> bool:
     return resp.ok
 
 
-def scrape_source_playwright(page, source: dict) -> list[str]:
-    """用 Playwright 抓取頁面優惠"""
-    deals = []
-    name = source["name"]
+def scrape_google_news(query: str, cutoff: datetime, seen_titles: set) -> list[dict]:
+    """從 Google News RSS 抓取指定關鍵詞的 7 天內新聞"""
+    results = []
     try:
-        page.goto(source["url"], wait_until="domcontentloaded", timeout=25000)
-        try:
-            page.wait_for_load_state("networkidle", timeout=8000)
-        except PlaywrightTimeout:
-            pass
-        page.wait_for_timeout(source.get("wait", 3000))
-        # 模擬滾動，觸發懶載入
-        page.evaluate("window.scrollTo(0, document.body.scrollHeight / 2)")
-        page.wait_for_timeout(1000)
+        encoded = requests.utils.quote(query)
+        url = f"https://news.google.com/rss/search?q={encoded}&hl=zh-HK&gl=HK&ceid=HK:zh-Hant"
+        resp = requests.get(url, headers=HEADERS, timeout=15)
+        resp.raise_for_status()
 
-        content = page.content()
-        soup = BeautifulSoup(content, "lxml")
+        root = ET.fromstring(resp.content)
+        for item in root.findall(".//item"):
+            title_el = item.find("title")
+            link_el = item.find("link")
+            pub_el = item.find("pubDate")
+            source_el = item.find("source")
 
-        items = []
-        for selector in source["selectors"]:
-            candidates = soup.select(selector)
-            if candidates:
-                items = candidates
-                break
+            title = title_el.text if title_el is not None else ""
+            link = link_el.text if link_el is not None else ""
+            source = source_el.text if source_el is not None else ""
+            pub_str = pub_el.text if pub_el is not None else ""
 
-        seen = set()
-        for item in items[:6]:
-            title = item.get_text(" ", strip=True)[:120]
-            if len(title) > 8 and title not in seen:
-                seen.add(title)
-                deals.append(f"<b>{name}</b>：{translate_title(title)}")
+            if not title or title in seen_titles:
+                continue
 
-        print(f"{'✅' if deals else '⚠️'} {name}：找到 {len(deals)} 筆")
+            # 過濾 7 天內
+            if pub_str:
+                try:
+                    pub_date = parsedate_to_datetime(pub_str)
+                    if pub_date < cutoff:
+                        continue
+                except Exception:
+                    pass
+
+            seen_titles.add(title)
+            results.append({
+                "title": title,
+                "link": link,
+                "source": source,
+                "pub": pub_str[:16] if pub_str else "",
+            })
+
     except Exception as e:
-        print(f"❌ {name} 抓取失敗：{e}")
-        deals.append(f"<b>{name}</b>：無法讀取")
+        print(f"Google News 抓取失敗 ({query}): {e}")
 
-    if not deals:
-        deals.append(f"<b>{name}</b>：今日暫無優惠資料")
-
-    return deals
-
-
-def scrape_all_sources() -> dict[str, list[str]]:
-    """一次開瀏覽器，依序抓取所有來源"""
-    results = {}
-    with sync_playwright() as p:
-        browser = p.chromium.launch(headless=True)
-        context = browser.new_context(
-            user_agent=HEADERS["User-Agent"],
-            locale="zh-HK",
-            viewport={"width": 1280, "height": 800},
-        )
-        page = context.new_page()
-        for source in SOURCES:
-            results[source["name"]] = scrape_source_playwright(page, source)
-        browser.close()
     return results
 
 
-def scrape_secret_flying_hk() -> list[str]:
-    """Secret Flying — 香港出發，只顯示 7 天內的新消息"""
+def scrape_secret_flying_hk(cutoff: datetime) -> list[str]:
+    """Secret Flying — 香港出發國際錯價 / 優惠"""
     deals = []
-    cutoff = datetime.now(timezone.utc) - timedelta(days=7)
     try:
         url = "https://www.secretflying.com/posts/category/hong-kong/"
         resp = requests.get(url, headers=HEADERS, timeout=15)
@@ -206,42 +154,60 @@ def scrape_secret_flying_hk() -> list[str]:
                 deals.append(f'<a href="{link}">{translate_title(title)}</a>')
 
         if not deals:
-            deals.append("過去 7 天暫無香港出發新優惠")
+            deals.append("過去 7 天暫無香港出發國際新優惠")
     except Exception as e:
         deals.append(f"抓取失敗：{str(e)[:60]}")
     return deals
 
 
-def build_message(airline_results: dict, secret_flying: list[str]) -> str:
+def build_message(news_items: list[dict], secret_deals: list[str]) -> str:
     now_str = datetime.utcnow().strftime("%Y-%m-%d %H:%M") + " HKT"
     lines = [
-        "✈️ <b>香港出發航班優惠速報</b>",
+        "✈️ <b>香港出發航班優惠 — 每週精選</b>",
         f"🕐 更新時間：{now_str}",
+        f"📅 過去 7 天最新資訊",
         "",
-        "━━ 🏢 <b>航空公司官網優惠</b> ━━",
     ]
-    for name, deals in airline_results.items():
-        lines.extend(deals)
-    lines.append("")
-    lines.append("━━ ⚡️ <b>最新特價（Secret Flying）</b> ━━")
-    lines.extend(secret_flying)
+
+    if news_items:
+        lines.append("━━ 📰 <b>各航空公司優惠新聞</b> ━━")
+        for item in news_items[:12]:
+            source = f" — {item['source']}" if item['source'] else ""
+            lines.append(f'• <a href="{item["link"]}">{item["title"]}</a>{source}')
+        lines.append("")
+    else:
+        lines.append("━━ 📰 過去 7 天暫無優惠新聞 ━━")
+        lines.append("")
+
+    lines.append("━━ 🌍 <b>國際錯價 / 特價（Secret Flying）</b> ━━")
+    lines.extend(secret_deals)
     lines.append("")
     lines.append("—— Sosol × Steve · Suniverse")
     return "\n".join(lines)
 
 
 def main():
-    print("🚀 開始抓取各平台（Playwright）...")
-    airline_results = scrape_all_sources()
+    cutoff = datetime.now(timezone.utc) - timedelta(days=7)
+    seen_titles: set = set()
+    all_news = []
 
-    print("📰 抓取 Secret Flying...")
-    secret_flying = scrape_secret_flying_hk()
+    print("📰 抓取 Google News HK 航班優惠新聞...")
+    for query in GOOGLE_NEWS_QUERIES:
+        items = scrape_google_news(query, cutoff, seen_titles)
+        all_news.extend(items)
+        print(f"  '{query}': {len(items)} 條")
 
-    message = build_message(airline_results, secret_flying)
+    # 按時間排序（最新在前）
+    all_news.sort(key=lambda x: x["pub"], reverse=True)
+
+    print("✈️ 抓取 Secret Flying 國際優惠...")
+    secret_deals = scrape_secret_flying_hk(cutoff)
+
+    message = build_message(all_news, secret_deals)
     success = send_telegram(message)
 
     if success:
-        print("✅ Telegram 發送成功")
+        print(f"✅ Telegram 發送成功（{len(all_news)} 條新聞）")
     else:
         print("❌ Telegram 發送失敗")
         exit(1)
