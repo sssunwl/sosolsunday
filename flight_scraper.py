@@ -86,6 +86,8 @@ def fetch_cheapest_flights() -> list[dict]:
         "token": TRAVELPAYOUTS_TOKEN,
     }
     resp = requests.get(url, params=params, timeout=15)
+    print(f"  cheap API 狀態: {resp.status_code}")
+    print(f"  cheap API 回應: {resp.text[:400]}")
     resp.raise_for_status()
     data = resp.json()
 
