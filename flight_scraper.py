@@ -212,6 +212,17 @@ def main():
         print(f"  找到 {len(cheapest)} 個目的地")
     except Exception as e:
         print(f"  失敗: {e}")
+        # Debug: 直接印出 API 回應
+        try:
+            r = requests.get(
+                "https://api.travelpayouts.com/v1/prices/cheap",
+                params={"origin": "HKG", "currency": "hkd", "token": TRAVELPAYOUTS_TOKEN},
+                timeout=15
+            )
+            print(f"  API 狀態碼: {r.status_code}")
+            print(f"  API 回應: {r.text[:300]}")
+        except Exception as e2:
+            print(f"  Debug 失敗: {e2}")
         cheapest = []
 
     print("⚡️ 查詢最新低價...")
@@ -220,6 +231,16 @@ def main():
         print(f"  找到 {len(latest)} 條")
     except Exception as e:
         print(f"  失敗: {e}")
+        try:
+            r = requests.get(
+                "https://api.travelpayouts.com/v2/prices/latest",
+                params={"origin": "HKG", "currency": "hkd", "period_type": "year", "limit": 5, "token": TRAVELPAYOUTS_TOKEN},
+                timeout=15
+            )
+            print(f"  API 狀態碼: {r.status_code}")
+            print(f"  API 回應: {r.text[:300]}")
+        except Exception as e2:
+            print(f"  Debug 失敗: {e2}")
         latest = []
 
     print("📰 抓取優惠新聞...")
