@@ -208,6 +208,8 @@ def build_message(cheapest: list, latest: list, news: list) -> str:
 
 
 def main():
+    token = TRAVELPAYOUTS_TOKEN or ""
+    print(f"🔑 Token 長度: {len(token.strip())} 字符，前3位: {token.strip()[:3]}***")
     print("💰 查詢 HKG 各目的地最低價...")
     try:
         cheapest = fetch_cheapest_flights()
