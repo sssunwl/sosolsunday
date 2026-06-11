@@ -156,6 +156,7 @@
     <div class="hero-btns">
       <button class="hero-btn" onclick="go('flights',document.querySelectorAll('.nav-btn')[1])">✈️ 查機票</button>
       <button class="hero-btn" onclick="go('hotels',document.querySelectorAll('.nav-btn')[2])">🏨 查酒店</button>
+      <a class="hero-btn" href="destinations/" style="text-decoration:none">🌏 目的地</a>
     </div>
   </div>
 
@@ -246,7 +247,7 @@ const HOME_CITIES = [
   { flag:'🇯🇵', name:'東京', key:'tokyo'      },
   { flag:'🇰🇷', name:'首爾', key:'seoul'      },
   { flag:'🇰🇷', name:'釜山', key:'busan'      },
-  { flag:'🇹🇼', name:'台北', key:'tpe'        },
+  { flag:'🇹🇼', name:'台北', key:'taipei'     },
 ];
 
 // ── Tab routing ───────────────────────────────────────────────────────────
@@ -326,10 +327,10 @@ function renderHome() {
 
   // City grid
   document.getElementById('h-cities').innerHTML = HOME_CITIES.map(c => `
-    <div class="chip" onclick="go('hotels',document.querySelectorAll('.nav-btn')[2]);setCity('${c.key}')">
+    <a class="chip" href="destinations/city.html?key=${c.key}" style="text-decoration:none">
       <div class="chip-flag">${c.flag}</div>
       <div class="chip-name">${c.name}</div>
-    </div>`).join('');
+    </a>`).join('');
 }
 
 // ── FLIGHTS ───────────────────────────────────────────────────────────────
