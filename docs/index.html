@@ -1,0 +1,474 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>SoSolsunday · 旅遊優惠速報</title>
+  <style>
+    :root {
+      --navy:  #1B2F4A;
+      --navy2: #243D5F;
+      --gold:  #C9A84C;
+      --sand:  #F2EDE6;
+      --white: #FFFFFF;
+      --text:  #1E2D3D;
+      --muted: #6B7D90;
+      --green: #2D9B6F;
+      --amber: #D48B20;
+      --red:   #C03030;
+      --sh:    0 2px 12px rgba(0,0,0,0.08);
+    }
+    * { margin:0; padding:0; box-sizing:border-box; }
+    body { font-family:-apple-system,'Helvetica Neue',Arial,sans-serif; background:var(--sand); color:var(--text); min-height:100vh; }
+
+    /* ── Header ── */
+    .hdr { background:var(--navy); padding:13px 18px; display:flex; align-items:center; justify-content:space-between; position:sticky; top:0; z-index:100; }
+    .hdr-logo { color:var(--gold); font-size:17px; font-weight:700; letter-spacing:.8px; }
+    .hdr-upd  { color:rgba(255,255,255,.4); font-size:10px; text-align:right; line-height:1.4; }
+
+    /* ── Tab nav ── */
+    .nav { background:var(--navy); display:flex; border-top:1px solid rgba(255,255,255,.08); }
+    .nav-btn { flex:1; padding:10px 2px; background:none; border:none; border-bottom:2px solid transparent; color:rgba(255,255,255,.45); font-size:11.5px; cursor:pointer; transition:color .2s,border-color .2s; }
+    .nav-btn.on { color:var(--gold); border-bottom-color:var(--gold); }
+
+    /* ── Panels ── */
+    .panel { display:none; padding-bottom:72px; }
+    .panel.on { display:block; }
+
+    /* ── Hero ── */
+    .hero { background:linear-gradient(160deg,#1B2F4A 0%,#1E3A5F 55%,#243352 100%); padding:38px 20px 30px; text-align:center; }
+    .hero h1 { color:var(--gold); font-size:26px; font-weight:300; letter-spacing:4px; margin-bottom:6px; }
+    .hero p  { color:rgba(255,255,255,.55); font-size:12px; letter-spacing:1.5px; }
+    .hero-btns { display:flex; gap:10px; justify-content:center; margin-top:18px; }
+    .hero-btn { padding:9px 22px; border-radius:20px; border:1.5px solid rgba(255,255,255,.3); background:none; color:rgba(255,255,255,.8); font-size:13px; cursor:pointer; transition:all .2s; }
+    .hero-btn:hover, .hero-btn.on { background:var(--gold); border-color:var(--gold); color:var(--navy); font-weight:600; }
+
+    /* ── Section ── */
+    .sec { padding:18px 16px 6px; }
+    .sec-ttl { font-size:11px; font-weight:700; color:var(--muted); letter-spacing:1.2px; text-transform:uppercase; margin-bottom:11px; }
+
+    /* ── Quick stats (home top) ── */
+    .qs-grid { display:grid; grid-template-columns:1fr 1fr; gap:10px; }
+    .qs-card { background:var(--white); border-radius:12px; padding:14px 14px 12px; box-shadow:var(--sh); }
+    .qs-label { font-size:10px; color:var(--muted); margin-bottom:3px; }
+    .qs-route { font-size:13px; font-weight:600; color:var(--navy); line-height:1.2; }
+    .qs-price { font-size:21px; font-weight:700; color:var(--green); margin-top:3px; }
+    .qs-meta  { font-size:10px; color:var(--muted); margin-top:3px; }
+    .qs-cta   { background:var(--navy); cursor:pointer; }
+    .qs-cta .qs-label { color:rgba(255,255,255,.5); }
+    .qs-cta .qs-route { color:white; }
+    .qs-cta .qs-price { color:var(--gold); font-size:14px; }
+
+    /* ── Horizontal scroll strip ── */
+    .hscroll { display:flex; gap:9px; overflow-x:auto; padding:0 16px 10px; scrollbar-width:none; -webkit-overflow-scrolling:touch; }
+    .hscroll::-webkit-scrollbar { display:none; }
+
+    /* ── Destination card (small) ── */
+    .dc { background:var(--white); border-radius:10px; padding:12px 13px; min-width:100px; box-shadow:var(--sh); flex-shrink:0; text-align:center; }
+    .dc-flag { font-size:22px; }
+    .dc-city { font-size:11.5px; font-weight:600; color:var(--navy); margin-top:3px; }
+    .dc-price { font-size:14.5px; font-weight:700; color:var(--green); }
+    .dc-sub   { font-size:9.5px; color:var(--muted); }
+
+    /* ── City chip grid ── */
+    .chip-grid { display:grid; grid-template-columns:repeat(4,1fr); gap:8px; }
+    .chip { background:var(--white); border-radius:10px; padding:12px 6px; text-align:center; box-shadow:var(--sh); cursor:pointer; }
+    .chip-flag { font-size:20px; }
+    .chip-name { font-size:11px; color:var(--navy); margin-top:4px; line-height:1.2; }
+
+    /* ── Toggle row ── */
+    .tog-row { display:flex; gap:8px; padding:14px 16px 0; }
+    .tog-btn { flex:1; padding:10px; border-radius:8px; border:2px solid var(--navy); background:none; color:var(--navy); font-size:13px; font-weight:600; cursor:pointer; transition:all .2s; }
+    .tog-btn.on { background:var(--navy); color:var(--gold); }
+
+    /* ── Price heat table ── */
+    .tbl-wrap { overflow-x:auto; padding:0 16px; }
+    .ptbl { width:100%; border-collapse:collapse; font-size:11.5px; white-space:nowrap; }
+    .ptbl th { background:var(--navy); color:rgba(255,255,255,.65); padding:7px 5px; font-weight:500; text-align:center; }
+    .ptbl th:first-child { text-align:left; padding-left:10px; }
+    .ptbl td { padding:8px 5px; text-align:center; border-bottom:1px solid rgba(0,0,0,.05); }
+    .ptbl td:first-child { text-align:left; padding-left:10px; font-weight:600; color:var(--navy); }
+    .ptbl tr:nth-child(even) td { background:rgba(0,0,0,.02); }
+    .p-best { color:var(--green); font-weight:700; }
+    .p-best::after { content:'★'; font-size:8px; vertical-align:super; margin-left:1px; }
+    .p-lo   { color:var(--green); }
+    .p-mi   { color:var(--amber); }
+    .p-hi   { color:var(--red); }
+    .p-nil  { color:#ccc; }
+
+    /* ── City tabs ── */
+    .ctabs { display:flex; gap:7px; overflow-x:auto; padding:12px 16px 4px; scrollbar-width:none; }
+    .ctabs::-webkit-scrollbar { display:none; }
+    .ctab { white-space:nowrap; padding:7px 14px; border-radius:20px; border:1.5px solid rgba(27,47,74,.25); background:none; color:var(--muted); font-size:12px; cursor:pointer; transition:all .2s; }
+    .ctab.on { background:var(--navy); border-color:var(--navy); color:var(--gold); font-weight:600; }
+
+    /* ── Weekend tabs ── */
+    .wtabs { display:flex; gap:6px; padding:6px 16px 4px; overflow-x:auto; scrollbar-width:none; }
+    .wtabs::-webkit-scrollbar { display:none; }
+    .wtab { white-space:nowrap; padding:5px 12px; border-radius:16px; border:1.5px solid rgba(27,47,74,.2); background:none; color:var(--muted); font-size:11px; cursor:pointer; transition:all .2s; }
+    .wtab.on { border-color:var(--navy); color:var(--navy); font-weight:600; }
+
+    /* ── Hotel card ── */
+    .hlist { padding:8px 16px; }
+    .hcard { background:var(--white); border-radius:12px; padding:14px 16px; margin-bottom:9px; box-shadow:var(--sh); display:flex; align-items:center; gap:12px; }
+    .hcard-rank { width:24px; height:24px; border-radius:50%; background:var(--navy); color:var(--gold); font-size:11px; font-weight:700; display:flex; align-items:center; justify-content:center; flex-shrink:0; }
+    .hcard-info { flex:1; min-width:0; }
+    .hcard-name { font-size:13px; font-weight:600; color:var(--navy); line-height:1.3; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
+    .hcard-sub  { font-size:11px; color:var(--muted); margin-top:2px; }
+    .hcard-price-col { text-align:right; flex-shrink:0; }
+    .hcard-price { font-size:18px; font-weight:700; color:var(--green); }
+    .hcard-nights { font-size:9.5px; color:var(--muted); }
+
+    /* ── Coming soon ── */
+    .cs { text-align:center; padding:70px 20px; }
+    .cs-icon { font-size:52px; margin-bottom:16px; }
+    .cs h2   { font-size:20px; color:var(--navy); margin-bottom:8px; }
+    .cs p    { font-size:13px; color:var(--muted); }
+
+    /* ── States ── */
+    .loading { text-align:center; padding:36px; color:var(--muted); font-size:12px; }
+    .nodata  { text-align:center; padding:24px; color:var(--muted); font-size:12px; }
+
+    /* ── Footer ── */
+    footer { background:var(--navy); padding:18px 20px; text-align:center; color:rgba(255,255,255,.35); font-size:10.5px; line-height:1.7; margin-top:4px; }
+    footer a { color:var(--gold); text-decoration:none; }
+  </style>
+</head>
+<body>
+
+<header class="hdr">
+  <div class="hdr-logo">☀ SoSolsunday</div>
+  <div class="hdr-upd" id="updBadge">載入中…</div>
+</header>
+
+<nav class="nav">
+  <button class="nav-btn on"  onclick="go('home',this)">🏠 首頁</button>
+  <button class="nav-btn"     onclick="go('flights',this)">✈️ 機票</button>
+  <button class="nav-btn"     onclick="go('hotels',this)">🏨 酒店</button>
+  <button class="nav-btn"     onclick="go('cruises',this)">🚢 郵輪</button>
+</nav>
+
+<!-- ══ HOME ══════════════════════════════════════════ -->
+<div class="panel on" id="p-home">
+  <div class="hero">
+    <h1>SoSolsunday</h1>
+    <p>智慧旅遊，由此出發</p>
+    <div class="hero-btns">
+      <button class="hero-btn" onclick="go('flights',document.querySelectorAll('.nav-btn')[1])">✈️ 查機票</button>
+      <button class="hero-btn" onclick="go('hotels',document.querySelectorAll('.nav-btn')[2])">🏨 查酒店</button>
+    </div>
+  </div>
+
+  <div class="sec">
+    <div class="sec-ttl">今日最低機票（香港出發）</div>
+    <div class="hscroll" id="h-dest-hkg"><div class="loading">載入中…</div></div>
+  </div>
+
+  <div class="sec">
+    <div class="sec-ttl">本週酒店精選</div>
+    <div id="h-hotel-pick"><div class="loading">載入中…</div></div>
+  </div>
+
+  <div class="sec">
+    <div class="sec-ttl">探索目的地</div>
+    <div class="chip-grid" id="h-cities"></div>
+  </div>
+</div>
+
+<!-- ══ FLIGHTS ════════════════════════════════════════ -->
+<div class="panel" id="p-flights">
+  <div class="tog-row">
+    <button class="tog-btn on" id="tog-hkg" onclick="setOrigin('HKG',this)">🇭🇰 香港出發</button>
+    <button class="tog-btn"    id="tog-tpe" onclick="setOrigin('TPE',this)">🇹🇼 台北出發</button>
+  </div>
+
+  <div class="sec">
+    <div class="sec-ttl">本月最便宜目的地</div>
+    <div class="hscroll" id="f-dests"><div class="loading">載入中…</div></div>
+  </div>
+
+  <div class="sec">
+    <div class="sec-ttl">6個月往返最低價</div>
+  </div>
+  <div class="tbl-wrap">
+    <table class="ptbl" id="f-table"><tr><td class="loading" colspan="8">載入中…</td></tr></table>
+  </div>
+</div>
+
+<!-- ══ HOTELS ════════════════════════════════════════ -->
+<div class="panel" id="p-hotels">
+  <div class="ctabs" id="h-ctabs"><div class="loading">載入中…</div></div>
+  <div class="wtabs" id="h-wtabs"></div>
+  <div class="hlist" id="h-hlist"><div class="loading">載入中…</div></div>
+</div>
+
+<!-- ══ CRUISES ════════════════════════════════════════ -->
+<div class="panel" id="p-cruises">
+  <div class="cs">
+    <div class="cs-icon">🚢</div>
+    <h2>郵輪優惠</h2>
+    <p>即將推出 — 亞洲郵輪航線一站式速報</p>
+  </div>
+</div>
+
+<footer>
+  數據由 Travelpayouts &amp; LiteAPI 提供 · 每日自動更新<br>
+  <a href="https://github.com/sssunwl/sosolsunday" target="_blank">GitHub</a> · Suniverse × Sosol
+</footer>
+
+<script>
+// ── State ──────────────────────────────────────────────────────────────────
+let FD = null;   // flights data
+let HD = null;   // hotels data
+let origin = 'HKG';
+let hCity  = null;
+let hWknd  = 0;
+
+const DEST_FLAG = {
+  '三亞':'🇨🇳','桂林':'🇨🇳','寧波':'🇨🇳','廣州':'🇨🇳','深圳':'🇨🇳',
+  '上海':'🇨🇳','北京':'🇨🇳','成都':'🇨🇳',
+  '台北':'🇹🇼','高雄':'🇹🇼','台中':'🇹🇼',
+  '香港':'🇭🇰',
+  '沖繩那覇':'🇯🇵','石垣島':'🇯🇵','宮古島':'🇯🇵','東京':'🇯🇵',
+  '大阪':'🇯🇵','福岡':'🇯🇵','札幌':'🇯🇵','名古屋':'🇯🇵',
+  '首爾':'🇰🇷','釜山':'🇰🇷','濟州':'🇰🇷',
+  '馬尼拉':'🇵🇭','宿霧':'🇵🇭',
+  '曼谷':'🇹🇭','普吉':'🇹🇭','清邁':'🇹🇭',
+  '新加坡':'🇸🇬','吉隆坡':'🇲🇾','峇里島':'🇮🇩',
+  '河內':'🇻🇳','胡志明':'🇻🇳','峴港':'🇻🇳',
+};
+
+const HOME_CITIES = [
+  { flag:'🇯🇵', name:'沖繩', key:'naha'       },
+  { flag:'🇯🇵', name:'石垣島', key:'ishigaki'  },
+  { flag:'🇯🇵', name:'宮古島', key:'miyakojima'},
+  { flag:'🇯🇵', name:'福岡', key:'fukuoka'    },
+  { flag:'🇯🇵', name:'東京', key:'tokyo'      },
+  { flag:'🇰🇷', name:'首爾', key:'seoul'      },
+  { flag:'🇰🇷', name:'釜山', key:'busan'      },
+  { flag:'🇹🇼', name:'台北', key:'tpe'        },
+];
+
+// ── Tab routing ───────────────────────────────────────────────────────────
+function go(name, btn) {
+  document.querySelectorAll('.panel').forEach(p => p.classList.remove('on'));
+  document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('on'));
+  document.getElementById('p-' + name).classList.add('on');
+  if (btn) btn.classList.add('on');
+}
+
+// ── Data loading ──────────────────────────────────────────────────────────
+async function loadAll() {
+  try {
+    const ts = '?v=' + Date.now();
+    const [fr, hr] = await Promise.all([
+      fetch('./data/flights.json' + ts),
+      fetch('./data/hotels.json'  + ts),
+    ]);
+    if (fr.ok) FD = await fr.json();
+    if (hr.ok) HD = await hr.json();
+  } catch (e) {
+    console.error('fetch error', e);
+  }
+  render();
+}
+
+function render() {
+  const upd = FD?.updated_at || HD?.updated_at || '—';
+  document.getElementById('updBadge').innerHTML =
+    '更新：' + upd.replace(' HKT','').replace(' ','<br>');
+  renderHome();
+  renderFlights();
+  renderHotels();
+}
+
+// ── HOME ──────────────────────────────────────────────────────────────────
+function renderHome() {
+  // HKG cheapest destinations
+  const destEl = document.getElementById('h-dest-hkg');
+  const dests = FD?.destinations?.HKG || [];
+  destEl.innerHTML = dests.length
+    ? dests.map(d => `
+        <div class="dc" onclick="go('flights',document.querySelectorAll('.nav-btn')[1])">
+          <div class="dc-flag">${DEST_FLAG[d.name] || '🌍'}</div>
+          <div class="dc-city">${d.name}</div>
+          <div class="dc-price">HK$${d.price.toLocaleString()}</div>
+          <div class="dc-sub">本月最低</div>
+        </div>`).join('')
+    : '<div class="nodata">暫無機票數據</div>';
+
+  // Hotel highlight
+  const hotelEl = document.getElementById('h-hotel-pick');
+  const city0 = HD?.cities?.[0];
+  const h0 = city0?.weekend_hotels?.[0]?.[0];
+  const wknd0 = HD?.weekends?.[0];
+  if (h0 && wknd0) {
+    hotelEl.innerHTML = `
+      <div style="padding:0 16px">
+        <div class="qs-grid">
+          <div class="qs-card">
+            <div class="qs-label">${city0.flag} ${city0.name}</div>
+            <div class="qs-route">${h0.name}</div>
+            <div class="qs-price">HK$${h0.price.toLocaleString()}</div>
+            <div class="qs-meta">⭐${h0.rating} · 週末2晚2人</div>
+          </div>
+          <div class="qs-card qs-cta" onclick="go('hotels',document.querySelectorAll('.nav-btn')[2])">
+            <div class="qs-label">週末出行</div>
+            <div class="qs-route">${wknd0.label}</div>
+            <div class="qs-price">查看全部酒店 →</div>
+            <div class="qs-meta">7個城市 · 4星+</div>
+          </div>
+        </div>
+      </div>`;
+  } else {
+    hotelEl.innerHTML = '<div class="nodata">暫無酒店數據</div>';
+  }
+
+  // City grid
+  document.getElementById('h-cities').innerHTML = HOME_CITIES.map(c => `
+    <div class="chip" onclick="go('hotels',document.querySelectorAll('.nav-btn')[2]);setCity('${c.key}')">
+      <div class="chip-flag">${c.flag}</div>
+      <div class="chip-name">${c.name}</div>
+    </div>`).join('');
+}
+
+// ── FLIGHTS ───────────────────────────────────────────────────────────────
+function setOrigin(o, btn) {
+  origin = o;
+  document.querySelectorAll('.tog-btn').forEach(b => b.classList.remove('on'));
+  if (btn) btn.classList.add('on');
+  renderFlights();
+}
+
+function renderFlights() {
+  renderDestCards();
+  renderPriceTable();
+}
+
+function renderDestCards() {
+  const el = document.getElementById('f-dests');
+  const dests = FD?.destinations?.[origin] || [];
+  el.innerHTML = dests.length
+    ? dests.map(d => `
+        <div class="dc">
+          <div class="dc-flag">${DEST_FLAG[d.name] || '🌍'}</div>
+          <div class="dc-city">${d.name}</div>
+          <div class="dc-price">HK$${d.price.toLocaleString()}</div>
+          <div class="dc-sub">本月最低</div>
+        </div>`).join('')
+    : '<div class="nodata">暫無數據</div>';
+}
+
+function pClass(price, minP) {
+  if (price === minP) return 'p-best';
+  const r = (price - minP) / minP;
+  return r <= 0.12 ? 'p-lo' : r <= 0.30 ? 'p-mi' : 'p-hi';
+}
+
+function fmt(p) {
+  return p >= 1000 ? '$' + (p/1000).toFixed(1) + 'k' : '$' + p;
+}
+
+function renderPriceTable() {
+  const el = document.getElementById('f-table');
+  if (!FD) { el.innerHTML = '<tr><td class="nodata" colspan="8">暫無數據</td></tr>'; return; }
+
+  const routes = (FD.routes || []).filter(r => r.origin === origin);
+  if (!routes.length) { el.innerHTML = '<tr><td class="nodata" colspan="8">暫無數據</td></tr>'; return; }
+
+  const allMonths = [...new Set(routes.flatMap(r => r.months.map(m => m.month)))].sort();
+  const mLabels = allMonths.map(m => m.slice(5) + '月');
+
+  let html = `<tr>
+    <th>航線</th>${mLabels.map(l => `<th>${l}</th>`).join('')}
+  </tr>`;
+
+  for (const route of routes) {
+    const map = {};
+    route.months.forEach(m => { map[m.month] = m; });
+    const prices = route.months.map(m => m.price);
+    const minP = Math.min(...prices);
+
+    const cells = allMonths.map(m => {
+      if (!map[m]) return '<td class="p-nil">—</td>';
+      const cls = pClass(map[m].price, minP);
+      return `<td class="${cls}" title="${m} · ${map[m].airline}">${fmt(map[m].price)}</td>`;
+    });
+
+    html += `<tr>
+      <td>${route.flag} ${route.dest_name}</td>
+      ${cells.join('')}
+    </tr>`;
+  }
+  el.innerHTML = html;
+}
+
+// ── HOTELS ────────────────────────────────────────────────────────────────
+function renderHotels() {
+  if (!HD) {
+    document.getElementById('h-ctabs').innerHTML = '<div class="nodata">暫無數據</div>';
+    return;
+  }
+  const cities = HD.cities || [];
+  const weekends = HD.weekends || [];
+
+  // City tabs
+  document.getElementById('h-ctabs').innerHTML = cities.map((c, i) => `
+    <button class="ctab ${i===0?'on':''}" onclick="setCity('${c.key}',this)">
+      ${c.flag} ${c.name}
+    </button>`).join('');
+
+  // Weekend tabs
+  document.getElementById('h-wtabs').innerHTML = weekends.map((w, i) => `
+    <button class="wtab ${i===0?'on':''}" onclick="setWknd(${i},this)">
+      ${w.label}
+    </button>`).join('');
+
+  if (cities.length) {
+    hCity = cities[0].key;
+    renderHotelList();
+  }
+}
+
+function setCity(key, btn) {
+  hCity = key;
+  document.querySelectorAll('.ctab').forEach(b => b.classList.remove('on'));
+  if (btn) btn.classList.add('on');
+  renderHotelList();
+}
+
+function setWknd(idx, btn) {
+  hWknd = idx;
+  document.querySelectorAll('.wtab').forEach(b => b.classList.remove('on'));
+  if (btn) btn.classList.add('on');
+  renderHotelList();
+}
+
+function renderHotelList() {
+  const el = document.getElementById('h-hlist');
+  if (!HD) return;
+  const city = HD.cities.find(c => c.key === hCity);
+  if (!city) { el.innerHTML = '<div class="nodata">城市數據不存在</div>'; return; }
+
+  const hotels = city.weekend_hotels?.[hWknd] || [];
+  if (!hotels.length) { el.innerHTML = '<div class="nodata">此週末暫無報價</div>'; return; }
+
+  el.innerHTML = hotels.map((h, i) => `
+    <div class="hcard">
+      <div class="hcard-rank">${i+1}</div>
+      <div class="hcard-info">
+        <div class="hcard-name">${h.name}</div>
+        <div class="hcard-sub">⭐${h.rating || '—'} · ${'★'.repeat(h.stars||4)} · 2晚2人</div>
+      </div>
+      <div class="hcard-price-col">
+        <div class="hcard-price">HK$${h.price.toLocaleString()}</div>
+        <div class="hcard-nights">2晚</div>
+      </div>
+    </div>`).join('');
+}
+
+// ── Boot ──────────────────────────────────────────────────────────────────
+loadAll();
+</script>
+</body>
+</html>

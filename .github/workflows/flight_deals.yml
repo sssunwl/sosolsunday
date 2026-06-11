@@ -33,3 +33,14 @@ jobs:
           LITEAPI_KEY: ${{ secrets.LITEAPI_KEY }}
         run: python flight_scraper.py
 
+      - name: 提交 JSON 數據到 GitHub Pages
+        run: |
+          git config user.name  "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add docs/data/flights.json docs/data/hotels.json
+          if git diff --cached --quiet; then
+            echo "數據無變化，跳過 commit"
+          else
+            git commit -m "data: 自動更新 $(date -u '+%Y-%m-%d %H:%M') UTC"
+            git push
+          fi

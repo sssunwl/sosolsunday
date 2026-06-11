@@ -1,6 +1,6 @@
+import json
 import os
 import requests
-import statistics
 from datetime import datetime, timedelta, timezone
 
 TELEGRAM_BOT_TOKEN = os.environ["TELEGRAM_BOT_TOKEN"]
@@ -20,6 +20,8 @@ ROUTES = [
     ("OKA", "HKG", "🇯🇵→🇭🇰", "香港"),
     ("OKA", "TPE", "🇯🇵→🇹🇼", "台北"),
 ]
+
+ORIGIN_NAMES = {"HKG": "香港", "TPE": "台北", "OKA": "沖繩"}
 
 AIRLINE = {
     "UO": "香港快運", "CX": "國泰",    "HX": "香港航空",
@@ -47,13 +49,13 @@ DEST_CN = {
 # ── 酒店設定 ───────────────────────────────────────────────────────────────
 
 HOTEL_CITIES = [
-    ("JP", "Naha",        "🇯🇵 沖繩那覇"),
-    ("JP", "Ishigaki",    "🇯🇵 石垣島"),
-    ("JP", "Miyakojima",  "🇯🇵 宮古島"),
-    ("JP", "Fukuoka",     "🇯🇵 福岡"),
-    ("JP", "Tokyo",       "🇯🇵 東京"),
-    ("KR", "Seoul",       "🇰🇷 首爾"),
-    ("KR", "Busan",       "🇰🇷 釜山"),
+    ("JP", "Naha",        "🇯🇵 沖繩那覇", "naha"),
+    ("JP", "Ishigaki",    "🇯🇵 石垣島",   "ishigaki"),
+    ("JP", "Miyakojima",  "🇯🇵 宮古島",   "miyakojima"),
+    ("JP", "Fukuoka",     "🇯🇵 福岡",     "fukuoka"),
+    ("JP", "Tokyo",       "🇯🇵 東京",     "tokyo"),
+    ("KR", "Seoul",       "🇰🇷 首爾",     "seoul"),
+    ("KR", "Busan",       "🇰🇷 釜山",     "busan"),
 ]
 
 HOTEL_CN = {
@@ -138,7 +140,7 @@ def cheapest_destinations(origin: str, top: int = 5) -> list:
 
 # ── LiteAPI ────────────────────────────────────────────────────────────────
 
-_hotel_cache = {}  # city -> list of hotels
+_hotel_cache = {}
 
 def get_hotels(country: str, city: str) -> list:
     key = f"{country}/{city}"
@@ -197,14 +199,96 @@ def get_rates(hotel_ids: list, hotel_map: dict, checkin: str, checkout: str, top
     return sorted(results)[:top]
 
 
-def next_weekend() -> tuple:
+def next_3_weekends() -> list:
     today = datetime.now(HKT).date()
     days_to_fri = (4 - today.weekday()) % 7 or 7
-    fri = today + timedelta(days=days_to_fri)
-    return str(fri), str(fri + timedelta(days=2))
+    weekends = []
+    for i in range(3):
+        fri = today + timedelta(days=days_to_fri + 7 * i)
+        sun = fri + timedelta(days=2)
+        weekends.append({
+            "label":   f"{fri.month}/{fri.day}–{sun.day}",
+            "checkin":  str(fri),
+            "checkout": str(sun),
+        })
+    return weekends
 
 
-# ── Message builders ───────────────────────────────────────────────────────
+# ── JSON export ────────────────────────────────────────────────────────────
+
+def write_json_files(flight_data: dict, destinations: dict,
+                     hotel_all: list, weekends: list) -> None:
+    os.makedirs("docs/data", exist_ok=True)
+    now_str = datetime.now(HKT).strftime("%Y-%m-%d %H:%M HKT")
+
+    # flights.json
+    routes_json = []
+    for origin, dest, flag, dest_name in ROUTES:
+        data = flight_data.get((origin, dest), {})
+        if not data:
+            continue
+        best_price = min(v["price"] for v in data.values())
+        months = [
+            {
+                "month":       m,
+                "price":       data[m]["price"],
+                "date":        data[m]["date"],
+                "airline":     data[m]["airline"],
+                "is_cheapest": data[m]["price"] == best_price,
+            }
+            for m in sorted(data)
+        ]
+        routes_json.append({
+            "key":         f"{origin}_{dest}",
+            "origin":      origin,
+            "dest":        dest,
+            "origin_name": ORIGIN_NAMES[origin],
+            "dest_name":   dest_name,
+            "flag":        flag,
+            "months":      months,
+        })
+
+    dest_json = {
+        code: [{"price": p, "name": name, "code": c} for p, name, c in items]
+        for code, items in destinations.items()
+    }
+
+    with open("docs/data/flights.json", "w", encoding="utf-8") as f:
+        json.dump({"updated_at": now_str, "routes": routes_json, "destinations": dest_json},
+                  f, ensure_ascii=False, indent=2)
+    print("✅ docs/data/flights.json 寫入完成")
+
+    # hotels.json
+    cities_json = []
+    for city_label, city_key, per_weekend in hotel_all:
+        parts = city_label.split(" ", 1)
+        flag = parts[0] if len(parts) > 1 else ""
+        name = parts[1] if len(parts) > 1 else city_label
+        weekend_hotels = []
+        for top2 in per_weekend:
+            weekend_hotels.append([
+                {
+                    "name":   nm,
+                    "price":  round(price),
+                    "rating": float(rating) if rating != "?" else 0,
+                    "stars":  4,
+                }
+                for price, nm, rating in top2
+            ])
+        cities_json.append({
+            "key":            city_key,
+            "name":           name,
+            "flag":           flag,
+            "weekend_hotels": weekend_hotels,
+        })
+
+    with open("docs/data/hotels.json", "w", encoding="utf-8") as f:
+        json.dump({"updated_at": now_str, "weekends": weekends, "cities": cities_json},
+                  f, ensure_ascii=False, indent=2)
+    print("✅ docs/data/hotels.json 寫入完成")
+
+
+# ── Telegram message builders ──────────────────────────────────────────────
 
 def build_flights_msg(flight_data: dict, destinations: dict) -> str:
     now = datetime.now(HKT).strftime("%Y-%m-%d %H:%M")
@@ -242,25 +326,28 @@ def build_flights_msg(flight_data: dict, destinations: dict) -> str:
         lines.append(f"\n<b>{label}</b>")
         lines.append("  " + "  ·  ".join(dest_parts))
 
-    lines += ["", "—— Sosol × Steve · Suniverse"]
+    lines += ["", "🌐 sssunwl.github.io/sosolsunday", "—— Sosol × Steve · Suniverse"]
     return "\n".join(lines)
 
 
-def build_hotels_msg(hotel_results: list, checkin: str, checkout: str) -> str:
-    ci = datetime.strptime(checkin, "%Y-%m-%d")
-    co = datetime.strptime(checkout, "%Y-%m-%d")
+def build_hotels_msg(hotel_all: list, weekends: list) -> str:
+    wknd = weekends[0]
+    ci = datetime.strptime(wknd["checkin"], "%Y-%m-%d")
+    co = datetime.strptime(wknd["checkout"], "%Y-%m-%d")
     lines = [
         "🏨 <b>亞洲酒店報價</b>",
         f"📅 {ci.strftime('%-m/%-d')}–{co.strftime('%-m/%-d')} 週末2晚·2人·4星+",
         "",
     ]
-    for city_label, top2 in hotel_results:
+    for city_label, city_key, per_weekend in hotel_all:
+        top2 = per_weekend[0] if per_weekend else []
         if not top2:
             continue
         lines.append(f"<b>{city_label}</b>")
         for price, name, rating in top2:
             lines.append(f"  {name}  <b>HK${price:,.0f}</b> ⭐{rating}")
         lines.append("")
+    lines.append("🌐 sssunwl.github.io/sosolsunday")
     lines.append("—— Sosol × Steve · Suniverse")
     return "\n".join(lines)
 
@@ -279,7 +366,7 @@ def send_telegram(text: str) -> bool:
 # ── Main ───────────────────────────────────────────────────────────────────
 
 def main():
-    # ── Flights ──
+    # Flights
     print("✈️  拉機票...")
     flight_data = {}
     for origin, dest, _, _ in ROUTES:
@@ -292,26 +379,31 @@ def main():
         print(f"  from {origin}")
         destinations[origin] = cheapest_destinations(origin, top=5)
 
-    # ── Hotels ──
-    print("🏨  拉酒店...")
-    checkin, checkout = next_weekend()
-    print(f"  週末: {checkin}~{checkout}")
+    # Hotels — 3 weekends × 7 cities
+    weekends = next_3_weekends()
+    print(f"🏨  拉酒店（{weekends[0]['checkin']} / {weekends[1]['checkin']} / {weekends[2]['checkin']}）...")
 
-    hotel_results = []
-    for country, city, city_label in HOTEL_CITIES:
+    hotel_all = []
+    for country, city, city_label, city_key in HOTEL_CITIES:
         hotels = get_hotels(country, city)
         if not hotels:
             print(f"  {city}: 無酒店")
             continue
         hotel_map = {h["id"]: h for h in hotels}
         hotel_ids = [h["id"] for h in hotels]
-        top2 = get_rates(hotel_ids, hotel_map, checkin, checkout, top=2)
-        print(f"  {city}: {len(top2)} 間有報價")
-        hotel_results.append((city_label, top2))
+        per_weekend = []
+        for wknd in weekends:
+            top2 = get_rates(hotel_ids, hotel_map, wknd["checkin"], wknd["checkout"], top=2)
+            per_weekend.append(top2)
+        print(f"  {city}: {sum(len(w) for w in per_weekend)} 間報價（3週）")
+        hotel_all.append((city_label, city_key, per_weekend))
 
-    # ── Send ──
+    # Write JSON for website
+    write_json_files(flight_data, destinations, hotel_all, weekends)
+
+    # Send Telegram
     msg1 = build_flights_msg(flight_data, destinations)
-    msg2 = build_hotels_msg(hotel_results, checkin, checkout)
+    msg2 = build_hotels_msg(hotel_all, weekends)
 
     print("\n── 機票預覽 ──\n" + msg1)
     print("\n── 酒店預覽 ──\n" + msg2)
