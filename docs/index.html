@@ -119,6 +119,11 @@
     .hcard-price { font-size:18px; font-weight:700; color:var(--green); }
     .hcard-nights { font-size:9.5px; color:var(--muted); }
 
+    /* ── Deal sub-tabs ── */
+    .stabs { display:flex; background:var(--white); border-bottom:1px solid rgba(0,0,0,.07); }
+    .stab  { flex:1; padding:11px 4px; background:none; border:none; border-bottom:2px solid transparent; color:var(--muted); font-size:12px; cursor:pointer; transition:all .2s; }
+    .stab.on { color:var(--navy); border-bottom-color:var(--navy); font-weight:700; }
+
     /* ── Coming soon ── */
     .cs { text-align:center; padding:70px 20px; }
     .cs-icon { font-size:52px; margin-bottom:16px; }
@@ -143,9 +148,9 @@
 
 <nav class="nav">
   <button class="nav-btn on"  onclick="go('home',this)">🏠 首頁</button>
-  <button class="nav-btn"     onclick="go('flights',this)">✈️ 機票</button>
-  <button class="nav-btn"     onclick="go('hotels',this)">🏨 酒店</button>
-  <button class="nav-btn"     onclick="go('cruises',this)">🚢 郵輪</button>
+  <button class="nav-btn"     onclick="go('deals',this)">🎫 旅遊優惠</button>
+  <button class="nav-btn"     onclick="location.href='destinations/'">🌏 目的地</button>
+  <button class="nav-btn"     onclick="location.href='seasonal/'">✨ 季節限定</button>
 </nav>
 
 <!-- ══ HOME ══════════════════════════════════════════ -->
@@ -154,9 +159,10 @@
     <h1>SoSolsunday</h1>
     <p>智慧旅遊，由此出發</p>
     <div class="hero-btns">
-      <button class="hero-btn" onclick="go('flights',document.querySelectorAll('.nav-btn')[1])">✈️ 查機票</button>
-      <button class="hero-btn" onclick="go('hotels',document.querySelectorAll('.nav-btn')[2])">🏨 查酒店</button>
+      <button class="hero-btn" onclick="goDeal('flights')">✈️ 查機票</button>
+      <button class="hero-btn" onclick="goDeal('hotels')">🏨 查酒店</button>
       <a class="hero-btn" href="destinations/" style="text-decoration:none">🌏 目的地</a>
+      <a class="hero-btn" href="seasonal/" style="text-decoration:none">✨ 季節限定</a>
     </div>
   </div>
 
@@ -176,39 +182,44 @@
   </div>
 </div>
 
-<!-- ══ FLIGHTS ════════════════════════════════════════ -->
-<div class="panel" id="p-flights">
-  <div class="tog-row">
-    <button class="tog-btn on" id="tog-hkg" onclick="setOrigin('HKG',this)">🇭🇰 香港出發</button>
-    <button class="tog-btn"    id="tog-tpe" onclick="setOrigin('TPE',this)">🇹🇼 台北出發</button>
+<!-- ══ DEALS ════════════════════════════════════════ -->
+<div class="panel" id="p-deals">
+  <div class="stabs">
+    <button class="stab on"  onclick="setDealTab('flights',this)">✈️ 機票</button>
+    <button class="stab"     onclick="setDealTab('hotels',this)">🏨 酒店</button>
+    <button class="stab"     onclick="setDealTab('cruises',this)">🚢 郵輪</button>
   </div>
 
-  <div class="sec">
-    <div class="sec-ttl">本月最便宜目的地</div>
-    <div class="hscroll" id="f-dests"><div class="loading">載入中…</div></div>
+  <!-- Flights -->
+  <div id="dt-flights">
+    <div class="tog-row">
+      <button class="tog-btn on" id="tog-hkg" onclick="setOrigin('HKG',this)">🇭🇰 香港出發</button>
+      <button class="tog-btn"    id="tog-tpe" onclick="setOrigin('TPE',this)">🇹🇼 台北出發</button>
+    </div>
+    <div class="sec">
+      <div class="sec-ttl">本月最便宜目的地</div>
+      <div class="hscroll" id="f-dests"><div class="loading">載入中…</div></div>
+    </div>
+    <div class="sec"><div class="sec-ttl">6個月往返最低價</div></div>
+    <div class="tbl-wrap">
+      <table class="ptbl" id="f-table"><tr><td class="loading" colspan="8">載入中…</td></tr></table>
+    </div>
   </div>
 
-  <div class="sec">
-    <div class="sec-ttl">6個月往返最低價</div>
+  <!-- Hotels -->
+  <div id="dt-hotels" style="display:none">
+    <div class="ctabs" id="h-ctabs"><div class="loading">載入中…</div></div>
+    <div class="wtabs" id="h-wtabs"></div>
+    <div class="hlist" id="h-hlist"><div class="loading">載入中…</div></div>
   </div>
-  <div class="tbl-wrap">
-    <table class="ptbl" id="f-table"><tr><td class="loading" colspan="8">載入中…</td></tr></table>
-  </div>
-</div>
 
-<!-- ══ HOTELS ════════════════════════════════════════ -->
-<div class="panel" id="p-hotels">
-  <div class="ctabs" id="h-ctabs"><div class="loading">載入中…</div></div>
-  <div class="wtabs" id="h-wtabs"></div>
-  <div class="hlist" id="h-hlist"><div class="loading">載入中…</div></div>
-</div>
-
-<!-- ══ CRUISES ════════════════════════════════════════ -->
-<div class="panel" id="p-cruises">
-  <div class="cs">
-    <div class="cs-icon">🚢</div>
-    <h2>郵輪優惠</h2>
-    <p>即將推出 — 亞洲郵輪航線一站式速報</p>
+  <!-- Cruises -->
+  <div id="dt-cruises" style="display:none">
+    <div class="cs">
+      <div class="cs-icon">🚢</div>
+      <h2>郵輪優惠</h2>
+      <p>即將推出 — 亞洲郵輪航線一站式速報</p>
+    </div>
   </div>
 </div>
 
@@ -256,6 +267,20 @@ function go(name, btn) {
   document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('on'));
   document.getElementById('p-' + name).classList.add('on');
   if (btn) btn.classList.add('on');
+}
+
+function goDeal(sub) {
+  go('deals', document.querySelectorAll('.nav-btn')[1]);
+  setDealTab(sub, document.querySelector(`.stab[onclick*="${sub}"]`));
+}
+
+function setDealTab(name, btn) {
+  document.querySelectorAll('.stab').forEach(b => b.classList.remove('on'));
+  if (btn) btn.classList.add('on');
+  ['flights','hotels','cruises'].forEach(n => {
+    const el = document.getElementById('dt-' + n);
+    if (el) el.style.display = n === name ? 'block' : 'none';
+  });
 }
 
 // ── Data loading ──────────────────────────────────────────────────────────

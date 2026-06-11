@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>季節限定 · SoSolsunday</title>
+  <style>
+    :root{
+      --navy:#1B2F4A;--gold:#C9A84C;--sand:#F2EDE6;
+      --white:#fff;--text:#1E2D3D;--muted:#6B7D90;
+      --green:#2D9B6F;--sh:0 2px 12px rgba(0,0,0,.08);
+    }
+    *{margin:0;padding:0;box-sizing:border-box}
+    body{font-family:-apple-system,'Helvetica Neue',sans-serif;background:var(--sand);color:var(--text);min-height:100vh}
+
+    .hdr{background:var(--navy);padding:13px 18px;display:flex;align-items:center;gap:12px;position:sticky;top:0;z-index:100}
+    .hdr-back{color:rgba(255,255,255,.6);font-size:13px;text-decoration:none}
+    .hdr-back:hover{color:var(--gold)}
+    .hdr-title{color:var(--gold);font-size:16px;font-weight:700;letter-spacing:.6px}
+    .hdr-logo{margin-left:auto;color:rgba(255,255,255,.3);font-size:11px;text-decoration:none}
+
+    .hero{background:linear-gradient(160deg,#1B2F4A 0%,#1E3A5F 55%,#243352 100%);padding:30px 20px 24px;text-align:center}
+    .hero h1{color:var(--gold);font-size:20px;font-weight:300;letter-spacing:3px;margin-bottom:6px}
+    .hero p{color:rgba(255,255,255,.5);font-size:12px;letter-spacing:.8px;line-height:1.6}
+
+    /* Month strip */
+    .month-strip{background:var(--white);border-bottom:1px solid rgba(0,0,0,.07);padding:10px 16px;display:flex;gap:6px;overflow-x:auto;scrollbar-width:none;position:sticky;top:44px;z-index:90}
+    .month-strip::-webkit-scrollbar{display:none}
+    .mbtn{flex-shrink:0;width:40px;height:40px;border-radius:50%;border:1.5px solid rgba(27,47,74,.15);background:none;color:var(--muted);font-size:12px;cursor:pointer;transition:all .2s;display:flex;align-items:center;justify-content:center;font-weight:500}
+    .mbtn.on{background:var(--navy);border-color:var(--navy);color:var(--gold);font-weight:700}
+    .mbtn.has-event{border-color:var(--navy);color:var(--navy)}
+    .mbtn.all{width:auto;padding:0 14px;border-radius:20px;font-size:11px}
+
+    /* Category filter */
+    .cat-strip{display:flex;gap:6px;padding:10px 16px 6px;overflow-x:auto;scrollbar-width:none}
+    .cat-strip::-webkit-scrollbar{display:none}
+    .cbtn{white-space:nowrap;padding:5px 12px;border-radius:16px;border:1.5px solid rgba(27,47,74,.2);background:none;color:var(--muted);font-size:11px;cursor:pointer;transition:all .2s}
+    .cbtn.on{background:var(--navy);border-color:var(--navy);color:var(--gold);font-weight:600}
+
+    /* Count badge */
+    .result-count{padding:6px 16px 2px;font-size:11px;color:var(--muted)}
+
+    /* Event cards */
+    .events-list{padding:8px 16px 60px}
+    .ev-card{background:var(--white);border-radius:14px;padding:16px;margin-bottom:12px;box-shadow:var(--sh)}
+    .ev-top{display:flex;align-items:flex-start;gap:12px;margin-bottom:10px}
+    .ev-icon{font-size:32px;flex-shrink:0;line-height:1}
+    .ev-meta{flex:1}
+    .ev-title{font-size:15px;font-weight:700;color:var(--navy);margin-bottom:3px}
+    .ev-period{font-size:11px;color:var(--gold);font-weight:600;margin-bottom:4px}
+    .ev-cat{display:inline-block;padding:2px 8px;border-radius:8px;background:#EEF2F7;color:var(--navy);font-size:9px;font-weight:700}
+    .ev-desc{font-size:12px;color:var(--muted);line-height:1.6;margin-bottom:10px}
+    .ev-tip{font-size:11px;color:#5A7A5A;background:#F0F7F0;border-radius:8px;padding:8px 10px;margin-bottom:10px;line-height:1.5}
+    .ev-tip::before{content:"💡 "; }
+    .ev-dests{display:flex;flex-direction:column;gap:6px}
+    .ev-dest{background:var(--sand);border-radius:8px;padding:8px 10px;display:flex;align-items:center;justify-content:space-between}
+    .ev-dest-info{flex:1}
+    .ev-dest-city{font-size:12px;font-weight:600;color:var(--navy)}
+    .ev-dest-note{font-size:10px;color:var(--muted);margin-top:2px;line-height:1.3}
+    .ev-dest-price{font-size:13px;font-weight:700;color:var(--green);flex-shrink:0;margin-left:10px}
+    .ev-dest-link{font-size:10px;color:var(--navy);text-decoration:none;background:rgba(27,47,74,.08);padding:3px 8px;border-radius:8px;white-space:nowrap;margin-left:6px}
+    .ev-dest-link:hover{background:var(--navy);color:var(--gold)}
+
+    .ev-tags{display:flex;gap:5px;flex-wrap:wrap;margin-top:8px}
+    .ev-tag{padding:2px 7px;border-radius:6px;background:#EEF2F7;color:var(--muted);font-size:9px}
+
+    .no-events{text-align:center;padding:48px 20px;color:var(--muted)}
+    .no-events .icon{font-size:40px;margin-bottom:12px}
+
+    footer{background:var(--navy);padding:16px 20px;text-align:center;color:rgba(255,255,255,.3);font-size:10.5px}
+    footer a{color:var(--gold);text-decoration:none}
+  </style>
+</head>
+<body>
+
+<header class="hdr">
+  <a class="hdr-back" href="../">← 返回</a>
+  <div class="hdr-title">✨ 季節限定</div>
+  <a class="hdr-logo" href="../">☀ SoSolsunday</a>
+</header>
+
+<div class="hero">
+  <h1>季節限定</h1>
+  <p>花祭・鯨魚季・珊瑚產卵・雪祭<br>那些只有特定月份才能遇到的旅遊體驗</p>
+</div>
+
+<div class="month-strip" id="month-strip"></div>
+<div class="cat-strip" id="cat-strip"></div>
+<div class="result-count" id="result-count"></div>
+<div class="events-list" id="events-list"><div class="no-events"><div class="icon">⏳</div>載入中…</div></div>
+
+<footer>
+  <a href="../">☀ SoSolsunday</a> · 旅遊優惠速報 &amp; 目的地指南
+</footer>
+
+<script>
+let SD = null, FD = null;
+let selMonth = 0;  // 0 = all
+let selCat = '全部';
+const MONTHS = ['1月','2月','3月','4月','5月','6月','7月','8月','9月','10月','11月','12月'];
+const CATS = ['全部','賞花','節慶祭典','海洋生態','自然景觀','小眾體驗'];
+const CAT_MAP = { '節慶祭典': '節慶祭典', '賞花': '賞花', '海洋生態': '海洋生態', '自然景觀': '自然景觀', '小眾體驗': '小眾' };
+
+const CITY_KEYS = {
+  'OKA': 'okinawa', 'ISG': 'ishigaki', 'MMY': 'miyakojima',
+  'NRT': 'tokyo', 'HND': 'tokyo', 'FUK': 'fukuoka',
+  'ICN': 'seoul', 'PUS': 'busan', 'TPE': 'taipei',
+};
+
+async function boot() {
+  const ts = '?v=' + Date.now();
+  const [sr, fr] = await Promise.all([
+    fetch('../data/seasonal.json' + ts).catch(() => null),
+    fetch('../data/flights.json'  + ts).catch(() => null),
+  ]);
+  SD = sr?.ok ? await sr.json() : null;
+  FD = fr?.ok ? await fr.json() : null;
+
+  const now = new Date();
+  selMonth = now.getMonth() + 1;
+
+  buildMonthStrip();
+  buildCatStrip();
+  render();
+}
+
+function buildMonthStrip() {
+  const allMonths = new Set((SD?.events || []).flatMap(e => e.months));
+  const el = document.getElementById('month-strip');
+  let html = `<button class="mbtn all ${selMonth===0?'on':''}" onclick="setMonth(0,this)">全部</button>`;
+  MONTHS.forEach((m, i) => {
+    const n = i + 1;
+    const cls = allMonths.has(n) ? 'has-event' : '';
+    html += `<button class="mbtn ${cls} ${selMonth===n?'on':''}" onclick="setMonth(${n},this)">${m.replace('月','')}</button>`;
+  });
+  el.innerHTML = html;
+}
+
+function buildCatStrip() {
+  document.getElementById('cat-strip').innerHTML = CATS.map(c =>
+    `<button class="cbtn ${c===selCat?'on':''}" onclick="setCat('${c}',this)">${c}</button>`
+  ).join('');
+}
+
+function setMonth(n, btn) {
+  selMonth = n;
+  document.querySelectorAll('.mbtn').forEach(b => b.classList.remove('on'));
+  if (btn) btn.classList.add('on');
+  render();
+}
+
+function setCat(c, btn) {
+  selCat = c;
+  document.querySelectorAll('.cbtn').forEach(b => b.classList.remove('on'));
+  if (btn) btn.classList.add('on');
+  render();
+}
+
+function bestFlightPrice(airportCode) {
+  if (!FD || !airportCode) return null;
+  const routes = (FD.routes || []).filter(r => r.dest === airportCode);
+  let best = null;
+  for (const r of routes) {
+    for (const m of r.months) {
+      if (!best || m.price < best.price) best = { price: m.price, origin: r.origin_name, month: m.month };
+    }
+  }
+  // Also check destinations
+  for (const [oc, items] of Object.entries(FD.destinations || {})) {
+    const orig = oc === 'HKG' ? '香港' : '台北';
+    const code = airportCode;
+    // find by matching known IATA
+    for (const d of items) {
+      if (d.code === code && (!best || d.price < best.price)) {
+        best = { price: d.price, origin: orig, month: '本月' };
+      }
+    }
+  }
+  return best;
+}
+
+function render() {
+  const events = (SD?.events || []).filter(e => {
+    const monthOk = selMonth === 0 || e.months.includes(selMonth);
+    const catOk = selCat === '全部' || e.category === selCat ||
+                  (selCat === '小眾體驗' && (e.tags || []).includes('小眾'));
+    return monthOk && catOk;
+  });
+
+  document.getElementById('result-count').textContent =
+    `${selMonth > 0 ? MONTHS[selMonth-1] : '全年'} · ${selCat} · ${events.length} 個活動`;
+
+  if (!events.length) {
+    document.getElementById('events-list').innerHTML =
+      `<div class="no-events"><div class="icon">🔍</div><p>此篩選條件暫無活動</p></div>`;
+    return;
+  }
+
+  document.getElementById('events-list').innerHTML = events.map(e => {
+    const destHtml = e.destinations.map(d => {
+      const fp = bestFlightPrice(d.airport);
+      const cityKey = d.city_key || CITY_KEYS[d.airport] || null;
+      const priceHtml = fp ? `<span class="ev-dest-price">HK$${fp.price.toLocaleString()}</span>` : '';
+      const linkHtml = cityKey
+        ? `<a class="ev-dest-link" href="../destinations/city.html?key=${cityKey}">城市指南 →</a>` : '';
+      return `<div class="ev-dest">
+        <div class="ev-dest-info">
+          <div class="ev-dest-city">${d.city}${d.airport ? ' (' + d.airport + ')' : ''}</div>
+          <div class="ev-dest-note">${d.note}</div>
+        </div>
+        ${priceHtml}${linkHtml}
+      </div>`;
+    }).join('');
+
+    const monthLabels = [...new Set(e.months)].sort((a,b)=>a-b)
+      .map(m => MONTHS[m-1]).join(' / ');
+
+    return `<div class="ev-card">
+      <div class="ev-top">
+        <div class="ev-icon">${e.icon}</div>
+        <div class="ev-meta">
+          <div class="ev-title">${e.title}</div>
+          <div class="ev-period">📅 ${e.period}</div>
+          <span class="ev-cat">${e.category}</span>
+        </div>
+      </div>
+      <div class="ev-desc">${e.desc}</div>
+      ${e.tip ? `<div class="ev-tip">${e.tip}</div>` : ''}
+      <div class="ev-dests">${destHtml}</div>
+      <div class="ev-tags">${monthLabels ? `<span class="ev-tag">📅 ${monthLabels}</span>` : ''}${(e.tags||[]).map(t=>`<span class="ev-tag">${t}</span>`).join('')}</div>
+    </div>`;
+  }).join('');
+}
+
+boot();
+</script>
+</body>
+</html>
