@@ -4,8 +4,8 @@ from datetime import datetime, timedelta, timezone
 
 TELEGRAM_BOT_TOKEN = os.environ["TELEGRAM_BOT_TOKEN"]
 TELEGRAM_CHAT_ID   = os.environ["TELEGRAM_CHAT_ID"]
-TP_TOKEN           = os.environ["TRAVELPAYOUTS_TOKEN"]
-LITEAPI_KEY        = os.environ["LITEAPI_KEY"]
+TP_TOKEN           = os.environ["TRAVELPAYOUTS_TOKEN"].strip()
+LITEAPI_KEY        = os.environ["LITEAPI_KEY"].strip()
 
 HKT = timezone(timedelta(hours=8))
 
@@ -37,7 +37,11 @@ def cheapest_6months(origin: str, dest: str) -> dict:
                f"?origin={origin}&destination={dest}&depart_date={month}"
                f"&currency=hkd&token={TP_TOKEN}")
         try:
-            data = requests.get(url, timeout=10).json()
+            r = requests.get(url, timeout=10)
+            if not r.ok or not r.text.strip():
+                print(f"  TP {origin}→{dest} {month}: HTTP {r.status_code} body={r.text[:100]!r}")
+                continue
+            data = r.json()
             if data.get("success") and data.get("data"):
                 for _, transfers in data["data"].items():
                     for _, item in transfers.items():
@@ -65,7 +69,13 @@ def get_hotels() -> list:
         headers={"X-API-Key": LITEAPI_KEY},
         timeout=15,
     )
+    print(f"  LiteAPI hotels HTTP {r.status_code}")
+    if not r.ok:
+        print(f"  body: {r.text[:200]}")
+        _hotels_cache = []
+        return []
     _hotels_cache = r.json().get("data", [])
+    print(f"  找到 {len(_hotels_cache)} 間酒店")
     return _hotels_cache
 
 
@@ -86,9 +96,10 @@ def get_weekend_rates(hotel_ids: list, checkin: str, checkout: str) -> list:
             timeout=20,
         ).json().get("data", [])
     except Exception as e:
-        print(f"  LiteAPI {checkin}: {e}")
+        print(f"  LiteAPI rates {checkin}: {e}")
         return []
 
+    print(f"  rates 回傳 {len(data)} 間酒店")
     results = []
     for h_info in data:
         hid = h_info.get("hotelId", "")
