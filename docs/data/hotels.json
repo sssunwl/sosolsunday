@@ -1,5 +1,252 @@
 {
-  "updated_at": "—",
-  "weekends": [],
-  "cities": []
+  "updated_at": "2026-06-11 20:52 HKT",
+  "weekends": [
+    {
+      "label": "6/12–14",
+      "checkin": "2026-06-12",
+      "checkout": "2026-06-14"
+    },
+    {
+      "label": "6/19–21",
+      "checkin": "2026-06-19",
+      "checkout": "2026-06-21"
+    },
+    {
+      "label": "6/26–28",
+      "checkin": "2026-06-26",
+      "checkout": "2026-06-28"
+    }
+  ],
+  "cities": [
+    {
+      "key": "naha",
+      "name": "沖繩那覇",
+      "flag": "🇯🇵",
+      "weekend_hotels": [
+        [
+          {
+            "name": "Nest酒店 那覇西",
+            "price": 1273,
+            "rating": 8.6,
+            "stars": 4
+          },
+          {
+            "name": "Aqua Citta酒店 那覇",
+            "price": 1407,
+            "rating": 8.6,
+            "stars": 4
+          }
+        ],
+        [
+          {
+            "name": "Aqua Citta酒店 那覇",
+            "price": 1498,
+            "rating": 8.6,
+            "stars": 4
+          },
+          {
+            "name": "諾富特沖繩那覇",
+            "price": 1810,
+            "rating": 8.6,
+            "stars": 4
+          }
+        ],
+        [
+          {
+            "name": "諾富特沖繩那覇",
+            "price": 1528,
+            "rating": 8.6,
+            "stars": 4
+          },
+          {
+            "name": "沖繩NaHaNa酒店&水療",
+            "price": 1689,
+            "rating": 8.1,
+            "stars": 4
+          }
+        ]
+      ]
+    },
+    {
+      "key": "ishigaki",
+      "name": "石垣島",
+      "flag": "🇯🇵",
+      "weekend_hotels": [
+        [],
+        [
+          {
+            "name": "Palm Villa石垣島",
+            "price": 4843,
+            "rating": 9.6,
+            "stars": 4
+          },
+          {
+            "name": "deigo ISHIGAKI",
+            "price": 8411,
+            "rating": 10.0,
+            "stars": 4
+          }
+        ],
+        [
+          {
+            "name": "deigo ISHIGAKI",
+            "price": 8411,
+            "rating": 10.0,
+            "stars": 4
+          }
+        ]
+      ]
+    },
+    {
+      "key": "miyakojima",
+      "name": "宮古島",
+      "flag": "🇯🇵",
+      "weekend_hotels": [
+        [
+          {
+            "name": "IRAPH SUI, a Luxury Collection Hotel, Miyako Okinawa",
+            "price": 13918,
+            "rating": 9.2,
+            "stars": 4
+          }
+        ],
+        [
+          {
+            "name": "Allamanda伊武野珊瑚村",
+            "price": 5736,
+            "rating": 9.0,
+            "stars": 4
+          },
+          {
+            "name": "SANTORINI HOTEL&VILLAS MIYAKOJIMA",
+            "price": 6359,
+            "rating": 9.6,
+            "stars": 4
+          }
+        ],
+        []
+      ]
+    },
+    {
+      "key": "tokyo",
+      "name": "東京",
+      "flag": "🇯🇵",
+      "weekend_hotels": [
+        [
+          {
+            "name": "Villa Fontaine 羽田機場",
+            "price": 2618,
+            "rating": 8.7,
+            "stars": 4
+          },
+          {
+            "name": "Tobu Hotel Levant Tokyo",
+            "price": 2884,
+            "rating": 8.8,
+            "stars": 4
+          }
+        ],
+        [
+          {
+            "name": "Villa Fontaine 羽田機場",
+            "price": 2166,
+            "rating": 8.7,
+            "stars": 4
+          },
+          {
+            "name": "The Royal Park Hotel Tokyo Haneda Airport Terminal 3",
+            "price": 2304,
+            "rating": 8.4,
+            "stars": 4
+          }
+        ],
+        [
+          {
+            "name": "Villa Fontaine 羽田機場",
+            "price": 1917,
+            "rating": 8.7,
+            "stars": 4
+          },
+          {
+            "name": "The Royal Park Hotel Tokyo Haneda Airport Terminal 3",
+            "price": 2110,
+            "rating": 8.4,
+            "stars": 4
+          }
+        ]
+      ]
+    },
+    {
+      "key": "seoul",
+      "name": "首爾",
+      "flag": "🇰🇷",
+      "weekend_hotels": [
+        [
+          {
+            "name": "Arirang Hill Hotel Dongdaemun",
+            "price": 1788,
+            "rating": 9.2,
+            "stars": 4
+          },
+          {
+            "name": "ibis Styles Ambassador Seoul Myeong-dong",
+            "price": 3265,
+            "rating": 9.2,
+            "stars": 4
+          }
+        ],
+        [
+          {
+            "name": "Arirang Hill Hotel Dongdaemun",
+            "price": 3743,
+            "rating": 9.2,
+            "stars": 4
+          },
+          {
+            "name": "GLAD麻浦酒店",
+            "price": 4771,
+            "rating": 9.8,
+            "stars": 4
+          }
+        ],
+        [
+          {
+            "name": "Arirang Hill Hotel Dongdaemun",
+            "price": 2837,
+            "rating": 9.2,
+            "stars": 4
+          },
+          {
+            "name": "樂天城市酒店 明洞",
+            "price": 3533,
+            "rating": 8.8,
+            "stars": 4
+          }
+        ]
+      ]
+    },
+    {
+      "key": "busan",
+      "name": "釜山",
+      "flag": "🇰🇷",
+      "weekend_hotels": [
+        [
+          {
+            "name": "Haeundae Centum Hotel",
+            "price": 1863,
+            "rating": 8.4,
+            "stars": 4
+          },
+          {
+            "name": "Avani Central Busan",
+            "price": 2787,
+            "rating": 9.2,
+            "stars": 4
+          }
+        ],
+        [],
+        []
+      ]
+    }
+  ]
 }
