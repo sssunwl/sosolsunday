@@ -55,13 +55,15 @@ DEST_CN = {
 # ── 酒店設定 ───────────────────────────────────────────────────────────────
 
 HOTEL_CITIES = [
-    ("JP", "Naha",        "🇯🇵 沖繩那覇", "naha"),
-    ("JP", "Ishigaki",    "🇯🇵 石垣島",   "ishigaki"),
-    ("JP", "Miyakojima",  "🇯🇵 宮古島",   "miyakojima"),
-    ("JP", "Fukuoka",     "🇯🇵 福岡",     "fukuoka"),
-    ("JP", "Tokyo",       "🇯🇵 東京",     "tokyo"),
-    ("KR", "Seoul",       "🇰🇷 首爾",     "seoul"),
-    ("KR", "Busan",       "🇰🇷 釜山",     "busan"),
+    ("JP", "Naha",        "🇯🇵 沖繩南部・那霸", "okinawa_south"),
+    ("JP", "Onna",        "🇯🇵 沖繩中部",      "okinawa_central"),
+    ("JP", "Nago",        "🇯🇵 沖繩北部",      "okinawa_north"),
+    ("JP", "Ishigaki",    "🇯🇵 石垣島",        "ishigaki"),
+    ("JP", "Miyakojima",  "🇯🇵 宮古島",        "miyakojima"),
+    ("JP", "Fukuoka",     "🇯🇵 福岡",          "fukuoka"),
+    ("JP", "Tokyo",       "🇯🇵 東京",          "tokyo"),
+    ("KR", "Seoul",       "🇰🇷 首爾",          "seoul"),
+    ("KR", "Busan",       "🇰🇷 釜山",          "busan"),
 ]
 
 HOTEL_CN = {

@@ -14,7 +14,6 @@
     *{margin:0;padding:0;box-sizing:border-box}
     body{font-family:-apple-system,'Helvetica Neue',sans-serif;background:var(--sand);color:var(--text);min-height:100vh}
 
-    /* Nav */
     .hdr{background:var(--navy);padding:13px 18px;display:flex;align-items:center;gap:12px;position:sticky;top:0;z-index:100}
     .hdr-back{color:rgba(255,255,255,.6);font-size:13px;text-decoration:none}
     .hdr-back:hover{color:var(--gold)}
@@ -22,7 +21,6 @@
     .hdr-logo{margin-left:auto;color:rgba(255,255,255,.3);font-size:11px;text-decoration:none}
     .hdr-logo:hover{color:var(--gold)}
 
-    /* Hero */
     .hero{background:linear-gradient(160deg,#1B2F4A 0%,#1E3A5F 55%,#243352 100%);padding:32px 20px 26px;text-align:center}
     .hero-flag{font-size:36px;margin-bottom:8px}
     .hero h1{color:var(--gold);font-size:24px;font-weight:300;letter-spacing:2px;margin-bottom:6px}
@@ -30,7 +28,6 @@
     .best-months{display:flex;gap:6px;justify-content:center;flex-wrap:wrap}
     .month-chip{padding:4px 10px;border-radius:12px;background:rgba(201,168,76,.15);border:1px solid rgba(201,168,76,.3);color:var(--gold);font-size:11px}
 
-    /* Quick info */
     .qinfo{background:var(--navy);padding:12px 20px;display:flex;gap:0;overflow-x:auto;scrollbar-width:none}
     .qinfo::-webkit-scrollbar{display:none}
     .qi{flex-shrink:0;padding:0 16px;border-right:1px solid rgba(255,255,255,.1);text-align:center}
@@ -39,32 +36,36 @@
     .qi-label{font-size:9px;color:rgba(255,255,255,.4);letter-spacing:.8px;text-transform:uppercase;margin-bottom:3px}
     .qi-val{font-size:12px;color:rgba(255,255,255,.8);white-space:nowrap}
 
-    /* Sections */
+    /* Area tabs (for multi-area cities) */
+    .area-tabs{display:flex;gap:7px;overflow-x:auto;padding:14px 16px 4px;scrollbar-width:none;border-bottom:1px solid rgba(0,0,0,.06)}
+    .area-tabs::-webkit-scrollbar{display:none}
+    .atab{white-space:nowrap;padding:8px 16px;border-radius:20px;border:1.5px solid rgba(27,47,74,.2);background:none;color:var(--muted);font-size:12px;cursor:pointer;transition:all .2s;flex-shrink:0}
+    .atab.on{background:var(--navy);border-color:var(--navy);color:var(--gold);font-weight:600}
+    .area-desc{padding:6px 16px 2px;font-size:11px;color:var(--muted)}
+
     .sec{padding:18px 16px 6px}
     .sec-ttl{font-size:11px;font-weight:700;color:var(--muted);letter-spacing:1.2px;text-transform:uppercase;margin-bottom:12px}
 
-    /* Live flights */
     .flight-row{background:var(--white);border-radius:10px;padding:12px 14px;margin-bottom:8px;box-shadow:var(--sh);display:flex;align-items:center;justify-content:space-between}
     .flight-route{font-size:13px;font-weight:600;color:var(--navy)}
     .flight-meta{font-size:10px;color:var(--muted);margin-top:2px}
     .flight-price{font-size:18px;font-weight:700;color:var(--green)}
     .flight-month{font-size:10px;color:var(--muted);text-align:right}
 
-    /* Live hotels */
     .hotel-row{background:var(--white);border-radius:10px;padding:12px 14px;margin-bottom:8px;box-shadow:var(--sh);display:flex;align-items:center;justify-content:space-between}
     .hotel-name{font-size:13px;font-weight:600;color:var(--navy);line-height:1.3}
     .hotel-sub{font-size:10px;color:var(--muted);margin-top:2px}
     .hotel-price{font-size:17px;font-weight:700;color:var(--green);text-align:right}
     .hotel-nights{font-size:10px;color:var(--muted)}
 
-    /* Highlights */
-    .hl-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:9px}
-    .hl-card{background:var(--white);border-radius:10px;padding:13px 12px;box-shadow:var(--sh)}
-    .hl-tag{display:inline-block;padding:2px 8px;border-radius:8px;background:#EEF2F7;color:var(--navy);font-size:9px;font-weight:700;margin-bottom:6px}
-    .hl-name{font-size:13px;font-weight:600;color:var(--navy);margin-bottom:4px}
-    .hl-desc{font-size:11px;color:var(--muted);line-height:1.4}
+    /* Highlights & Foods grid */
+    .card-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:9px}
+    .spot-card{background:var(--white);border-radius:10px;padding:13px 12px;box-shadow:var(--sh)}
+    .spot-tag{display:inline-block;padding:2px 8px;border-radius:8px;background:#EEF2F7;color:var(--navy);font-size:9px;font-weight:700;margin-bottom:6px}
+    .food-tag{background:#FFF3E0;color:#B35C00}
+    .spot-name{font-size:13px;font-weight:600;color:var(--navy);margin-bottom:4px}
+    .spot-desc{font-size:11px;color:var(--muted);line-height:1.4}
 
-    /* Articles */
     .art-card{background:var(--white);border-radius:12px;padding:14px 16px;margin-bottom:9px;box-shadow:var(--sh)}
     .art-tags{display:flex;gap:5px;flex-wrap:wrap;margin-bottom:7px}
     .art-tag{padding:2px 8px;border-radius:8px;background:#EEF2F7;color:var(--navy);font-size:9px;font-weight:700}
@@ -72,11 +73,10 @@
     .art-summary{font-size:12px;color:var(--muted);line-height:1.5}
     .art-date{font-size:10px;color:var(--muted);margin-top:7px}
 
-    /* States */
     .nodata{text-align:center;padding:20px;color:var(--muted);font-size:12px}
     .loading{text-align:center;padding:28px;color:var(--muted);font-size:12px}
 
-    footer{background:var(--navy);padding:16px 20px;text-align:center;color:rgba(255,255,255,.3);font-size:10.5px;margin-top:8px}
+    footer{background:var(--navy);padding:16px 20px;text-align:center;color:rgba(255,255,255,.3);font-size:10.5px;margin-top:8px;padding-bottom:24px}
     footer a{color:var(--gold);text-decoration:none}
   </style>
 </head>
@@ -88,14 +88,18 @@
   <a class="hdr-logo" href="../">☀ SoSolsunday</a>
 </header>
 
-<div id="hero-section">
-  <div class="hero">
-    <div class="hero-flag" id="hero-flag">🌍</div>
-    <h1 id="hero-name">—</h1>
-    <div class="hero-tagline" id="hero-tagline">—</div>
-    <div class="best-months" id="best-months"></div>
-  </div>
-  <div class="qinfo" id="qinfo"></div>
+<div class="hero">
+  <div class="hero-flag" id="hero-flag">🌍</div>
+  <h1 id="hero-name">—</h1>
+  <div class="hero-tagline" id="hero-tagline">—</div>
+  <div class="best-months" id="best-months"></div>
+</div>
+<div class="qinfo" id="qinfo"></div>
+
+<!-- Area tabs (only shown for multi-area cities) -->
+<div id="area-tabs-wrap" style="display:none">
+  <div class="area-tabs" id="area-tabs"></div>
+  <div class="area-desc" id="area-desc"></div>
 </div>
 
 <div class="sec">
@@ -110,7 +114,12 @@
 
 <div class="sec">
   <div class="sec-ttl">必去亮點</div>
-  <div class="hl-grid" id="highlights"></div>
+  <div class="card-grid" id="highlights"></div>
+</div>
+
+<div class="sec">
+  <div class="sec-ttl">必吃美食</div>
+  <div class="card-grid" id="foods"></div>
 </div>
 
 <div class="sec">
@@ -123,8 +132,11 @@
 </footer>
 
 <script>
-const params = new URLSearchParams(location.search);
+const params  = new URLSearchParams(location.search);
 const CITY_KEY = params.get('key') || '';
+
+let CD = null, FD = null, HD = null;
+let currentArea = null;
 
 async function boot() {
   if (!CITY_KEY) { document.getElementById('hdr-city').textContent = '找不到城市'; return; }
@@ -134,21 +146,29 @@ async function boot() {
     fetch('../data/flights.json' + ts).catch(() => null),
     fetch('../data/hotels.json'  + ts).catch(() => null),
   ]);
-  const CD = cr?.ok ? await cr.json() : null;
-  const FD = fr?.ok ? await fr.json() : null;
-  const HD = hr?.ok ? await hr.json() : null;
+  CD = cr?.ok ? await cr.json() : null;
+  FD = fr?.ok ? await fr.json() : null;
+  HD = hr?.ok ? await hr.json() : null;
 
   if (!CD) { document.getElementById('hdr-city').textContent = '城市資料不存在'; return; }
 
   document.title = CD.city + ' · SoSolsunday';
-  renderHero(CD);
-  renderFlights(CD, FD);
-  renderHotels(CD, HD);
-  renderHighlights(CD);
-  renderArticles(CD);
+  renderHero();
+  renderFlights();
+
+  if (CD.areas?.length) {
+    renderAreaTabs();
+    setArea(CD.areas[0]);
+  } else {
+    renderHotels(CD.hotel_city_key);
+    renderSpots(CD.highlights, 'highlights', false);
+    renderSpots(CD.foods, 'foods', true);
+    renderArticles(CD.articles);
+  }
 }
 
-function renderHero(CD) {
+// ── Hero ───────────────────────────────────────────────────────────────────
+function renderHero() {
   document.getElementById('hdr-city').textContent = CD.flag + ' ' + CD.city;
   document.getElementById('hero-flag').textContent = CD.flag;
   document.getElementById('hero-name').textContent = CD.city;
@@ -157,51 +177,58 @@ function renderHero(CD) {
   const bm = document.getElementById('best-months');
   (CD.best_months || []).forEach(m => {
     const c = document.createElement('span');
-    c.className = 'month-chip';
-    c.textContent = m;
-    bm.appendChild(c);
+    c.className = 'month-chip'; c.textContent = m; bm.appendChild(c);
   });
 
-  const qi = document.getElementById('qinfo');
-  const items = [
-    ['簽證', (CD.visa?.HK || CD.visa || '—')],
+  document.getElementById('qinfo').innerHTML = [
+    ['簽證', CD.visa?.HK || CD.visa || '—'],
     ['貨幣', CD.currency || '—'],
     ['時區', CD.timezone || '—'],
     ['機場', CD.airport || '—'],
-  ];
-  qi.innerHTML = items.map(([l, v]) =>
-    `<div class="qi"><div class="qi-label">${l}</div><div class="qi-val">${v}</div></div>`
+  ].map(([l,v]) => `<div class="qi"><div class="qi-label">${l}</div><div class="qi-val">${v}</div></div>`).join('');
+}
+
+// ── Area tabs ──────────────────────────────────────────────────────────────
+function renderAreaTabs() {
+  document.getElementById('area-tabs-wrap').style.display = 'block';
+  document.getElementById('area-tabs').innerHTML = CD.areas.map((a, i) =>
+    `<button class="atab ${i===0?'on':''}" onclick="setArea(CD.areas[${i}], this)">${a.name}</button>`
   ).join('');
 }
 
-function renderFlights(CD, FD) {
+function setArea(area, btn) {
+  currentArea = area;
+  document.querySelectorAll('.atab').forEach(b => b.classList.remove('on'));
+  if (btn) btn.classList.add('on');
+  document.getElementById('area-desc').textContent = area.desc || '';
+  renderHotels(area.hotel_city_key);
+  renderSpots(area.highlights, 'highlights', false);
+  renderSpots(area.foods, 'foods', true);
+  renderArticles(area.articles);
+}
+
+// ── Flights ────────────────────────────────────────────────────────────────
+function renderFlights() {
   const el = document.getElementById('live-flights');
   if (!FD) { el.innerHTML = '<div class="nodata">暫無機票數據</div>'; return; }
 
   const codes = CD.airport_codes || [];
   const routes = (FD.routes || []).filter(r => codes.includes(r.dest));
 
-  // Also check cheapest destinations list
   const destRows = [];
-  for (const [originCode, originName] of [['HKG','香港'],['TPE','台北']]) {
-    const found = (FD.destinations?.[originCode] || []).find(d => d.name === CD.flight_city_name);
-    if (found) destRows.push({ origin: originName, price: found.price, month: '本月' });
-  }
-
-  if (!routes.length && !destRows.length) {
-    el.innerHTML = '<div class="nodata">暫無機票數據</div>'; return;
+  for (const [oc, on] of [['HKG','香港'],['TPE','台北']]) {
+    const found = (FD.destinations?.[oc] || []).find(d => d.name === CD.flight_city_name);
+    if (found) destRows.push({ origin: on, price: found.price });
   }
 
   let html = '';
-
-  // Routes (6-month data)
   for (const r of routes) {
     const best = r.months.reduce((a, b) => a.price < b.price ? a : b, r.months[0]);
     if (!best) continue;
     html += `<div class="flight-row">
       <div>
         <div class="flight-route">${r.flag} ${r.origin_name} → ${r.dest_name}</div>
-        <div class="flight-meta">${best.airline} · 最低出發月</div>
+        <div class="flight-meta">${best.airline} · 6個月最低</div>
       </div>
       <div style="text-align:right">
         <div class="flight-price">HK$${best.price.toLocaleString()}</div>
@@ -209,8 +236,6 @@ function renderFlights(CD, FD) {
       </div>
     </div>`;
   }
-
-  // Destination cheapest (no route data)
   if (!routes.length) {
     for (const d of destRows) {
       html += `<div class="flight-row">
@@ -220,64 +245,63 @@ function renderFlights(CD, FD) {
         </div>
         <div style="text-align:right">
           <div class="flight-price">HK$${d.price.toLocaleString()}</div>
-          <div class="flight-month">本月</div>
         </div>
       </div>`;
     }
   }
-
   el.innerHTML = html || '<div class="nodata">暫無機票數據</div>';
 }
 
-function renderHotels(CD, HD) {
+// ── Hotels ────────────────────────────────────────────────────────────────
+function renderHotels(cityKey) {
   const el = document.getElementById('live-hotels');
-  if (!HD || !CD.hotel_city_key) { el.innerHTML = '<div class="nodata">暫無酒店數據</div>'; return; }
+  if (!HD || !cityKey) { el.innerHTML = '<div class="nodata">暫無酒店數據</div>'; return; }
 
-  const city = (HD.cities || []).find(c => c.key === CD.hotel_city_key);
+  const city = (HD.cities || []).find(c => c.key === cityKey);
   const hotels = city?.weekend_hotels?.[0] || [];
   const wknd = HD.weekends?.[0];
 
   if (!hotels.length) { el.innerHTML = '<div class="nodata">本週末暫無報價</div>'; return; }
 
-  const dateStr = wknd ? wknd.label : '';
   el.innerHTML = hotels.map(h => `
     <div class="hotel-row">
-      <div>
+      <div style="flex:1;min-width:0">
         <div class="hotel-name">${h.name}</div>
-        <div class="hotel-sub">⭐${h.rating} · ${'★'.repeat(h.stars||4)} · ${dateStr} · 2晚2人</div>
+        <div class="hotel-sub">⭐${h.rating} · ${'★'.repeat(h.stars||4)} · ${wknd?.label||''} · 2晚2人</div>
       </div>
-      <div>
+      <div style="flex-shrink:0;text-align:right;margin-left:12px">
         <div class="hotel-price">HK$${h.price.toLocaleString()}</div>
         <div class="hotel-nights">2晚</div>
       </div>
     </div>`).join('');
 }
 
-function renderHighlights(CD) {
-  const el = document.getElementById('highlights');
-  const hl = CD.highlights || [];
-  el.innerHTML = hl.length
-    ? hl.map(h => `
-        <div class="hl-card">
-          <span class="hl-tag">${h.tag}</span>
-          <div class="hl-name">${h.name}</div>
-          <div class="hl-desc">${h.desc}</div>
-        </div>`).join('')
-    : '<div class="nodata" style="grid-column:1/-1">攻略內容即將加入</div>';
+// ── Highlights & Foods ─────────────────────────────────────────────────────
+function renderSpots(items, elId, isFood) {
+  const el = document.getElementById(elId);
+  if (!items?.length) {
+    el.innerHTML = `<div class="nodata" style="grid-column:1/-1">${isFood ? '美食資料即將加入' : '景點資料即將加入'}</div>`;
+    return;
+  }
+  el.innerHTML = items.map(h => `
+    <div class="spot-card">
+      <span class="spot-tag ${isFood ? 'food-tag' : ''}">${h.tag}</span>
+      <div class="spot-name">${h.name}</div>
+      <div class="spot-desc">${h.desc}</div>
+    </div>`).join('');
 }
 
-function renderArticles(CD) {
+// ── Articles ───────────────────────────────────────────────────────────────
+function renderArticles(arts) {
   const el = document.getElementById('articles');
-  const arts = CD.articles || [];
-  el.innerHTML = arts.length
-    ? arts.map(a => `
-        <div class="art-card">
-          <div class="art-tags">${(a.tags||[]).map(t=>`<span class="art-tag">${t}</span>`).join('')}</div>
-          <div class="art-title">${a.title}</div>
-          <div class="art-summary">${a.summary}</div>
-          <div class="art-date">${a.date || ''}</div>
-        </div>`).join('')
-    : '<div class="nodata">攻略文章即將加入</div>';
+  if (!arts?.length) { el.innerHTML = '<div class="nodata">攻略文章即將加入</div>'; return; }
+  el.innerHTML = arts.map(a => `
+    <div class="art-card">
+      <div class="art-tags">${(a.tags||[]).map(t=>`<span class="art-tag">${t}</span>`).join('')}</div>
+      <div class="art-title">${a.title}</div>
+      <div class="art-summary">${a.summary}</div>
+      <div class="art-date">${a.date||''}</div>
+    </div>`).join('');
 }
 
 boot();
