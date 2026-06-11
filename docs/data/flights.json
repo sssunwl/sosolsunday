@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-06-12 05:11 HKT",
+  "updated_at": "2026-06-12 06:59 HKT",
   "routes": [
     {
       "key": "HKG_TPE",
@@ -70,14 +70,14 @@
         },
         {
           "month": "2026-08",
-          "price": 2300,
-          "date": "2026-08-22",
+          "price": 2286,
+          "date": "2026-08-09",
           "airline": "香港快運",
           "is_cheapest": false
         },
         {
           "month": "2026-09",
-          "price": 1386,
+          "price": 1385,
           "date": "2026-09-08",
           "airline": "香港快運",
           "is_cheapest": true

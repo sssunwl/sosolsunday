@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-06-12 05:11 HKT",
+  "updated_at": "2026-06-12 06:59 HKT",
   "weekends": [
     {
       "label": "6/19–21",
@@ -75,13 +75,13 @@
         [
           {
             "name": "Okinawa Kariyushi Beach Resort Ocean Spa",
-            "price": 2117,
+            "price": 2116,
             "rating": 7.8,
             "stars": 4
           },
           {
             "name": "Rizzan Sea Park Hotel Tancha Bay",
-            "price": 3928,
+            "price": 3940,
             "rating": 8.1,
             "stars": 4
           }
@@ -173,7 +173,7 @@
           },
           {
             "name": "deigo ISHIGAKI",
-            "price": 10329,
+            "price": 8411,
             "rating": 10.0,
             "stars": 4
           }
@@ -259,13 +259,13 @@
         [
           {
             "name": "JAL城市酒店 福岡天神",
-            "price": 3178,
+            "price": 3184,
             "rating": 8.8,
             "stars": 4
           },
           {
             "name": "ANA Crowne Plaza Fukuoka by IHG",
-            "price": 3232,
+            "price": 3186,
             "rating": 8.1,
             "stars": 4
           }
@@ -273,7 +273,7 @@
         [
           {
             "name": "JAL城市酒店 福岡天神",
-            "price": 2903,
+            "price": 2909,
             "rating": 8.8,
             "stars": 4
           },
@@ -293,7 +293,7 @@
           },
           {
             "name": "JAL城市酒店 福岡天神",
-            "price": 3097,
+            "price": 3103,
             "rating": 8.8,
             "stars": 4
           }
@@ -314,7 +314,7 @@
           },
           {
             "name": "The Royal Park Hotel Tokyo Haneda Airport Terminal 3",
-            "price": 2305,
+            "price": 2310,
             "rating": 8.4,
             "stars": 4
           }
@@ -328,7 +328,7 @@
           },
           {
             "name": "The Royal Park Hotel Tokyo Haneda Airport Terminal 3",
-            "price": 2110,
+            "price": 2115,
             "rating": 8.4,
             "stars": 4
           }
@@ -342,7 +342,7 @@
           },
           {
             "name": "The Royal Park Hotel Tokyo Haneda Airport Terminal 3",
-            "price": 2435,
+            "price": 2427,
             "rating": 8.4,
             "stars": 4
           }
@@ -357,13 +357,13 @@
         [
           {
             "name": "Arirang Hill Hotel Dongdaemun",
-            "price": 3687,
+            "price": 3155,
             "rating": 9.2,
             "stars": 4
           },
           {
             "name": "GLAD麻浦酒店",
-            "price": 4932,
+            "price": 4769,
             "rating": 9.8,
             "stars": 4
           }
@@ -377,7 +377,7 @@
           },
           {
             "name": "樂天城市酒店 明洞",
-            "price": 3485,
+            "price": 3483,
             "rating": 8.8,
             "stars": 4
           }
@@ -412,7 +412,7 @@
           },
           {
             "name": "Lavalse Hotel",
-            "price": 1794,
+            "price": 1792,
             "rating": 8.4,
             "stars": 4
           }
@@ -420,7 +420,7 @@
         [
           {
             "name": "Avani Central Busan",
-            "price": 1726,
+            "price": 1688,
             "rating": 9.2,
             "stars": 4
           },
