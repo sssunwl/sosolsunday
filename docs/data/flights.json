@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-06-11 20:52 HKT",
+  "updated_at": "2026-06-12 05:11 HKT",
   "routes": [
     {
       "key": "HKG_TPE",
@@ -77,7 +77,7 @@
         },
         {
           "month": "2026-09",
-          "price": 1385,
+          "price": 1386,
           "date": "2026-09-08",
           "airline": "香港快運",
           "is_cheapest": true
@@ -201,7 +201,7 @@
       },
       {
         "price": 1436,
-        "name": "PQC",
+        "name": "富國島",
         "code": "PQC"
       },
       {
@@ -213,12 +213,12 @@
     "TPE": [
       {
         "price": 1552,
-        "name": "HKG",
+        "name": "香港",
         "code": "HKG"
       },
       {
         "price": 1631,
-        "name": "SEL",
+        "name": "首爾",
         "code": "SEL"
       },
       {
@@ -233,7 +233,7 @@
       },
       {
         "price": 1747,
-        "name": "MFM",
+        "name": "澳門",
         "code": "MFM"
       }
     ]
