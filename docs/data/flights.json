@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-06-14 12:50 HKT",
+  "updated_at": "2026-06-15 13:06 HKT",
   "routes": [
     {
       "key": "HKG_TPE",
@@ -11,7 +11,7 @@
       "months": [
         {
           "month": "2026-06",
-          "price": 1351,
+          "price": 1295,
           "date": "2026-06-26",
           "airline": "香港快運",
           "is_cheapest": false
@@ -84,7 +84,7 @@
         },
         {
           "month": "2026-09",
-          "price": 1385,
+          "price": 1378,
           "date": "2026-09-08",
           "airline": "香港快運",
           "is_cheapest": true
@@ -108,8 +108,8 @@
       "months": [
         {
           "month": "2026-06",
-          "price": 1552,
-          "date": "2026-06-29",
+          "price": 1442,
+          "date": "2026-06-30",
           "airline": "香港快運",
           "is_cheapest": false
         },
@@ -160,9 +160,9 @@
         },
         {
           "month": "2026-08",
-          "price": 1647,
-          "date": "2026-08-03",
-          "airline": "台灣虎航",
+          "price": 1683,
+          "date": "2026-08-02",
+          "airline": "樂桃",
           "is_cheapest": false
         },
         {
@@ -204,6 +204,13 @@
           "is_cheapest": false
         },
         {
+          "month": "2026-08",
+          "price": 1871,
+          "date": "2026-08-17",
+          "airline": "香港快運",
+          "is_cheapest": false
+        },
+        {
           "month": "2026-11",
           "price": 1674,
           "date": "2026-11-29",
@@ -216,7 +223,7 @@
   "destinations": {
     "HKG": [
       {
-        "price": 1088,
+        "price": 1291,
         "name": "三亞",
         "code": "SYX"
       },
@@ -226,12 +233,12 @@
         "code": "KHH"
       },
       {
-        "price": 1351,
+        "price": 1295,
         "name": "台北",
         "code": "TPE"
       },
       {
-        "price": 1392,
+        "price": 1409,
         "name": "上海",
         "code": "SHA"
       },
@@ -243,12 +250,7 @@
     ],
     "TPE": [
       {
-        "price": 1495,
-        "name": "TAE",
-        "code": "TAE"
-      },
-      {
-        "price": 1552,
+        "price": 1442,
         "name": "香港",
         "code": "HKG"
       },
@@ -263,9 +265,14 @@
         "code": "PUS"
       },
       {
-        "price": 1713,
+        "price": 1678,
         "name": "曼谷",
         "code": "BKK"
+      },
+      {
+        "price": 1923,
+        "name": "沖繩那覇",
+        "code": "OKA"
       }
     ]
   }
