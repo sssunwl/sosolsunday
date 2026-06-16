@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-06-15 13:06 HKT",
+  "updated_at": "2026-06-16 13:09 HKT",
   "routes": [
     {
       "key": "HKG_TPE",
@@ -63,15 +63,15 @@
       "months": [
         {
           "month": "2026-06",
-          "price": 2216,
+          "price": 2327,
           "date": "2026-06-20",
           "airline": "香港快運",
           "is_cheapest": false
         },
         {
           "month": "2026-07",
-          "price": 2267,
-          "date": "2026-07-20",
+          "price": 2159,
+          "date": "2026-07-06",
           "airline": "香港快運",
           "is_cheapest": false
         },
@@ -122,8 +122,8 @@
         },
         {
           "month": "2026-09",
-          "price": 1349,
-          "date": "2026-09-01",
+          "price": 1357,
+          "date": "2026-09-02",
           "airline": "香港快運",
           "is_cheapest": false
         },
@@ -153,8 +153,8 @@
         },
         {
           "month": "2026-07",
-          "price": 1662,
-          "date": "2026-07-29",
+          "price": 1561,
+          "date": "2026-07-27",
           "airline": "台灣虎航",
           "is_cheapest": false
         },
@@ -167,9 +167,9 @@
         },
         {
           "month": "2026-09",
-          "price": 1490,
-          "date": "2026-09-14",
-          "airline": "VietJet",
+          "price": 1499,
+          "date": "2026-09-01",
+          "airline": "樂桃",
           "is_cheapest": false
         },
         {
@@ -223,7 +223,7 @@
   "destinations": {
     "HKG": [
       {
-        "price": 1291,
+        "price": 1125,
         "name": "三亞",
         "code": "SYX"
       },
@@ -243,21 +243,21 @@
         "code": "SHA"
       },
       {
-        "price": 1436,
-        "name": "富國島",
-        "code": "PQC"
+        "price": 1480,
+        "name": "馬尼拉",
+        "code": "MNL"
       }
     ],
     "TPE": [
       {
+        "price": 1387,
+        "name": "曼谷",
+        "code": "BKK"
+      },
+      {
         "price": 1442,
         "name": "香港",
         "code": "HKG"
-      },
-      {
-        "price": 1631,
-        "name": "首爾",
-        "code": "SEL"
       },
       {
         "price": 1645,
@@ -265,9 +265,9 @@
         "code": "PUS"
       },
       {
-        "price": 1678,
-        "name": "曼谷",
-        "code": "BKK"
+        "price": 1831,
+        "name": "吉隆坡",
+        "code": "KUL"
       },
       {
         "price": 1923,
