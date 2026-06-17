@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-06-16 13:09 HKT",
+  "updated_at": "2026-06-17 12:51 HKT",
   "routes": [
     {
       "key": "HKG_TPE",
@@ -18,8 +18,8 @@
         },
         {
           "month": "2026-07",
-          "price": 1387,
-          "date": "2026-07-01",
+          "price": 1419,
+          "date": "2026-07-18",
           "airline": "香港快運",
           "is_cheapest": false
         },
@@ -32,9 +32,9 @@
         },
         {
           "month": "2026-09",
-          "price": 1337,
-          "date": "2026-09-21",
-          "airline": "香港快運",
+          "price": 1421,
+          "date": "2026-09-24",
+          "airline": "北部灣航空",
           "is_cheapest": false
         },
         {
@@ -70,8 +70,8 @@
         },
         {
           "month": "2026-07",
-          "price": 2159,
-          "date": "2026-07-06",
+          "price": 1973,
+          "date": "2026-07-11",
           "airline": "香港快運",
           "is_cheapest": false
         },
@@ -84,7 +84,7 @@
         },
         {
           "month": "2026-09",
-          "price": 1378,
+          "price": 1383,
           "date": "2026-09-08",
           "airline": "香港快運",
           "is_cheapest": true
@@ -121,6 +121,13 @@
           "is_cheapest": true
         },
         {
+          "month": "2026-08",
+          "price": 1381,
+          "date": "2026-08-29",
+          "airline": "香港快運",
+          "is_cheapest": false
+        },
+        {
           "month": "2026-09",
           "price": 1357,
           "date": "2026-09-02",
@@ -146,29 +153,29 @@
       "months": [
         {
           "month": "2026-06",
-          "price": 1923,
-          "date": "2026-06-17",
-          "airline": "NU",
-          "is_cheapest": false
-        },
-        {
-          "month": "2026-07",
-          "price": 1561,
-          "date": "2026-07-27",
+          "price": 1953,
+          "date": "2026-06-29",
           "airline": "台灣虎航",
           "is_cheapest": false
         },
         {
+          "month": "2026-07",
+          "price": 1415,
+          "date": "2026-07-28",
+          "airline": "台灣虎航",
+          "is_cheapest": true
+        },
+        {
           "month": "2026-08",
-          "price": 1683,
-          "date": "2026-08-02",
-          "airline": "樂桃",
+          "price": 1711,
+          "date": "2026-08-19",
+          "airline": "VietJet",
           "is_cheapest": false
         },
         {
           "month": "2026-09",
-          "price": 1499,
-          "date": "2026-09-01",
+          "price": 1555,
+          "date": "2026-09-06",
           "airline": "樂桃",
           "is_cheapest": false
         },
@@ -177,7 +184,7 @@
           "price": 1460,
           "date": "2026-10-13",
           "airline": "樂桃",
-          "is_cheapest": true
+          "is_cheapest": false
         },
         {
           "month": "2026-11",
@@ -228,17 +235,12 @@
         "code": "SYX"
       },
       {
-        "price": 1293,
-        "name": "高雄",
-        "code": "KHH"
-      },
-      {
         "price": 1295,
         "name": "台北",
         "code": "TPE"
       },
       {
-        "price": 1409,
+        "price": 1347,
         "name": "上海",
         "code": "SHA"
       },
@@ -246,6 +248,11 @@
         "price": 1480,
         "name": "馬尼拉",
         "code": "MNL"
+      },
+      {
+        "price": 1487,
+        "name": "河內",
+        "code": "HAN"
       }
     ],
     "TPE": [
@@ -260,7 +267,12 @@
         "code": "HKG"
       },
       {
-        "price": 1645,
+        "price": 1643,
+        "name": "BKI",
+        "code": "BKI"
+      },
+      {
+        "price": 1827,
         "name": "釜山",
         "code": "PUS"
       },
@@ -268,11 +280,6 @@
         "price": 1831,
         "name": "吉隆坡",
         "code": "KUL"
-      },
-      {
-        "price": 1923,
-        "name": "沖繩那覇",
-        "code": "OKA"
       }
     ]
   }
