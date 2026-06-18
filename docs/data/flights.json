@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-06-17 12:51 HKT",
+  "updated_at": "2026-06-18 12:44 HKT",
   "routes": [
     {
       "key": "HKG_TPE",
@@ -28,7 +28,7 @@
           "price": 1255,
           "date": "2026-08-13",
           "airline": "香港快運",
-          "is_cheapest": false
+          "is_cheapest": true
         },
         {
           "month": "2026-09",
@@ -43,13 +43,6 @@
           "date": "2026-10-01",
           "airline": "中華航空",
           "is_cheapest": false
-        },
-        {
-          "month": "2026-11",
-          "price": 1239,
-          "date": "2026-11-18",
-          "airline": "香港快運",
-          "is_cheapest": true
         }
       ]
     },
@@ -160,7 +153,7 @@
         },
         {
           "month": "2026-07",
-          "price": 1415,
+          "price": 1416,
           "date": "2026-07-28",
           "airline": "台灣虎航",
           "is_cheapest": true
@@ -245,14 +238,14 @@
         "code": "SHA"
       },
       {
+        "price": 1371,
+        "name": "台中",
+        "code": "RMQ"
+      },
+      {
         "price": 1480,
         "name": "馬尼拉",
         "code": "MNL"
-      },
-      {
-        "price": 1487,
-        "name": "河內",
-        "code": "HAN"
       }
     ],
     "TPE": [
