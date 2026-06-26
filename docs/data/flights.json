@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-06-25 12:09 HKT",
+  "updated_at": "2026-06-26 12:16 HKT",
   "routes": [
     {
       "key": "HKG_TPE",
@@ -43,13 +43,6 @@
           "date": "2026-10-28",
           "airline": "香港快運",
           "is_cheapest": false
-        },
-        {
-          "month": "2026-11",
-          "price": 1404,
-          "date": "2026-11-19",
-          "airline": "北部灣航空",
-          "is_cheapest": false
         }
       ]
     },
@@ -77,8 +70,8 @@
         },
         {
           "month": "2026-08",
-          "price": 2074,
-          "date": "2026-08-17",
+          "price": 1953,
+          "date": "2026-08-16",
           "airline": "香港快運",
           "is_cheapest": false
         },
@@ -108,8 +101,8 @@
         },
         {
           "month": "2026-07",
-          "price": 1465,
-          "date": "2026-07-02",
+          "price": 1423,
+          "date": "2026-07-20",
           "airline": "香港快運",
           "is_cheapest": false
         },
@@ -183,9 +176,23 @@
           "is_cheapest": false
         },
         {
+          "month": "2026-08",
+          "price": 1813,
+          "date": "2026-08-18",
+          "airline": "香港快運",
+          "is_cheapest": false
+        },
+        {
           "month": "2026-09",
           "price": 1528,
           "date": "2026-09-12",
+          "airline": "香港快運",
+          "is_cheapest": false
+        },
+        {
+          "month": "2026-10",
+          "price": 1518,
+          "date": "2026-10-23",
           "airline": "香港快運",
           "is_cheapest": true
         }
@@ -212,7 +219,7 @@
   "destinations": {
     "HKG": [
       {
-        "price": 1240,
+        "price": 1035,
         "name": "三亞",
         "code": "SYX"
       },
@@ -222,19 +229,19 @@
         "code": "BJS"
       },
       {
-        "price": 1363,
-        "name": "上海",
-        "code": "SHA"
+        "price": 1680,
+        "name": "首爾",
+        "code": "SEL"
       },
       {
-        "price": 1544,
+        "price": 1690,
+        "name": "峴港",
+        "code": "DAD"
+      },
+      {
+        "price": 1691,
         "name": "馬尼拉",
         "code": "MNL"
-      },
-      {
-        "price": 1752,
-        "name": "台北",
-        "code": "TPE"
       }
     ],
     "TPE": [
@@ -254,14 +261,14 @@
         "code": "BKI"
       },
       {
-        "price": 2047,
-        "name": "首爾",
-        "code": "SEL"
-      },
-      {
-        "price": 2147,
+        "price": 2148,
         "name": "OSA",
         "code": "OSA"
+      },
+      {
+        "price": 2426,
+        "name": "TYO",
+        "code": "TYO"
       }
     ]
   }
