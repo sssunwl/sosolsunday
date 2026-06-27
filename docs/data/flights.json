@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-06-26 12:16 HKT",
+  "updated_at": "2026-06-27 12:02 HKT",
   "routes": [
     {
       "key": "HKG_TPE",
@@ -9,13 +9,6 @@
       "dest_name": "台北",
       "flag": "🇭🇰→🇹🇼",
       "months": [
-        {
-          "month": "2026-06",
-          "price": 1752,
-          "date": "2026-06-28",
-          "airline": "北部灣航空",
-          "is_cheapest": false
-        },
         {
           "month": "2026-07",
           "price": 1255,
@@ -70,7 +63,7 @@
         },
         {
           "month": "2026-08",
-          "price": 1953,
+          "price": 1954,
           "date": "2026-08-16",
           "airline": "香港快運",
           "is_cheapest": false
@@ -81,6 +74,13 @@
           "date": "2026-09-08",
           "airline": "香港快運",
           "is_cheapest": true
+        },
+        {
+          "month": "2026-11",
+          "price": 1471,
+          "date": "2026-11-05",
+          "airline": "香港快運",
+          "is_cheapest": false
         }
       ]
     },
@@ -94,9 +94,9 @@
       "months": [
         {
           "month": "2026-06",
-          "price": 1483,
-          "date": "2026-06-30",
-          "airline": "香港快運",
+          "price": 1614,
+          "date": "2026-06-29",
+          "airline": "香港航空",
           "is_cheapest": false
         },
         {
@@ -132,21 +132,21 @@
       "months": [
         {
           "month": "2026-07",
-          "price": 1615,
-          "date": "2026-07-25",
+          "price": 1838,
+          "date": "2026-07-23",
           "airline": "樂桃",
           "is_cheapest": false
         },
         {
           "month": "2026-08",
-          "price": 1478,
-          "date": "2026-08-17",
-          "airline": "VietJet",
+          "price": 1468,
+          "date": "2026-08-11",
+          "airline": "台灣虎航",
           "is_cheapest": false
         },
         {
           "month": "2026-09",
-          "price": 1378,
+          "price": 1421,
           "date": "2026-09-06",
           "airline": "SL",
           "is_cheapest": true
@@ -197,23 +197,6 @@
           "is_cheapest": true
         }
       ]
-    },
-    {
-      "key": "OKA_TPE",
-      "origin": "OKA",
-      "dest": "TPE",
-      "origin_name": "沖繩",
-      "dest_name": "台北",
-      "flag": "🇯🇵→🇹🇼",
-      "months": [
-        {
-          "month": "2026-07",
-          "price": 1851,
-          "date": "2026-07-26",
-          "airline": "樂桃",
-          "is_cheapest": true
-        }
-      ]
     }
   ],
   "destinations": {
@@ -246,14 +229,9 @@
     ],
     "TPE": [
       {
-        "price": 1483,
+        "price": 1614,
         "name": "香港",
         "code": "HKG"
-      },
-      {
-        "price": 1552,
-        "name": "曼谷",
-        "code": "BKK"
       },
       {
         "price": 1758,
@@ -269,6 +247,11 @@
         "price": 2426,
         "name": "TYO",
         "code": "TYO"
+      },
+      {
+        "price": 2586,
+        "name": "新加坡",
+        "code": "SIN"
       }
     ]
   }
