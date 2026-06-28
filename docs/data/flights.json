@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-06-27 12:02 HKT",
+  "updated_at": "2026-06-28 12:24 HKT",
   "routes": [
     {
       "key": "HKG_TPE",
@@ -70,8 +70,15 @@
         },
         {
           "month": "2026-09",
-          "price": 1392,
+          "price": 1422,
           "date": "2026-09-08",
+          "airline": "香港快運",
+          "is_cheapest": false
+        },
+        {
+          "month": "2026-10",
+          "price": 1349,
+          "date": "2026-10-05",
           "airline": "香港快運",
           "is_cheapest": true
         },
@@ -101,8 +108,8 @@
         },
         {
           "month": "2026-07",
-          "price": 1423,
-          "date": "2026-07-20",
+          "price": 1408,
+          "date": "2026-07-14",
           "airline": "香港快運",
           "is_cheapest": false
         },
@@ -212,19 +219,19 @@
         "code": "BJS"
       },
       {
-        "price": 1680,
-        "name": "首爾",
-        "code": "SEL"
-      },
-      {
-        "price": 1690,
+        "price": 1624,
         "name": "峴港",
         "code": "DAD"
       },
       {
-        "price": 1691,
-        "name": "馬尼拉",
-        "code": "MNL"
+        "price": 1825,
+        "name": "BKI",
+        "code": "BKI"
+      },
+      {
+        "price": 1859,
+        "name": "首爾",
+        "code": "SEL"
       }
     ],
     "TPE": [
@@ -239,6 +246,11 @@
         "code": "BKI"
       },
       {
+        "price": 2100,
+        "name": "福岡",
+        "code": "FUK"
+      },
+      {
         "price": 2148,
         "name": "OSA",
         "code": "OSA"
@@ -247,11 +259,6 @@
         "price": 2426,
         "name": "TYO",
         "code": "TYO"
-      },
-      {
-        "price": 2586,
-        "name": "新加坡",
-        "code": "SIN"
       }
     ]
   }
