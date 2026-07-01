@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-06-30 12:10 HKT",
+  "updated_at": "2026-07-01 12:27 HKT",
   "routes": [
     {
       "key": "HKG_TPE",
@@ -14,7 +14,7 @@
           "price": 1255,
           "date": "2026-07-27",
           "airline": "香港快運",
-          "is_cheapest": false
+          "is_cheapest": true
         },
         {
           "month": "2026-08",
@@ -25,15 +25,15 @@
         },
         {
           "month": "2026-09",
-          "price": 1241,
-          "date": "2026-09-09",
+          "price": 1461,
+          "date": "2026-09-25",
           "airline": "香港快運",
-          "is_cheapest": true
+          "is_cheapest": false
         },
         {
           "month": "2026-10",
-          "price": 1393,
-          "date": "2026-10-31",
+          "price": 1289,
+          "date": "2026-10-14",
           "airline": "香港快運",
           "is_cheapest": false
         }
@@ -81,6 +81,13 @@
           "date": "2026-11-05",
           "airline": "香港快運",
           "is_cheapest": false
+        },
+        {
+          "month": "2026-12",
+          "price": 3152,
+          "date": "2026-12-30",
+          "airline": "長榮",
+          "is_cheapest": false
         }
       ]
     },
@@ -92,13 +99,6 @@
       "dest_name": "香港",
       "flag": "🇹🇼→🇭🇰",
       "months": [
-        {
-          "month": "2026-06",
-          "price": 1772,
-          "date": "2026-06-30",
-          "airline": "香港航空",
-          "is_cheapest": false
-        },
         {
           "month": "2026-07",
           "price": 1408,
@@ -132,9 +132,9 @@
       "months": [
         {
           "month": "2026-07",
-          "price": 1838,
-          "date": "2026-07-23",
-          "airline": "樂桃",
+          "price": 2087,
+          "date": "2026-07-16",
+          "airline": "台灣虎航",
           "is_cheapest": false
         },
         {
@@ -156,12 +156,19 @@
           "price": 1400,
           "date": "2026-10-26",
           "airline": "樂桃",
-          "is_cheapest": true
+          "is_cheapest": false
         },
         {
           "month": "2026-11",
-          "price": 1401,
-          "date": "2026-11-17",
+          "price": 1356,
+          "date": "2026-11-20",
+          "airline": "台灣虎航",
+          "is_cheapest": true
+        },
+        {
+          "month": "2026-12",
+          "price": 1420,
+          "date": "2026-12-19",
           "airline": "樂桃",
           "is_cheapest": false
         }
@@ -183,11 +190,18 @@
           "is_cheapest": false
         },
         {
+          "month": "2026-09",
+          "price": 1459,
+          "date": "2026-09-13",
+          "airline": "香港快運",
+          "is_cheapest": true
+        },
+        {
           "month": "2026-10",
           "price": 1518,
           "date": "2026-10-23",
           "airline": "香港快運",
-          "is_cheapest": true
+          "is_cheapest": false
         }
       ]
     }
@@ -195,46 +209,56 @@
   "destinations": {
     "HKG": [
       {
-        "price": 2100,
-        "name": "HAK",
-        "code": "HAK"
+        "price": 1151,
+        "name": "三亞",
+        "code": "SYX"
       },
       {
-        "price": 2176,
-        "name": "曼谷",
-        "code": "BKK"
+        "price": 1158,
+        "name": "北京",
+        "code": "BJS"
       },
       {
-        "price": 2342,
-        "name": "吉隆坡",
-        "code": "KUL"
+        "price": 1255,
+        "name": "台北",
+        "code": "TPE"
       },
       {
-        "price": 2503,
-        "name": "峴港",
-        "code": "DAD"
+        "price": 1290,
+        "name": "馬尼拉",
+        "code": "MNL"
       },
       {
-        "price": 3791,
-        "name": "峇里島",
-        "code": "DPS"
+        "price": 1305,
+        "name": "台中",
+        "code": "RMQ"
       }
     ],
     "TPE": [
       {
-        "price": 1772,
+        "price": 1114,
+        "name": "曼谷",
+        "code": "BKK"
+      },
+      {
+        "price": 1152,
+        "name": "馬尼拉",
+        "code": "MNL"
+      },
+      {
+        "price": 1408,
         "name": "香港",
         "code": "HKG"
       },
       {
-        "price": 2984,
-        "name": "OSA",
-        "code": "OSA"
+        "price": 1586,
+        "name": "首爾",
+        "code": "SEL"
       },
       {
-        "price": 8220,
-        "name": "ADL",
-        "code": "ADL"
+        "price": 1622,
+        "name": "釜山",
+        "code": "PUS"
       }
     ]
   }
