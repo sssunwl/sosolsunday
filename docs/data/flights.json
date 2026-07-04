@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-07-03 11:52 HKT",
+  "updated_at": "2026-07-04 11:44 HKT",
   "routes": [
     {
       "key": "HKG_TPE",
@@ -25,7 +25,7 @@
         },
         {
           "month": "2026-09",
-          "price": 1449,
+          "price": 1373,
           "date": "2026-09-27",
           "airline": "香港快運",
           "is_cheapest": false
@@ -70,7 +70,7 @@
         },
         {
           "month": "2026-09",
-          "price": 1416,
+          "price": 1428,
           "date": "2026-09-08",
           "airline": "香港快運",
           "is_cheapest": false
@@ -84,8 +84,8 @@
         },
         {
           "month": "2026-11",
-          "price": 1471,
-          "date": "2026-11-05",
+          "price": 1502,
+          "date": "2026-11-22",
           "airline": "香港快運",
           "is_cheapest": false
         },
@@ -118,19 +118,26 @@
           "price": 1257,
           "date": "2026-08-17",
           "airline": "香港快運",
-          "is_cheapest": true
+          "is_cheapest": false
         },
         {
           "month": "2026-09",
-          "price": 2065,
+          "price": 1870,
           "date": "2026-09-25",
           "airline": "香港快運",
           "is_cheapest": false
         },
         {
           "month": "2026-10",
-          "price": 1377,
-          "date": "2026-10-02",
+          "price": 1233,
+          "date": "2026-10-29",
+          "airline": "香港快運",
+          "is_cheapest": true
+        },
+        {
+          "month": "2026-11",
+          "price": 1351,
+          "date": "2026-11-01",
           "airline": "香港快運",
           "is_cheapest": false
         }
@@ -146,23 +153,23 @@
       "months": [
         {
           "month": "2026-07",
-          "price": 2094,
-          "date": "2026-07-12",
-          "airline": "VietJet",
+          "price": 1931,
+          "date": "2026-07-21",
+          "airline": "樂桃",
           "is_cheapest": false
         },
         {
           "month": "2026-08",
-          "price": 1468,
-          "date": "2026-08-11",
-          "airline": "台灣虎航",
+          "price": 1498,
+          "date": "2026-08-30",
+          "airline": "SL",
           "is_cheapest": false
         },
         {
           "month": "2026-09",
-          "price": 1421,
-          "date": "2026-09-06",
-          "airline": "SL",
+          "price": 1455,
+          "date": "2026-09-07",
+          "airline": "樂桃",
           "is_cheapest": false
         },
         {
