@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-07-04 11:44 HKT",
+  "updated_at": "2026-07-05 12:03 HKT",
   "routes": [
     {
       "key": "HKG_TPE",
@@ -63,7 +63,7 @@
         },
         {
           "month": "2026-08",
-          "price": 2066,
+          "price": 2148,
           "date": "2026-08-16",
           "airline": "香港快運",
           "is_cheapest": false
@@ -73,14 +73,14 @@
           "price": 1428,
           "date": "2026-09-08",
           "airline": "香港快運",
-          "is_cheapest": false
+          "is_cheapest": true
         },
         {
           "month": "2026-10",
-          "price": 1349,
-          "date": "2026-10-05",
+          "price": 1672,
+          "date": "2026-10-12",
           "airline": "香港快運",
-          "is_cheapest": true
+          "is_cheapest": false
         },
         {
           "month": "2026-11",
@@ -108,8 +108,8 @@
       "months": [
         {
           "month": "2026-07",
-          "price": 1350,
-          "date": "2026-07-19",
+          "price": 1334,
+          "date": "2026-07-16",
           "airline": "香港快運",
           "is_cheapest": false
         },
@@ -167,9 +167,9 @@
         },
         {
           "month": "2026-09",
-          "price": 1455,
-          "date": "2026-09-07",
-          "airline": "樂桃",
+          "price": 1411,
+          "date": "2026-09-19",
+          "airline": "台灣虎航",
           "is_cheapest": false
         },
         {
@@ -188,7 +188,7 @@
         },
         {
           "month": "2026-12",
-          "price": 1633,
+          "price": 1641,
           "date": "2026-12-19",
           "airline": "樂桃",
           "is_cheapest": false
@@ -223,7 +223,7 @@
   "destinations": {
     "HKG": [
       {
-        "price": 1151,
+        "price": 1128,
         "name": "三亞",
         "code": "SYX"
       },
@@ -255,7 +255,7 @@
         "code": "BKK"
       },
       {
-        "price": 1350,
+        "price": 1334,
         "name": "香港",
         "code": "HKG"
       },
