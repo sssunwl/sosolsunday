@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-07-05 12:03 HKT",
+  "updated_at": "2026-07-06 12:09 HKT",
   "routes": [
     {
       "key": "HKG_TPE",
@@ -88,13 +88,6 @@
           "date": "2026-11-22",
           "airline": "香港快運",
           "is_cheapest": false
-        },
-        {
-          "month": "2026-12",
-          "price": 3152,
-          "date": "2026-12-30",
-          "airline": "長榮",
-          "is_cheapest": false
         }
       ]
     },
@@ -108,8 +101,8 @@
       "months": [
         {
           "month": "2026-07",
-          "price": 1334,
-          "date": "2026-07-16",
+          "price": 1292,
+          "date": "2026-07-20",
           "airline": "香港快運",
           "is_cheapest": false
         },
@@ -218,6 +211,23 @@
           "is_cheapest": true
         }
       ]
+    },
+    {
+      "key": "OKA_TPE",
+      "origin": "OKA",
+      "dest": "TPE",
+      "origin_name": "沖繩",
+      "dest_name": "台北",
+      "flag": "🇯🇵→🇹🇼",
+      "months": [
+        {
+          "month": "2026-08",
+          "price": 1839,
+          "date": "2026-08-12",
+          "airline": "樂桃",
+          "is_cheapest": true
+        }
+      ]
     }
   ],
   "destinations": {
@@ -250,14 +260,14 @@
     ],
     "TPE": [
       {
-        "price": 1114,
-        "name": "曼谷",
-        "code": "BKK"
-      },
-      {
-        "price": 1334,
+        "price": 1292,
         "name": "香港",
         "code": "HKG"
+      },
+      {
+        "price": 1303,
+        "name": "曼谷",
+        "code": "BKK"
       },
       {
         "price": 1528,
@@ -270,9 +280,9 @@
         "code": "SEL"
       },
       {
-        "price": 1622,
-        "name": "釜山",
-        "code": "PUS"
+        "price": 1699,
+        "name": "宿霧",
+        "code": "CEB"
       }
     ]
   }
