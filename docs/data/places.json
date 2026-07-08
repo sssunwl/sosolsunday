@@ -1,0 +1,17 @@
+{
+  "updated": "2026-07-08",
+  "note": "口袋地點資料，來源自 Notion「IG 收藏整理」中發佈到含『地圖站』且狀態=已整理的項目。座標由整理時查填，未確認者標 verified=false，週會核對。",
+  "places": [
+    {
+      "name": "Jeongjitgan（정짓간）釜山站店",
+      "region": "釜山",
+      "category": "餐廳",
+      "lat": 35.1145,
+      "lon": 129.0399,
+      "verified": false,
+      "summary": "蒜味豬肉湯飯，米其林必比登推薦兩年。釜山站 7 號出口約 100 公尺，交通方便。",
+      "tags": ["湯飯", "米其林", "釜山站"],
+      "link": "https://app.notion.com/p/39230727f5258104ba72c49236448174"
+    }
+  ]
+}
