@@ -5,6 +5,8 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>☀️</text></svg>">
   <title>SoSolsunday · 旅遊優惠速報</title>
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
+        integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="">
   <style>
     :root {
       --navy:  #1B2F4A;
@@ -138,6 +140,33 @@
     /* ── Footer ── */
     footer { background:var(--navy); padding:18px 20px; text-align:center; color:rgba(255,255,255,.35); font-size:10.5px; line-height:1.7; margin-top:4px; }
     footer a { color:var(--gold); text-decoration:none; }
+
+    /* ── 口袋地點 Places ── */
+    .pl-intro { padding:14px 16px 6px; }
+    .pl-intro h2 { font-size:17px; color:var(--navy); }
+    .pl-intro p  { font-size:12px; color:var(--muted); margin-top:3px; line-height:1.5; }
+    .pl-filter { display:flex; gap:7px; overflow-x:auto; padding:10px 16px; -webkit-overflow-scrolling:touch; }
+    .pl-filter::-webkit-scrollbar { display:none; }
+    .pl-chip { flex:0 0 auto; padding:6px 13px; border-radius:16px; border:1.5px solid var(--navy); background:none;
+               color:var(--navy); font-size:12.5px; font-weight:600; cursor:pointer; white-space:nowrap; transition:all .18s; }
+    .pl-chip.on { background:var(--navy); color:var(--gold); }
+    #placeMap { height:280px; margin:4px 16px 0; border-radius:12px; box-shadow:var(--sh); z-index:1; }
+    .leaflet-popup-content { font-family:inherit; font-size:12.5px; line-height:1.5; margin:9px 12px; }
+    .leaflet-popup-content b { color:var(--navy); }
+    .pl-list { padding:12px 16px 4px; display:flex; flex-direction:column; gap:11px; }
+    .pl-card { background:var(--white); border-radius:12px; padding:13px 15px; box-shadow:var(--sh); cursor:pointer;
+               border-left:4px solid var(--gold); transition:transform .12s; }
+    .pl-card:active { transform:scale(.99); }
+    .pl-card-hd { display:flex; justify-content:space-between; align-items:flex-start; gap:8px; }
+    .pl-card-nm { font-size:14.5px; font-weight:700; color:var(--navy); line-height:1.3; }
+    .pl-card-cat{ flex:0 0 auto; font-size:10.5px; font-weight:600; color:var(--gold); background:var(--navy);
+                  padding:2px 8px; border-radius:10px; margin-top:1px; }
+    .pl-card-sum{ font-size:12px; color:var(--text); margin-top:6px; line-height:1.55; }
+    .pl-card-tags { margin-top:7px; display:flex; flex-wrap:wrap; gap:5px; }
+    .pl-tag { font-size:10px; color:var(--muted); background:var(--sand); padding:2px 7px; border-radius:8px; }
+    .pl-card-links { margin-top:8px; display:flex; gap:10px; }
+    .pl-card-links a { font-size:11.5px; color:var(--navy2); text-decoration:none; font-weight:600; }
+    .pl-empty { text-align:center; color:var(--muted); font-size:13px; padding:36px 20px; line-height:1.7; }
   </style>
 </head>
 <body>
@@ -150,6 +179,7 @@
 <nav class="nav">
   <button class="nav-btn on"  onclick="go('home',this)">🏠 首頁</button>
   <button class="nav-btn"     onclick="go('deals',this)">🎫 旅遊優惠</button>
+  <button class="nav-btn"     onclick="go('places',this)">📍 口袋地點</button>
   <button class="nav-btn"     onclick="location.href='destinations/'">🌏 目的地</button>
   <button class="nav-btn"     onclick="location.href='seasonal/'">✨ 季節限定</button>
 </nav>
@@ -222,6 +252,17 @@
       <p>即將推出 — 亞洲郵輪航線一站式速報</p>
     </div>
   </div>
+</div>
+
+<!-- ══ PLACES 口袋地點 ═══════════════════════════════ -->
+<div class="panel" id="p-places">
+  <div class="pl-intro">
+    <h2>📍 口袋地點</h2>
+    <p>從 Notion 收藏整理來的餐廳景點，按地區看、點地圖找位置。資料來自個人收藏，持續更新。</p>
+  </div>
+  <div class="pl-filter" id="pl-filter"></div>
+  <div id="placeMap"></div>
+  <div class="pl-list" id="pl-list"><div class="loading" style="padding:24px">載入中…</div></div>
 </div>
 
 <footer>
@@ -494,8 +535,95 @@ function renderHotelList() {
     </div>`).join('');
 }
 
+// ── 口袋地點 Places ─────────────────────────────────────────────────────────
+let PLACES = [];
+let plMap = null, plLayer = null, plRegion = 'all', plLoaded = false;
+const REGION_CENTER = {
+  '釜山':[35.1151,129.0413],'沖繩':[26.2124,127.6809],'首爾':[37.5665,126.9780],
+  '台北':[25.0330,121.5654],'東京':[35.6762,139.6503],'福岡':[33.5904,130.4017],
+  '石垣':[24.3448,124.1572],'宮古島':[24.8055,125.2811]
+};
+function initPlaces() {
+  if (plLoaded) return;
+  plLoaded = true;
+  fetch('./data/places.json?v=' + Date.now())
+    .then(r => r.ok ? r.json() : {places:[]})
+    .then(d => { PLACES = d.places || []; buildPlaceFilter(); renderPlaces(); })
+    .catch(() => { PLACES = []; renderPlaces(); });
+}
+function buildPlaceFilter() {
+  const regions = [...new Set(PLACES.map(p => p.region).filter(Boolean))];
+  const box = document.getElementById('pl-filter');
+  box.innerHTML = [`<button class="pl-chip on" onclick="setRegion('all',this)">全部</button>`]
+    .concat(regions.map(r => `<button class="pl-chip" onclick="setRegion('${r}',this)">${r}</button>`)).join('');
+}
+function setRegion(r, btn) {
+  plRegion = r;
+  document.querySelectorAll('.pl-chip').forEach(c => c.classList.remove('on'));
+  if (btn) btn.classList.add('on');
+  renderPlaces();
+}
+function ensureMap() {
+  if (plMap || typeof L === 'undefined') return;
+  plMap = L.map('placeMap', { scrollWheelZoom:false }).setView([28,128], 4);
+  L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+    maxZoom:19, attribution:'&copy; OpenStreetMap'
+  }).addTo(plMap);
+  plLayer = L.layerGroup().addTo(plMap);
+}
+function renderPlaces() {
+  const list = PLACES.filter(p => plRegion === 'all' || p.region === plRegion);
+  const listEl = document.getElementById('pl-list');
+  if (!list.length) {
+    listEl.innerHTML = `<div class="pl-empty">這個地區還沒有收藏的地點 🗺️<br>丟連結給 Claude 或等每週整理，就會出現在這裡。</div>`;
+  } else {
+    listEl.innerHTML = list.map((p, i) => `
+      <div class="pl-card" id="plc-${i}" onclick="focusPlace(${i})">
+        <div class="pl-card-hd">
+          <div class="pl-card-nm">${p.name}</div>
+          ${p.category ? `<div class="pl-card-cat">${p.category}</div>` : ''}
+        </div>
+        ${p.summary ? `<div class="pl-card-sum">${p.summary}</div>` : ''}
+        ${(p.tags && p.tags.length) ? `<div class="pl-card-tags">${p.tags.map(t=>`<span class="pl-tag">#${t}</span>`).join('')}</div>` : ''}
+        <div class="pl-card-links">
+          ${p.link ? `<a href="${p.link}" target="_blank" onclick="event.stopPropagation()">🔗 來源</a>` : ''}
+          ${(p.lat&&p.lon) ? `<a href="https://www.google.com/maps/search/?api=1&query=${p.lat},${p.lon}" target="_blank" onclick="event.stopPropagation()">🧭 導航</a>` : ''}
+        </div>
+      </div>`).join('');
+  }
+  ensureMap();
+  const mapEl = document.getElementById('placeMap');
+  if (!plMap) { mapEl.style.display = 'none'; return; }   // CDN 掛了，仍能看卡片
+  mapEl.style.display = '';
+  plLayer.clearLayers();
+  const pins = list.filter(p => p.lat && p.lon);
+  window._plMarkers = {};
+  pins.forEach((p) => {
+    const gi = list.indexOf(p);
+    const m = L.marker([p.lat, p.lon]).addTo(plLayer)
+      .bindPopup(`<b>${p.name}</b>${p.category?` · ${p.category}`:''}<br>${p.summary||''}`);
+    window._plMarkers[gi] = m;
+  });
+  setTimeout(() => {
+    plMap.invalidateSize();
+    if (pins.length === 1) plMap.setView([pins[0].lat, pins[0].lon], 15);
+    else if (pins.length > 1) plMap.fitBounds(pins.map(p => [p.lat, p.lon]), { padding:[40,40], maxZoom:14 });
+    else if (plRegion !== 'all' && REGION_CENTER[plRegion]) plMap.setView(REGION_CENTER[plRegion], 12);
+    else plMap.setView([28,128], 4);
+  }, 60);
+}
+function focusPlace(i) {
+  const m = window._plMarkers && window._plMarkers[i];
+  if (m) { plMap.setView(m.getLatLng(), 16); m.openPopup(); document.getElementById('placeMap').scrollIntoView({behavior:'smooth',block:'center'}); }
+}
+// hook 進 go()：切到 places 分頁時才初始化地圖（Leaflet 需要容器可見）
+const _origGo = go;
+go = function(name, btn) { _origGo(name, btn); if (name === 'places') initPlaces(); };
+
 // ── Boot ──────────────────────────────────────────────────────────────────
 loadAll();
 </script>
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
+        integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
 </body>
 </html>
