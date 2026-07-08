@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-07-07 12:00 HKT",
+  "updated_at": "2026-07-08 11:26 HKT",
   "routes": [
     {
       "key": "HKG_TPE",
@@ -32,8 +32,8 @@
         },
         {
           "month": "2026-10",
-          "price": 1289,
-          "date": "2026-10-14",
+          "price": 1220,
+          "date": "2026-10-24",
           "airline": "香港快運",
           "is_cheapest": false
         },
@@ -42,6 +42,13 @@
           "price": 1324,
           "date": "2026-11-22",
           "airline": "香港快運",
+          "is_cheapest": false
+        },
+        {
+          "month": "2026-12",
+          "price": 2217,
+          "date": "2026-12-26",
+          "airline": "長榮",
           "is_cheapest": false
         }
       ]
@@ -56,8 +63,8 @@
       "months": [
         {
           "month": "2026-07",
-          "price": 2413,
-          "date": "2026-07-23",
+          "price": 2803,
+          "date": "2026-07-17",
           "airline": "香港快運",
           "is_cheapest": false
         },
@@ -77,8 +84,8 @@
         },
         {
           "month": "2026-10",
-          "price": 1672,
-          "date": "2026-10-12",
+          "price": 1600,
+          "date": "2026-10-11",
           "airline": "香港快運",
           "is_cheapest": false
         },
@@ -167,17 +174,17 @@
         },
         {
           "month": "2026-10",
-          "price": 1578,
-          "date": "2026-10-17",
+          "price": 1333,
+          "date": "2026-10-15",
           "airline": "樂桃",
-          "is_cheapest": false
+          "is_cheapest": true
         },
         {
           "month": "2026-11",
-          "price": 1356,
-          "date": "2026-11-20",
-          "airline": "台灣虎航",
-          "is_cheapest": true
+          "price": 1673,
+          "date": "2026-11-07",
+          "airline": "樂桃",
+          "is_cheapest": false
         },
         {
           "month": "2026-12",
@@ -200,13 +207,6 @@
           "month": "2026-07",
           "price": 2437,
           "date": "2026-07-17",
-          "airline": "香港快運",
-          "is_cheapest": false
-        },
-        {
-          "month": "2026-09",
-          "price": 1459,
-          "date": "2026-09-13",
           "airline": "香港快運",
           "is_cheapest": true
         }
@@ -243,11 +243,6 @@
         "code": "SYX"
       },
       {
-        "price": 1158,
-        "name": "北京",
-        "code": "BJS"
-      },
-      {
         "price": 1192,
         "name": "台北",
         "code": "TPE"
@@ -256,11 +251,16 @@
         "price": 1305,
         "name": "台中",
         "code": "RMQ"
+      },
+      {
+        "price": 1363,
+        "name": "峴港",
+        "code": "DAD"
       }
     ],
     "TPE": [
       {
-        "price": 1303,
+        "price": 1278,
         "name": "曼谷",
         "code": "BKK"
       },
