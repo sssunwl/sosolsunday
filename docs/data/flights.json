@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-07-08 11:26 HKT",
+  "updated_at": "2026-07-09 11:54 HKT",
   "routes": [
     {
       "key": "HKG_TPE",
@@ -25,8 +25,8 @@
         },
         {
           "month": "2026-09",
-          "price": 1185,
-          "date": "2026-09-09",
+          "price": 1173,
+          "date": "2026-09-10",
           "airline": "香港快運",
           "is_cheapest": true
         },
@@ -63,21 +63,21 @@
       "months": [
         {
           "month": "2026-07",
-          "price": 2803,
+          "price": 2369,
           "date": "2026-07-17",
           "airline": "香港快運",
           "is_cheapest": false
         },
         {
           "month": "2026-08",
-          "price": 2148,
+          "price": 2007,
           "date": "2026-08-16",
           "airline": "香港快運",
           "is_cheapest": false
         },
         {
           "month": "2026-09",
-          "price": 1445,
+          "price": 1434,
           "date": "2026-09-08",
           "airline": "香港快運",
           "is_cheapest": true
@@ -180,35 +180,11 @@
           "is_cheapest": true
         },
         {
-          "month": "2026-11",
-          "price": 1673,
-          "date": "2026-11-07",
-          "airline": "樂桃",
-          "is_cheapest": false
-        },
-        {
           "month": "2026-12",
-          "price": 1641,
+          "price": 1544,
           "date": "2026-12-19",
           "airline": "樂桃",
           "is_cheapest": false
-        }
-      ]
-    },
-    {
-      "key": "OKA_HKG",
-      "origin": "OKA",
-      "dest": "HKG",
-      "origin_name": "沖繩",
-      "dest_name": "香港",
-      "flag": "🇯🇵→🇭🇰",
-      "months": [
-        {
-          "month": "2026-07",
-          "price": 2437,
-          "date": "2026-07-17",
-          "airline": "香港快運",
-          "is_cheapest": true
         }
       ]
     },
@@ -248,14 +224,14 @@
         "code": "TPE"
       },
       {
-        "price": 1305,
-        "name": "台中",
-        "code": "RMQ"
-      },
-      {
-        "price": 1363,
+        "price": 1358,
         "name": "峴港",
         "code": "DAD"
+      },
+      {
+        "price": 1384,
+        "name": "上海",
+        "code": "SHA"
       }
     ],
     "TPE": [
@@ -275,14 +251,14 @@
         "code": "TAE"
       },
       {
-        "price": 1528,
+        "price": 1549,
         "name": "馬尼拉",
         "code": "MNL"
       },
       {
-        "price": 1571,
-        "name": "首爾",
-        "code": "SEL"
+        "price": 1687,
+        "name": "釜山",
+        "code": "PUS"
       }
     ]
   }
