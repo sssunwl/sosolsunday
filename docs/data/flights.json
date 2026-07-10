@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-07-09 11:54 HKT",
+  "updated_at": "2026-07-10 11:55 HKT",
   "routes": [
     {
       "key": "HKG_TPE",
@@ -11,9 +11,9 @@
       "months": [
         {
           "month": "2026-07",
-          "price": 1192,
-          "date": "2026-07-27",
-          "airline": "香港快運",
+          "price": 1197,
+          "date": "2026-07-15",
+          "airline": "北部灣航空",
           "is_cheapest": false
         },
         {
@@ -39,9 +39,9 @@
         },
         {
           "month": "2026-11",
-          "price": 1324,
-          "date": "2026-11-22",
-          "airline": "香港快運",
+          "price": 1304,
+          "date": "2026-11-24",
+          "airline": "北部灣航空",
           "is_cheapest": false
         },
         {
@@ -77,7 +77,7 @@
         },
         {
           "month": "2026-09",
-          "price": 1434,
+          "price": 1433,
           "date": "2026-09-08",
           "airline": "香港快運",
           "is_cheapest": true
@@ -91,8 +91,8 @@
         },
         {
           "month": "2026-11",
-          "price": 1502,
-          "date": "2026-11-22",
+          "price": 1812,
+          "date": "2026-11-05",
           "airline": "香港快運",
           "is_cheapest": false
         }
@@ -115,10 +115,10 @@
         },
         {
           "month": "2026-08",
-          "price": 1216,
+          "price": 1398,
           "date": "2026-08-17",
           "airline": "香港快運",
-          "is_cheapest": true
+          "is_cheapest": false
         },
         {
           "month": "2026-09",
@@ -132,7 +132,7 @@
           "price": 1233,
           "date": "2026-10-29",
           "airline": "香港快運",
-          "is_cheapest": false
+          "is_cheapest": true
         },
         {
           "month": "2026-11",
@@ -160,9 +160,9 @@
         },
         {
           "month": "2026-08",
-          "price": 1498,
-          "date": "2026-08-30",
-          "airline": "SL",
+          "price": 1550,
+          "date": "2026-08-27",
+          "airline": "樂桃",
           "is_cheapest": false
         },
         {
@@ -214,17 +214,17 @@
         "code": "MNL"
       },
       {
-        "price": 1128,
-        "name": "三亞",
-        "code": "SYX"
-      },
-      {
-        "price": 1192,
+        "price": 1197,
         "name": "台北",
         "code": "TPE"
       },
       {
-        "price": 1358,
+        "price": 1272,
+        "name": "三亞",
+        "code": "SYX"
+      },
+      {
+        "price": 1357,
         "name": "峴港",
         "code": "DAD"
       },
@@ -236,7 +236,7 @@
     ],
     "TPE": [
       {
-        "price": 1278,
+        "price": 1238,
         "name": "曼谷",
         "code": "BKK"
       },
@@ -251,14 +251,14 @@
         "code": "TAE"
       },
       {
-        "price": 1549,
+        "price": 1548,
         "name": "馬尼拉",
         "code": "MNL"
       },
       {
-        "price": 1687,
-        "name": "釜山",
-        "code": "PUS"
+        "price": 1642,
+        "name": "新加坡",
+        "code": "SIN"
       }
     ]
   }
