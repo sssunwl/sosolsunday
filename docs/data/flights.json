@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-07-10 11:55 HKT",
+  "updated_at": "2026-07-11 11:21 HKT",
   "routes": [
     {
       "key": "HKG_TPE",
@@ -18,8 +18,8 @@
         },
         {
           "month": "2026-08",
-          "price": 1277,
-          "date": "2026-08-06",
+          "price": 1294,
+          "date": "2026-08-17",
           "airline": "香港快運",
           "is_cheapest": false
         },
@@ -111,33 +111,26 @@
           "price": 1312,
           "date": "2026-07-20",
           "airline": "香港快運",
-          "is_cheapest": false
+          "is_cheapest": true
         },
         {
           "month": "2026-08",
-          "price": 1398,
-          "date": "2026-08-17",
-          "airline": "香港快運",
-          "is_cheapest": false
-        },
-        {
-          "month": "2026-09",
-          "price": 1870,
-          "date": "2026-09-25",
+          "price": 1324,
+          "date": "2026-08-14",
           "airline": "香港快運",
           "is_cheapest": false
         },
         {
           "month": "2026-10",
-          "price": 1233,
-          "date": "2026-10-29",
-          "airline": "香港快運",
-          "is_cheapest": true
+          "price": 1732,
+          "date": "2026-10-24",
+          "airline": "國泰",
+          "is_cheapest": false
         },
         {
           "month": "2026-11",
-          "price": 1351,
-          "date": "2026-11-01",
+          "price": 1354,
+          "date": "2026-11-30",
           "airline": "香港快運",
           "is_cheapest": false
         }
@@ -153,9 +146,9 @@
       "months": [
         {
           "month": "2026-07",
-          "price": 1931,
-          "date": "2026-07-21",
-          "airline": "樂桃",
+          "price": 2155,
+          "date": "2026-07-25",
+          "airline": "VietJet",
           "is_cheapest": false
         },
         {
@@ -181,7 +174,7 @@
         },
         {
           "month": "2026-12",
-          "price": 1544,
+          "price": 1527,
           "date": "2026-12-19",
           "airline": "樂桃",
           "is_cheapest": false
@@ -219,6 +212,11 @@
         "code": "TPE"
       },
       {
+        "price": 1262,
+        "name": "CRK",
+        "code": "CRK"
+      },
+      {
         "price": 1272,
         "name": "三亞",
         "code": "SYX"
@@ -227,11 +225,6 @@
         "price": 1357,
         "name": "峴港",
         "code": "DAD"
-      },
-      {
-        "price": 1384,
-        "name": "上海",
-        "code": "SHA"
       }
     ],
     "TPE": [
