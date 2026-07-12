@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-07-11 11:21 HKT",
+  "updated_at": "2026-07-12 11:33 HKT",
   "routes": [
     {
       "key": "HKG_TPE",
@@ -18,8 +18,8 @@
         },
         {
           "month": "2026-08",
-          "price": 1294,
-          "date": "2026-08-17",
+          "price": 1202,
+          "date": "2026-08-15",
           "airline": "香港快運",
           "is_cheapest": false
         },
@@ -77,7 +77,7 @@
         },
         {
           "month": "2026-09",
-          "price": 1433,
+          "price": 1442,
           "date": "2026-09-08",
           "airline": "香港快運",
           "is_cheapest": true
@@ -111,7 +111,7 @@
           "price": 1312,
           "date": "2026-07-20",
           "airline": "香港快運",
-          "is_cheapest": true
+          "is_cheapest": false
         },
         {
           "month": "2026-08",
@@ -121,11 +121,18 @@
           "is_cheapest": false
         },
         {
-          "month": "2026-10",
-          "price": 1732,
-          "date": "2026-10-24",
-          "airline": "國泰",
+          "month": "2026-09",
+          "price": 1229,
+          "date": "2026-09-08",
+          "airline": "香港快運",
           "is_cheapest": false
+        },
+        {
+          "month": "2026-10",
+          "price": 1087,
+          "date": "2026-10-02",
+          "airline": "香港快運",
+          "is_cheapest": true
         },
         {
           "month": "2026-11",
@@ -160,9 +167,9 @@
         },
         {
           "month": "2026-09",
-          "price": 1411,
-          "date": "2026-09-19",
-          "airline": "台灣虎航",
+          "price": 1529,
+          "date": "2026-09-07",
+          "airline": "樂桃",
           "is_cheapest": false
         },
         {
@@ -222,7 +229,7 @@
         "code": "SYX"
       },
       {
-        "price": 1357,
+        "price": 1361,
         "name": "峴港",
         "code": "DAD"
       }
@@ -239,14 +246,14 @@
         "code": "HKG"
       },
       {
+        "price": 1420,
+        "name": "馬尼拉",
+        "code": "MNL"
+      },
+      {
         "price": 1500,
         "name": "TAE",
         "code": "TAE"
-      },
-      {
-        "price": 1548,
-        "name": "馬尼拉",
-        "code": "MNL"
       },
       {
         "price": 1642,
