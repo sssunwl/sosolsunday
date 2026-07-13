@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-07-12 11:33 HKT",
+  "updated_at": "2026-07-13 11:36 HKT",
   "routes": [
     {
       "key": "HKG_TPE",
@@ -70,7 +70,7 @@
         },
         {
           "month": "2026-08",
-          "price": 2007,
+          "price": 1990,
           "date": "2026-08-16",
           "airline": "香港快運",
           "is_cheapest": false
@@ -153,8 +153,8 @@
       "months": [
         {
           "month": "2026-07",
-          "price": 2155,
-          "date": "2026-07-25",
+          "price": 2226,
+          "date": "2026-07-21",
           "airline": "VietJet",
           "is_cheapest": false
         },
@@ -187,23 +187,6 @@
           "is_cheapest": false
         }
       ]
-    },
-    {
-      "key": "OKA_TPE",
-      "origin": "OKA",
-      "dest": "TPE",
-      "origin_name": "沖繩",
-      "dest_name": "台北",
-      "flag": "🇯🇵→🇹🇼",
-      "months": [
-        {
-          "month": "2026-08",
-          "price": 1839,
-          "date": "2026-08-12",
-          "airline": "樂桃",
-          "is_cheapest": true
-        }
-      ]
     }
   ],
   "destinations": {
@@ -224,17 +207,22 @@
         "code": "CRK"
       },
       {
-        "price": 1272,
-        "name": "三亞",
-        "code": "SYX"
-      },
-      {
         "price": 1361,
         "name": "峴港",
         "code": "DAD"
+      },
+      {
+        "price": 1386,
+        "name": "曼谷",
+        "code": "BKK"
       }
     ],
     "TPE": [
+      {
+        "price": 1018,
+        "name": "TTT",
+        "code": "TTT"
+      },
       {
         "price": 1238,
         "name": "曼谷",
@@ -251,12 +239,7 @@
         "code": "MNL"
       },
       {
-        "price": 1500,
-        "name": "TAE",
-        "code": "TAE"
-      },
-      {
-        "price": 1642,
+        "price": 1617,
         "name": "新加坡",
         "code": "SIN"
       }
