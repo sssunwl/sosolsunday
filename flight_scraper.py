@@ -1,14 +1,16 @@
 import json
 import os
 import requests
+import statistics
 from datetime import datetime, timedelta, timezone
 
-TELEGRAM_BOT_TOKEN = os.environ["TELEGRAM_BOT_TOKEN"]
-TELEGRAM_CHAT_ID   = os.environ["TELEGRAM_CHAT_ID"]
-TP_TOKEN           = os.environ["TRAVELPAYOUTS_TOKEN"].strip()
-LITEAPI_KEY        = os.environ["LITEAPI_KEY"].strip()
-
 HKT = timezone(timedelta(hours=8))
+FLIGHT_HISTORY_PATH = "data/history/flights.ndjson"
+
+
+def required_env(name: str) -> str:
+    """Read a required secret only when a network operation needs it."""
+    return os.environ[name]
 
 # ── 航線設定 ───────────────────────────────────────────────────────────────
 
@@ -99,12 +101,13 @@ def hotel_name_cn(name: str) -> str:
 
 def cheapest_6months(origin: str, dest: str) -> dict:
     today = datetime.now(HKT)
+    tp_token = required_env("TRAVELPAYOUTS_TOKEN").strip()
     results = {}
     for i in range(6):
         month = (today.replace(day=1) + timedelta(days=32 * i)).strftime("%Y-%m")
         url = (f"https://api.travelpayouts.com/v1/prices/cheap"
                f"?origin={origin}&destination={dest}&depart_date={month}"
-               f"&currency=hkd&token={TP_TOKEN}")
+               f"&currency=hkd&token={tp_token}")
         try:
             r = requests.get(url, timeout=10)
             if not r.ok or not r.text.strip():
@@ -115,10 +118,14 @@ def cheapest_6months(origin: str, dest: str) -> dict:
                     for _, item in transfers.items():
                         p = item["price"]
                         if month not in results or p < results[month]["price"]:
+                            return_at = item.get("return_at")
                             results[month] = {
-                                "price":   p,
-                                "date":    item["departure_at"][:10],
-                                "airline": AIRLINE.get(item["airline"], item["airline"]),
+                                "price":        p,
+                                "date":         item["departure_at"][:10],
+                                "return_at":    return_at[:10] if return_at else None,
+                                "airline":      AIRLINE.get(item["airline"], item["airline"]),
+                                "airline_code": item["airline"],
+                                "is_round_trip": False,
                             }
         except Exception as e:
             print(f"  TP {origin}→{dest} {month}: {e}")
@@ -127,8 +134,9 @@ def cheapest_6months(origin: str, dest: str) -> dict:
 
 def cheapest_destinations(origin: str, top: int = 5) -> list:
     month = datetime.now(HKT).strftime("%Y-%m")
+    tp_token = required_env("TRAVELPAYOUTS_TOKEN").strip()
     url = (f"https://api.travelpayouts.com/v1/prices/cheap"
-           f"?origin={origin}&currency=hkd&token={TP_TOKEN}"
+           f"?origin={origin}&currency=hkd&token={tp_token}"
            f"&depart_date={month}&limit=15")
     items = []
     try:
@@ -158,7 +166,7 @@ def get_hotels(country: str, city: str) -> list:
         r = requests.get(
             f"https://api.liteapi.travel/v3.0/data/hotels"
             f"?countryCode={country}&cityName={city}&starRating=4&limit=8",
-            headers={"X-API-Key": LITEAPI_KEY},
+            headers={"X-API-Key": required_env("LITEAPI_KEY").strip()},
             timeout=15,
         )
         hotels = r.json().get("data", []) if r.ok else []
@@ -175,7 +183,7 @@ def get_rates(hotel_ids: list, hotel_map: dict, checkin: str, checkout: str, top
     try:
         r = requests.post(
             "https://api.liteapi.travel/v3.0/hotels/rates",
-            headers={"X-API-Key": LITEAPI_KEY, "Content-Type": "application/json"},
+            headers={"X-API-Key": required_env("LITEAPI_KEY").strip(), "Content-Type": "application/json"},
             json={
                 "hotelIds": hotel_ids,
                 "checkin": checkin,
@@ -222,12 +230,149 @@ def next_3_weekends() -> list:
     return weekends
 
 
+# ── Flight history and baseline ───────────────────────────────────────────
+
+def _round_half_up(value: float) -> int:
+    """Round halves away from zero, matching 四捨五入 semantics."""
+    return int(value + 0.5) if value >= 0 else int(value - 0.5)
+
+
+def calculate_baseline(historical_prices: list, current_price: int) -> dict:
+    """Calculate a 90-day price baseline without performing any I/O."""
+    prices = list(historical_prices)
+    samples = len(prices)
+    baseline = {
+        "n_days": 90,
+        "samples": samples,
+        "median": None,
+        "p10": None,
+        "min": None,
+        "max": None,
+        "percentile": None,
+        "vs_median_pct": None,
+        "verdict": "unknown",
+    }
+    if not prices:
+        return baseline
+
+    median = statistics.median(prices)
+    p10 = prices[0] if samples == 1 else statistics.quantiles(
+        prices, n=10, method="inclusive"
+    )[0]
+    percentile = _round_half_up(
+        sum(price < current_price for price in prices) / samples * 100
+    )
+    vs_median_pct = (
+        _round_half_up((current_price - median) / median * 100)
+        if median else None
+    )
+
+    if samples < 14:
+        verdict = "unknown"
+    elif percentile <= 10:
+        verdict = "great"
+    elif percentile <= 30:
+        verdict = "good"
+    elif percentile <= 70:
+        verdict = "normal"
+    else:
+        verdict = "high"
+
+    baseline.update({
+        "median": median,
+        "p10": p10,
+        "min": min(prices),
+        "max": max(prices),
+        "percentile": percentile,
+        "vs_median_pct": vs_median_pct,
+        "verdict": verdict,
+    })
+    return baseline
+
+
+def write_flight_history(flight_data: dict, scrape_date=None,
+                         path: str = FLIGHT_HISTORY_PATH) -> None:
+    """Upsert scraped fares by (date, origin, destination, month)."""
+    scrape_date = scrape_date or datetime.now(HKT).date()
+    scrape_date_str = scrape_date.isoformat()
+    records = {}
+
+    if os.path.exists(path):
+        with open(path, encoding="utf-8") as history_file:
+            for line_number, line in enumerate(history_file, start=1):
+                if not line.strip():
+                    continue
+                try:
+                    record = json.loads(line)
+                    key = (record["d"], record["o"], record["dst"], record["m"])
+                except (json.JSONDecodeError, KeyError) as error:
+                    raise ValueError(
+                        f"Invalid flight history at {path}:{line_number}"
+                    ) from error
+                records[key] = record
+
+    for (origin, dest), monthly_fares in flight_data.items():
+        for month, fare in monthly_fares.items():
+            record = {
+                "d": scrape_date_str,
+                "o": origin,
+                "dst": dest,
+                "m": month,
+                "p": fare["price"],
+                "dep": fare["date"],
+                "ret": fare.get("return_at"),
+                "al": fare["airline_code"],
+                "rt": fare.get("is_round_trip", False),
+            }
+            records[(scrape_date_str, origin, dest, month)] = record
+
+    directory = os.path.dirname(path)
+    if directory:
+        os.makedirs(directory, exist_ok=True)
+    temporary_path = f"{path}.tmp"
+    with open(temporary_path, "w", encoding="utf-8") as history_file:
+        for record in records.values():
+            history_file.write(json.dumps(
+                record, ensure_ascii=False, separators=(",", ":")
+            ) + "\n")
+    os.replace(temporary_path, path)
+
+
+def load_recent_flight_prices(as_of_date=None,
+                              path: str = FLIGHT_HISTORY_PATH) -> dict:
+    """Group prices whose HKT scrape date is in [as_of_date - 90, as_of_date]."""
+    as_of_date = as_of_date or datetime.now(HKT).date()
+    cutoff = as_of_date - timedelta(days=90)
+    grouped = {}
+    if not os.path.exists(path):
+        return grouped
+
+    with open(path, encoding="utf-8") as history_file:
+        for line_number, line in enumerate(history_file, start=1):
+            if not line.strip():
+                continue
+            try:
+                record = json.loads(line)
+                record_date = datetime.strptime(record["d"], "%Y-%m-%d").date()
+                key = (record["o"], record["dst"], record["m"])
+                price = record["p"]
+            except (json.JSONDecodeError, KeyError, TypeError, ValueError) as error:
+                raise ValueError(
+                    f"Invalid flight history at {path}:{line_number}"
+                ) from error
+            if cutoff <= record_date <= as_of_date:
+                grouped.setdefault(key, []).append(price)
+    return grouped
+
+
 # ── JSON export ────────────────────────────────────────────────────────────
 
 def write_json_files(flight_data: dict, destinations: dict,
-                     hotel_all: list, weekends: list) -> None:
+                     hotel_all: list, weekends: list,
+                     flight_history: dict = None) -> None:
     os.makedirs("docs/data", exist_ok=True)
     now_str = datetime.now(HKT).strftime("%Y-%m-%d %H:%M HKT")
+    flight_history = flight_history or {}
 
     # flights.json
     routes_json = []
@@ -243,6 +388,11 @@ def write_json_files(flight_data: dict, destinations: dict,
                 "date":        data[m]["date"],
                 "airline":     data[m]["airline"],
                 "is_cheapest": data[m]["price"] == best_price,
+                "return_date": None,
+                "is_round_trip": False,
+                "baseline": calculate_baseline(
+                    flight_history.get((origin, dest, m), []), data[m]["price"]
+                ),
             }
             for m in sorted(data)
         ]
@@ -362,8 +512,12 @@ def build_hotels_msg(hotel_all: list, weekends: list) -> str:
 
 def send_telegram(text: str) -> bool:
     r = requests.post(
-        f"https://api.telegram.org/bot{TELEGRAM_BOT_TOKEN}/sendMessage",
-        json={"chat_id": TELEGRAM_CHAT_ID, "text": text, "parse_mode": "HTML"},
+        f"https://api.telegram.org/bot{required_env('TELEGRAM_BOT_TOKEN')}/sendMessage",
+        json={
+            "chat_id": required_env("TELEGRAM_CHAT_ID"),
+            "text": text,
+            "parse_mode": "HTML",
+        },
         timeout=10,
     )
     if not r.ok:
@@ -374,12 +528,19 @@ def send_telegram(text: str) -> bool:
 # ── Main ───────────────────────────────────────────────────────────────────
 
 def main():
+    scrape_date = datetime.now(HKT).date()
+
     # Flights
     print("✈️  拉機票...")
     flight_data = {}
     for origin, dest, _, _ in ROUTES:
         print(f"  {origin}→{dest}")
         flight_data[(origin, dest)] = cheapest_6months(origin, dest)
+
+    # Upsert history before calculating the published baseline, so today's
+    # observation is included once in the current 90-day window.
+    write_flight_history(flight_data, scrape_date)
+    flight_history = load_recent_flight_prices(scrape_date)
 
     print("🔍  拉最便宜目的地...")
     destinations = {}
@@ -407,7 +568,9 @@ def main():
         hotel_all.append((city_label, city_key, per_weekend))
 
     # Write JSON for website
-    write_json_files(flight_data, destinations, hotel_all, weekends)
+    write_json_files(
+        flight_data, destinations, hotel_all, weekends, flight_history
+    )
 
     # Send Telegram
     msg1 = build_flights_msg(flight_data, destinations)

@@ -14,35 +14,100 @@
           "price": 1343,
           "date": "2026-09-15",
           "airline": "香港快運",
-          "is_cheapest": false
+          "is_cheapest": false,
+          "return_date": null,
+          "is_round_trip": false,
+          "baseline": {
+            "n_days": 90,
+            "samples": 0,
+            "median": null,
+            "p10": null,
+            "min": null,
+            "max": null,
+            "percentile": null,
+            "vs_median_pct": null,
+            "verdict": "unknown"
+          }
         },
         {
           "month": "2026-10",
           "price": 1368,
           "date": "2026-10-08",
           "airline": "香港快運",
-          "is_cheapest": false
+          "is_cheapest": false,
+          "return_date": null,
+          "is_round_trip": false,
+          "baseline": {
+            "n_days": 90,
+            "samples": 0,
+            "median": null,
+            "p10": null,
+            "min": null,
+            "max": null,
+            "percentile": null,
+            "vs_median_pct": null,
+            "verdict": "unknown"
+          }
         },
         {
           "month": "2026-11",
           "price": 1302,
           "date": "2026-11-12",
           "airline": "北部灣航空",
-          "is_cheapest": true
+          "is_cheapest": true,
+          "return_date": null,
+          "is_round_trip": false,
+          "baseline": {
+            "n_days": 90,
+            "samples": 0,
+            "median": null,
+            "p10": null,
+            "min": null,
+            "max": null,
+            "percentile": null,
+            "vs_median_pct": null,
+            "verdict": "unknown"
+          }
         },
         {
           "month": "2026-12",
           "price": 1302,
           "date": "2026-12-02",
           "airline": "北部灣航空",
-          "is_cheapest": true
+          "is_cheapest": true,
+          "return_date": null,
+          "is_round_trip": false,
+          "baseline": {
+            "n_days": 90,
+            "samples": 0,
+            "median": null,
+            "p10": null,
+            "min": null,
+            "max": null,
+            "percentile": null,
+            "vs_median_pct": null,
+            "verdict": "unknown"
+          }
         },
         {
           "month": "2027-01",
           "price": 1359,
           "date": "2027-01-25",
           "airline": "香港快運",
-          "is_cheapest": false
+          "is_cheapest": false,
+          "return_date": null,
+          "is_round_trip": false,
+          "baseline": {
+            "n_days": 90,
+            "samples": 0,
+            "median": null,
+            "p10": null,
+            "min": null,
+            "max": null,
+            "percentile": null,
+            "vs_median_pct": null,
+            "verdict": "unknown"
+          }
         }
       ]
     },
@@ -59,28 +124,80 @@
           "price": 1618,
           "date": "2026-09-14",
           "airline": "香港快運",
-          "is_cheapest": false
+          "is_cheapest": false,
+          "return_date": null,
+          "is_round_trip": false,
+          "baseline": {
+            "n_days": 90,
+            "samples": 0,
+            "median": null,
+            "p10": null,
+            "min": null,
+            "max": null,
+            "percentile": null,
+            "vs_median_pct": null,
+            "verdict": "unknown"
+          }
         },
         {
           "month": "2026-10",
           "price": 1616,
           "date": "2026-10-19",
           "airline": "香港快運",
-          "is_cheapest": true
+          "is_cheapest": true,
+          "return_date": null,
+          "is_round_trip": false,
+          "baseline": {
+            "n_days": 90,
+            "samples": 0,
+            "median": null,
+            "p10": null,
+            "min": null,
+            "max": null,
+            "percentile": null,
+            "vs_median_pct": null,
+            "verdict": "unknown"
+          }
         },
         {
           "month": "2026-12",
           "price": 2775,
           "date": "2026-12-31",
           "airline": "香港航空",
-          "is_cheapest": false
+          "is_cheapest": false,
+          "return_date": null,
+          "is_round_trip": false,
+          "baseline": {
+            "n_days": 90,
+            "samples": 0,
+            "median": null,
+            "p10": null,
+            "min": null,
+            "max": null,
+            "percentile": null,
+            "vs_median_pct": null,
+            "verdict": "unknown"
+          }
         },
         {
           "month": "2027-02",
           "price": 2163,
           "date": "2027-02-15",
           "airline": "香港快運",
-          "is_cheapest": false
+          "is_cheapest": false,
+          "return_date": null,
+          "is_round_trip": false,
+          "baseline": {
+            "n_days": 90,
+            "samples": 0,
+            "median": null,
+            "p10": null,
+            "min": null,
+            "max": null,
+            "percentile": null,
+            "vs_median_pct": null,
+            "verdict": "unknown"
+          }
         }
       ]
     },
@@ -97,35 +214,100 @@
           "price": 1405,
           "date": "2026-09-10",
           "airline": "香港快運",
-          "is_cheapest": false
+          "is_cheapest": false,
+          "return_date": null,
+          "is_round_trip": false,
+          "baseline": {
+            "n_days": 90,
+            "samples": 0,
+            "median": null,
+            "p10": null,
+            "min": null,
+            "max": null,
+            "percentile": null,
+            "vs_median_pct": null,
+            "verdict": "unknown"
+          }
         },
         {
           "month": "2026-10",
           "price": 1278,
           "date": "2026-10-27",
           "airline": "香港快運",
-          "is_cheapest": true
+          "is_cheapest": true,
+          "return_date": null,
+          "is_round_trip": false,
+          "baseline": {
+            "n_days": 90,
+            "samples": 0,
+            "median": null,
+            "p10": null,
+            "min": null,
+            "max": null,
+            "percentile": null,
+            "vs_median_pct": null,
+            "verdict": "unknown"
+          }
         },
         {
           "month": "2026-11",
           "price": 1294,
           "date": "2026-11-12",
           "airline": "香港快運",
-          "is_cheapest": false
+          "is_cheapest": false,
+          "return_date": null,
+          "is_round_trip": false,
+          "baseline": {
+            "n_days": 90,
+            "samples": 0,
+            "median": null,
+            "p10": null,
+            "min": null,
+            "max": null,
+            "percentile": null,
+            "vs_median_pct": null,
+            "verdict": "unknown"
+          }
         },
         {
           "month": "2026-12",
           "price": 1982,
           "date": "2026-12-24",
           "airline": "JX",
-          "is_cheapest": false
+          "is_cheapest": false,
+          "return_date": null,
+          "is_round_trip": false,
+          "baseline": {
+            "n_days": 90,
+            "samples": 0,
+            "median": null,
+            "p10": null,
+            "min": null,
+            "max": null,
+            "percentile": null,
+            "vs_median_pct": null,
+            "verdict": "unknown"
+          }
         },
         {
           "month": "2027-01",
           "price": 2149,
           "date": "2027-01-30",
           "airline": "中華航空",
-          "is_cheapest": false
+          "is_cheapest": false,
+          "return_date": null,
+          "is_round_trip": false,
+          "baseline": {
+            "n_days": 90,
+            "samples": 0,
+            "median": null,
+            "p10": null,
+            "min": null,
+            "max": null,
+            "percentile": null,
+            "vs_median_pct": null,
+            "verdict": "unknown"
+          }
         }
       ]
     },
@@ -142,42 +324,120 @@
           "price": 1332,
           "date": "2026-09-08",
           "airline": "VietJet",
-          "is_cheapest": false
+          "is_cheapest": false,
+          "return_date": null,
+          "is_round_trip": false,
+          "baseline": {
+            "n_days": 90,
+            "samples": 0,
+            "median": null,
+            "p10": null,
+            "min": null,
+            "max": null,
+            "percentile": null,
+            "vs_median_pct": null,
+            "verdict": "unknown"
+          }
         },
         {
           "month": "2026-10",
           "price": 1325,
           "date": "2026-10-27",
           "airline": "台灣虎航",
-          "is_cheapest": false
+          "is_cheapest": false,
+          "return_date": null,
+          "is_round_trip": false,
+          "baseline": {
+            "n_days": 90,
+            "samples": 0,
+            "median": null,
+            "p10": null,
+            "min": null,
+            "max": null,
+            "percentile": null,
+            "vs_median_pct": null,
+            "verdict": "unknown"
+          }
         },
         {
           "month": "2026-11",
           "price": 1381,
           "date": "2026-11-09",
           "airline": "樂桃",
-          "is_cheapest": false
+          "is_cheapest": false,
+          "return_date": null,
+          "is_round_trip": false,
+          "baseline": {
+            "n_days": 90,
+            "samples": 0,
+            "median": null,
+            "p10": null,
+            "min": null,
+            "max": null,
+            "percentile": null,
+            "vs_median_pct": null,
+            "verdict": "unknown"
+          }
         },
         {
           "month": "2026-12",
           "price": 1168,
           "date": "2026-12-09",
           "airline": "台灣虎航",
-          "is_cheapest": true
+          "is_cheapest": true,
+          "return_date": null,
+          "is_round_trip": false,
+          "baseline": {
+            "n_days": 90,
+            "samples": 0,
+            "median": null,
+            "p10": null,
+            "min": null,
+            "max": null,
+            "percentile": null,
+            "vs_median_pct": null,
+            "verdict": "unknown"
+          }
         },
         {
           "month": "2027-01",
           "price": 1207,
           "date": "2027-01-05",
           "airline": "樂桃",
-          "is_cheapest": false
+          "is_cheapest": false,
+          "return_date": null,
+          "is_round_trip": false,
+          "baseline": {
+            "n_days": 90,
+            "samples": 0,
+            "median": null,
+            "p10": null,
+            "min": null,
+            "max": null,
+            "percentile": null,
+            "vs_median_pct": null,
+            "verdict": "unknown"
+          }
         },
         {
           "month": "2027-02",
           "price": 1685,
           "date": "2027-02-24",
           "airline": "樂桃",
-          "is_cheapest": false
+          "is_cheapest": false,
+          "return_date": null,
+          "is_round_trip": false,
+          "baseline": {
+            "n_days": 90,
+            "samples": 0,
+            "median": null,
+            "p10": null,
+            "min": null,
+            "max": null,
+            "percentile": null,
+            "vs_median_pct": null,
+            "verdict": "unknown"
+          }
         }
       ]
     },
@@ -194,14 +454,40 @@
           "price": 1584,
           "date": "2026-09-10",
           "airline": "香港快運",
-          "is_cheapest": true
+          "is_cheapest": true,
+          "return_date": null,
+          "is_round_trip": false,
+          "baseline": {
+            "n_days": 90,
+            "samples": 0,
+            "median": null,
+            "p10": null,
+            "min": null,
+            "max": null,
+            "percentile": null,
+            "vs_median_pct": null,
+            "verdict": "unknown"
+          }
         },
         {
           "month": "2026-10",
           "price": 1618,
           "date": "2026-10-14",
           "airline": "香港快運",
-          "is_cheapest": false
+          "is_cheapest": false,
+          "return_date": null,
+          "is_round_trip": false,
+          "baseline": {
+            "n_days": 90,
+            "samples": 0,
+            "median": null,
+            "p10": null,
+            "min": null,
+            "max": null,
+            "percentile": null,
+            "vs_median_pct": null,
+            "verdict": "unknown"
+          }
         }
       ]
     },
@@ -218,21 +504,60 @@
           "price": 1860,
           "date": "2026-09-17",
           "airline": "台灣虎航",
-          "is_cheapest": false
+          "is_cheapest": false,
+          "return_date": null,
+          "is_round_trip": false,
+          "baseline": {
+            "n_days": 90,
+            "samples": 0,
+            "median": null,
+            "p10": null,
+            "min": null,
+            "max": null,
+            "percentile": null,
+            "vs_median_pct": null,
+            "verdict": "unknown"
+          }
         },
         {
           "month": "2026-11",
           "price": 1408,
           "date": "2026-11-15",
           "airline": "樂桃",
-          "is_cheapest": true
+          "is_cheapest": true,
+          "return_date": null,
+          "is_round_trip": false,
+          "baseline": {
+            "n_days": 90,
+            "samples": 0,
+            "median": null,
+            "p10": null,
+            "min": null,
+            "max": null,
+            "percentile": null,
+            "vs_median_pct": null,
+            "verdict": "unknown"
+          }
         },
         {
           "month": "2027-01",
           "price": 1499,
           "date": "2027-01-06",
           "airline": "樂桃",
-          "is_cheapest": false
+          "is_cheapest": false,
+          "return_date": null,
+          "is_round_trip": false,
+          "baseline": {
+            "n_days": 90,
+            "samples": 0,
+            "median": null,
+            "p10": null,
+            "min": null,
+            "max": null,
+            "percentile": null,
+            "vs_median_pct": null,
+            "verdict": "unknown"
+          }
         }
       ]
     }
