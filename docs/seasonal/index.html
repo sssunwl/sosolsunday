@@ -5,106 +5,71 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>☀️</text></svg>">
   <title>季節限定 · SoSolsunday</title>
-  <style>
-    :root{
-      --navy:#1B2F4A;--gold:#C9A84C;--sand:#F2EDE6;
-      --white:#fff;--text:#1E2D3D;--muted:#6B7D90;
-      --green:#2D9B6F;--sh:0 2px 12px rgba(0,0,0,.08);
-    }
-    *{margin:0;padding:0;box-sizing:border-box}
-    body{font-family:-apple-system,'Helvetica Neue',sans-serif;background:var(--sand);color:var(--text);min-height:100vh}
-
-    .hdr{background:var(--navy);padding:13px 18px;display:flex;align-items:center;gap:12px;position:sticky;top:0;z-index:100}
-    .hdr-back{color:rgba(255,255,255,.6);font-size:13px;text-decoration:none}
-    .hdr-back:hover{color:var(--gold)}
-    .hdr-title{color:var(--gold);font-size:16px;font-weight:700;letter-spacing:.6px}
-    .hdr-logo{margin-left:auto;color:rgba(255,255,255,.3);font-size:11px;text-decoration:none}
-
-    .hero{background:linear-gradient(160deg,#1B2F4A 0%,#1E3A5F 55%,#243352 100%);padding:28px 20px 22px;text-align:center}
-    .hero h1{color:var(--gold);font-size:20px;font-weight:300;letter-spacing:3px;margin-bottom:6px}
-    .hero p{color:rgba(255,255,255,.5);font-size:12px;letter-spacing:.8px;line-height:1.6}
-
-    /* Month strip */
-    .month-strip{background:var(--white);border-bottom:1px solid rgba(0,0,0,.07);padding:10px 12px;display:flex;gap:5px;overflow-x:auto;scrollbar-width:none;position:sticky;top:44px;z-index:90}
-    .month-strip::-webkit-scrollbar{display:none}
-    .mbtn{flex-shrink:0;width:38px;height:38px;border-radius:50%;border:1.5px solid rgba(27,47,74,.15);background:none;color:var(--muted);font-size:11px;cursor:pointer;transition:all .2s;display:flex;align-items:center;justify-content:center;font-weight:500}
-    .mbtn.on{background:var(--navy);border-color:var(--navy);color:var(--gold);font-weight:700}
-    .mbtn.has-event{border-color:var(--navy);color:var(--navy)}
-    .mbtn.all{width:auto;padding:0 12px;border-radius:20px;font-size:11px}
-
-    /* Category filter */
-    .cat-strip{display:flex;gap:6px;padding:8px 12px 6px;overflow-x:auto;scrollbar-width:none}
-    .cat-strip::-webkit-scrollbar{display:none}
-    .cbtn{white-space:nowrap;padding:5px 11px;border-radius:16px;border:1.5px solid rgba(27,47,74,.2);background:none;color:var(--muted);font-size:11px;cursor:pointer;transition:all .2s}
-    .cbtn.on{background:var(--navy);border-color:var(--navy);color:var(--gold);font-weight:600}
-
-    /* Count badge */
-    .result-count{padding:5px 12px 2px;font-size:11px;color:var(--muted)}
-
-    /* ── 2-column card grid ── */
-    .events-list{padding:8px 12px 60px;display:grid;grid-template-columns:repeat(2,1fr);gap:10px;align-items:start}
-
-    .ev-card{background:var(--white);border-radius:12px;padding:11px;box-shadow:var(--sh);cursor:pointer;transition:transform .15s,box-shadow .15s;position:relative}
-    .ev-card:hover{transform:translateY(-2px);box-shadow:0 5px 18px rgba(0,0,0,.12)}
-    .ev-card.open{border:1.5px solid var(--navy)}
-
-    /* compact view */
-    .ev-icon{font-size:26px;display:block;margin-bottom:5px;line-height:1}
-    .ev-title{font-size:12px;font-weight:700;color:var(--navy);line-height:1.35;margin-bottom:3px}
-    .ev-period{font-size:10px;color:var(--gold);font-weight:600;margin-bottom:4px}
-    .ev-cat{display:inline-block;padding:2px 6px;border-radius:6px;background:#EEF2F7;color:var(--navy);font-size:9px;font-weight:700;margin-bottom:6px}
-    .ev-desc-short{font-size:10.5px;color:var(--muted);line-height:1.5;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;margin-bottom:6px}
-    .ev-price-row{display:flex;align-items:center;justify-content:space-between;margin-top:4px;padding-top:6px;border-top:1px solid rgba(0,0,0,.06)}
-    .ev-dest-mini{font-size:10px;color:var(--muted)}
-    .ev-price-mini{font-size:12px;font-weight:700;color:var(--green)}
-    .ev-expand-hint{font-size:9px;color:var(--muted);margin-top:4px;text-align:right;opacity:.7}
-
-    /* expanded detail (hidden by default) */
-    .ev-detail{display:none;margin-top:10px;border-top:1px solid rgba(0,0,0,.07);padding-top:10px}
-    .ev-card.open .ev-detail{display:block}
-    .ev-desc-full{font-size:11px;color:var(--muted);line-height:1.6;margin-bottom:8px}
-    .ev-tip{font-size:10.5px;color:#4A7A4A;background:#F0F7F0;border-radius:8px;padding:7px 9px;margin-bottom:8px;line-height:1.5}
-    .ev-tip::before{content:"💡 "}
-    .ev-dests{display:flex;flex-direction:column;gap:5px}
-    .ev-dest{background:var(--sand);border-radius:7px;padding:7px 9px;display:flex;align-items:center;justify-content:space-between;gap:6px}
-    .ev-dest-info{flex:1;min-width:0}
-    .ev-dest-city{font-size:11px;font-weight:600;color:var(--navy)}
-    .ev-dest-note{font-size:9.5px;color:var(--muted);margin-top:1px;line-height:1.3;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-    .ev-dest-price{font-size:12px;font-weight:700;color:var(--green);flex-shrink:0}
-    .ev-dest-link{font-size:9.5px;color:var(--navy);text-decoration:none;background:rgba(27,47,74,.1);padding:3px 7px;border-radius:6px;white-space:nowrap;flex-shrink:0}
-    .ev-dest-link:hover{background:var(--navy);color:var(--gold)}
-    .ev-tags{display:flex;gap:4px;flex-wrap:wrap;margin-top:7px}
-    .ev-tag{padding:2px 6px;border-radius:5px;background:#EEF2F7;color:var(--muted);font-size:9px}
-
-    .no-events{text-align:center;padding:48px 20px;color:var(--muted)}
-    .no-events .icon{font-size:40px;margin-bottom:12px}
-
-    footer{background:var(--navy);padding:16px 20px;text-align:center;color:rgba(255,255,255,.3);font-size:10.5px}
-    footer a{color:var(--gold);text-decoration:none}
-  </style>
+  <link rel="stylesheet" href="../assets/sosol.css">
+<link rel="stylesheet" href="../assets/palette-terracotta.css">
 </head>
 <body>
-
-<header class="hdr">
-  <a class="hdr-back" href="../">← 返回</a>
-  <div class="hdr-title">✨ 季節限定</div>
-  <a class="hdr-logo" href="../">☀ SoSolsunday</a>
-</header>
-
-<div class="hero">
-  <h1>季節限定</h1>
-  <p>花祭・鯨魚季・珊瑚產卵・雪祭<br>只有特定月份才能遇到的旅遊體驗</p>
+<a class="skip-link" href="#main">跳到主要內容</a>
+<div class="ocean-waves" aria-hidden="true">
+  <svg viewBox="0 0 2400 120" preserveAspectRatio="none">
+    <path class="ocean-wave-back" d="M0,70 C50,40 150,100 200,70 C250,40 350,100 400,70 C450,40 550,100 600,70 C650,40 750,100 800,70 C850,40 950,100 1000,70 C1050,40 1150,100 1200,70 C1250,40 1350,100 1400,70 C1450,40 1550,100 1600,70 C1650,40 1750,100 1800,70 C1850,40 1950,100 2000,70 C2050,40 2150,100 2200,70 C2250,40 2350,100 2400,70 L2400,120 L0,120 Z" fill="rgba(121,217,230,.5)"/>
+    <path class="ocean-wave-front" d="M0,86 C50,64 150,110 200,86 C250,64 350,110 400,86 C450,64 550,110 600,86 C650,64 750,110 800,86 C850,64 950,110 1000,86 C1050,64 1150,110 1200,86 C1250,64 1350,110 1400,86 C1450,64 1550,110 1600,86 C1650,64 1750,110 1800,86 C1850,64 1950,110 2000,86 C2050,64 2150,110 2200,86 C2250,64 2350,110 2400,86 L2400,120 L0,120 Z" fill="rgba(8,127,156,.42)"/>
+  </svg>
 </div>
 
-<div class="month-strip" id="month-strip"></div>
-<div class="cat-strip" id="cat-strip"></div>
-<div class="result-count" id="result-count"></div>
-<div class="events-list" id="events-list"><div class="no-events"><div class="icon">⏳</div>載入中…</div></div>
+<header class="site-header" id="hdr">
+  <div class="shell nav">
+    <a class="brand" href="../"><span class="brand-mark">☀</span> SoSolsunday</a>
+    <nav class="desktop-nav" aria-label="主要導覽">
+      <a href="../">首頁</a>
+      <a href="../#deals">機票・酒店</a>
+      <a href="../destinations/">目的地</a>
+      <a href="../seasonal/" aria-current="page">季節限定</a>
+      <a href="../calendar/">假期年曆</a>
+    </nav>
+    <div class="nav-actions">
+      <span class="pill" id="updPill"><span class="dot"></span>載入中</span>
+      <button class="icon-btn menu-btn" id="menuBtn" aria-label="選單" aria-controls="dropNav" aria-expanded="false">☰</button>
+    </div>
+  </div>
+  <nav class="drop-nav shell" id="dropNav" aria-label="手機導覽" hidden>
+    <a href="../">首頁</a>
+    <a href="../#deals">機票・酒店</a><a href="../destinations/">目的地</a>
+    <a href="../seasonal/" aria-current="page">季節限定</a><a href="../calendar/">假期年曆</a>
+  </nav>
+</header>
+<main id="main">
 
-<footer>
-  <a href="../">☀ SoSolsunday</a> · 旅遊優惠速報 &amp; 目的地指南
+<section class="hero page-hero"><div class="shell"><span class="eyebrow">Seasonal Experiences</span><h1>這個<span class="play">季節限定</span></h1><p class="hero-lead">花祭、鯨魚季、珊瑚產卵、雪祭——只在特定月份遇得到的旅行體驗。</p></div></section>
+
+<section class="section shell seasonal-section"><div class="section-head"><div><span class="eyebrow">Find your season</span><h2>跟著月份找靈感</h2><p>選擇月份與活動類型，展開卡片查看目的地與玩法。</p></div></div><div class="toggle month-strip" id="month-strip" aria-label="月份篩選"></div>
+<div class="toggle cat-strip" aria-label="活動分類" id="cat-strip"></div>
+<div class="result-count" id="result-count" role="status"></div>
+<div class="elist events-list" id="events-list"><div class="no-events"><div class="icon">⏳</div>載入中…</div></div>
+
+</section>
+</main>
+<footer class="site-footer">
+  <div class="shell">
+    <div class="footer-grid">
+      <div class="footer-brand">
+        <a class="brand" href="../"><span class="brand-mark">☀</span> SoSolsunday</a>
+        <p>香港與台北出發的旅遊速報。機酒價格每日自動更新，假期年曆人工核對官方公告。Suniverse × Sosol 出品。</p>
+      </div>
+      <div class="footer-col"><strong>逛逛</strong>
+        <a href="../#deals">機票價格</a><a href="../#hotels">酒店精選</a>
+        <a href="../destinations/">目的地</a><a href="../seasonal/">季節限定</a><a href="../calendar/">假期年曆</a>
+      </div>
+      <div class="footer-col"><strong>關於</strong>
+        <a href="https://github.com/sssunwl/sosolsunday" target="_blank" rel="noopener">GitHub</a>
+        <a href="../calendar/">假期資料來源</a>
+      </div>
+    </div>
+    <div class="footer-base"><span id="footUpd">—</span><span>價格僅供參考，實際以訂購平台為準</span></div>
+  </div>
 </footer>
 
+<script src="../assets/site.js"></script>
 <script>
 let SD = null, FD = null;
 let selMonth = 0;
@@ -119,14 +84,9 @@ const CITY_KEYS = {
 };
 
 async function boot() {
-  const ts = '?v=' + Date.now();
-  const [sr, fr] = await Promise.all([
-    fetch('../data/seasonal.json' + ts).catch(() => null),
-    fetch('../data/flights.json'  + ts).catch(() => null),
-  ]);
-  SD = sr?.ok ? await sr.json() : null;
-  FD = fr?.ok ? await fr.json() : null;
-  selMonth = new Date().getMonth() + 1;
+  [SD,FD]=await Promise.all([SoSol.getJSON('../data/seasonal.json'),SoSol.getJSON('../data/flights.json')]);
+  SoSol.updateStatus(FD);
+  selMonth = +SoSol.todayISO().slice(5,7);
   buildMonthStrip();
   buildCatStrip();
   render();
@@ -135,37 +95,33 @@ async function boot() {
 function buildMonthStrip() {
   const allMonths = new Set((SD?.events || []).flatMap(e => e.months));
   const el = document.getElementById('month-strip');
-  let html = `<button class="mbtn all ${selMonth===0?'on':''}" onclick="setMonth(0,this)">全部</button>`;
+  let html = `<button class="mbtn all ${selMonth===0?'on':''}" aria-pressed="${selMonth===0}" onclick="setMonth(0,this)">全部</button>`;
   MONTHS.forEach((m, i) => {
     const n = i + 1;
     const cls = allMonths.has(n) ? 'has-event' : '';
-    html += `<button class="mbtn ${cls} ${selMonth===n?'on':''}" onclick="setMonth(${n},this)">${n}</button>`;
+    html += `<button class="mbtn ${cls} ${selMonth===n?'on':''}" aria-pressed="${selMonth===n}" onclick="setMonth(${n},this)" aria-label="${n}月">${n}月</button>`;
   });
   el.innerHTML = html;
 }
 
 function buildCatStrip() {
   document.getElementById('cat-strip').innerHTML = CATS.map(c =>
-    `<button class="cbtn ${c===selCat?'on':''}" onclick="setCat('${c}',this)">${c}</button>`
+    `<button class="cbtn ${c===selCat?'on':''}" aria-pressed="${c===selCat}" onclick="setCat('${c}',this)">${c}</button>`
   ).join('');
 }
 
 function setMonth(n, btn) {
   selMonth = n;
-  document.querySelectorAll('.mbtn').forEach(b => b.classList.remove('on'));
+  document.querySelectorAll('.mbtn').forEach(b => {b.classList.remove('on');b.setAttribute('aria-pressed',String(b===btn));});
   if (btn) btn.classList.add('on');
   render();
 }
 
 function setCat(c, btn) {
   selCat = c;
-  document.querySelectorAll('.cbtn').forEach(b => b.classList.remove('on'));
+  document.querySelectorAll('.cbtn').forEach(b => {b.classList.remove('on');b.setAttribute('aria-pressed',String(b===btn));});
   if (btn) btn.classList.add('on');
   render();
-}
-
-function toggleCard(el) {
-  el.classList.toggle('open');
 }
 
 function bestFlightPrice(airportCode) {
@@ -201,7 +157,7 @@ function render() {
 
   if (!events.length) {
     document.getElementById('events-list').innerHTML =
-      `<div class="no-events" style="grid-column:span 2"><div class="icon">🔍</div><p>此篩選條件暫無活動</p></div>`;
+      `<div class="no-events" ><div class="icon">🔍</div><p>${SD?'此篩選條件暫無活動':'活動資料暫時無法載入，請稍後再試'}</p></div>`;
     return;
   }
 
@@ -228,7 +184,7 @@ function render() {
 
     const monthLabels = [...new Set(e.months)].sort((a,b)=>a-b).map(m=>MONTHS[m-1]).join(' / ');
 
-    return `<div class="ev-card" onclick="toggleCard(this)">
+    return `<details class="ecard ev-card"><summary>
       <span class="ev-icon">${e.icon}</span>
       <div class="ev-title">${e.title}</div>
       <div class="ev-period">${e.period}</div>
@@ -239,7 +195,7 @@ function render() {
         ${compactPrice}
       </div>
       <div class="ev-expand-hint">點開看詳情 ▾</div>
-      <div class="ev-detail">
+      </summary><div class="ev-detail">
         <div class="ev-desc-full">${e.desc}</div>
         ${e.tip ? `<div class="ev-tip">${e.tip}</div>` : ''}
         <div class="ev-dests">${destsHtml}</div>
@@ -248,7 +204,7 @@ function render() {
           ${(e.tags||[]).map(t=>`<span class="ev-tag">${t}</span>`).join('')}
         </div>
       </div>
-    </div>`;
+    </details>`;
   }).join('');
 }
 

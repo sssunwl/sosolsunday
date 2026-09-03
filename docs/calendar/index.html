@@ -1,0 +1,389 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>亞洲假期年曆 · 家族旅行計劃器</title>
+<meta name="description" content="台灣、香港、日本、韓國、泰國等 9 個國家 2026–2027 公眾假期年曆。勾選家人所在地找共同連假，勾選目的地避開當地人潮。">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>📅</text></svg>">
+<style>
+:root{
+  --navy:#062a3a; --navy-2:#0b4052; --blue:#087f9c; --lagoon:#79d9e6; --lagoon-soft:#dff7f8;
+  --coral:#ff665a; --sun:#ffd447; --sand:#fff7e8; --paper:#fffefb; --ink:#112f3b; --muted:#5d737a;
+  --line:rgba(6,42,58,.13); --shadow:0 18px 50px rgba(6,42,58,.11); --shadow-sm:0 9px 24px rgba(6,42,58,.09);
+  --radius-lg:24px; --radius:16px; --max:1180px;
+  --go:#0f9d76; --go-soft:#e3f6ef;
+}
+*{box-sizing:border-box}
+body{margin:0;background:var(--sand);color:var(--ink);
+  font-family:"Noto Sans TC","PingFang TC","Hiragino Sans",system-ui,sans-serif;line-height:1.6;-webkit-text-size-adjust:100%}
+button,select,input{font:inherit;color:inherit}
+button{-webkit-tap-highlight-color:transparent;cursor:pointer}
+.shell{width:min(var(--max),calc(100% - 32px));margin:0 auto}
+
+/* Header */
+.hero{background:linear-gradient(160deg,var(--navy) 0%,var(--navy-2) 60%,#0d5468 100%);color:#fff;padding:34px 0 30px}
+.backlink{display:inline-block;color:rgba(255,255,255,.6);text-decoration:none;font-size:.8rem;font-weight:700;margin-bottom:10px}
+.backlink:hover{color:var(--sun)}
+.hero .eyebrow{font-size:.7rem;font-weight:900;letter-spacing:.18em;text-transform:uppercase;color:var(--lagoon)}
+.hero h1{font-size:clamp(1.7rem,4.5vw,2.7rem);line-height:1.15;letter-spacing:-.03em;margin:6px 0 8px}
+.hero p{margin:0;color:rgba(255,255,255,.72);font-size:.92rem;max-width:640px}
+.yearpick{display:flex;gap:8px;margin-top:18px}
+.yearpick button{padding:8px 20px;border-radius:999px;border:1.5px solid rgba(255,255,255,.3);background:none;color:rgba(255,255,255,.8);font-weight:800;transition:.18s}
+.yearpick button.on{background:var(--sun);border-color:var(--sun);color:var(--navy)}
+
+/* Panels */
+.panel{background:var(--paper);border:1px solid var(--line);border-radius:var(--radius-lg);box-shadow:var(--shadow-sm);padding:20px;margin:18px 0}
+.panel h2{font-size:1.05rem;margin:0 0 4px;letter-spacing:-.02em}
+.panel .hint{margin:0 0 14px;font-size:.82rem;color:var(--muted)}
+.chips{display:flex;flex-wrap:wrap;gap:8px}
+.chip{display:inline-flex;align-items:center;gap:6px;padding:7px 13px;border-radius:999px;border:1.5px solid var(--line);
+  background:#fff;font-size:.85rem;font-weight:700;color:var(--muted);transition:.16s}
+.chip .sw{width:9px;height:9px;border-radius:3px;background:var(--c,#ccc);opacity:.35}
+.chip.on{color:var(--navy);border-color:var(--navy);background:var(--lagoon-soft)}
+.chip.on .sw{opacity:1}
+.chip.home.on{background:var(--go-soft);border-color:var(--go);color:#0a6a51}
+.chip .warn{font-size:.68rem;color:var(--coral);font-weight:900}
+
+/* Windows */
+.wins{display:grid;gap:10px}
+.win{border:1px solid var(--line);border-radius:var(--radius);padding:13px 15px;background:#fff;display:grid;gap:6px}
+.win.best{border-color:var(--go);background:var(--go-soft)}
+.win-top{display:flex;align-items:baseline;gap:10px;flex-wrap:wrap}
+.win-range{font-weight:900;font-size:1rem;letter-spacing:-.01em}
+.win-len{background:var(--navy);color:var(--sun);border-radius:999px;padding:2px 10px;font-size:.75rem;font-weight:900}
+.win-len.free{background:var(--go);color:#fff}
+.win-sub{font-size:.8rem;color:var(--muted)}
+.win-sub b{color:var(--ink)}
+.win-crowd{font-size:.76rem;color:var(--coral);font-weight:700}
+.win-why{font-size:.78rem;color:var(--blue);font-weight:700}
+.empty{font-size:.85rem;color:var(--muted);padding:8px 2px}
+
+/* Calendar */
+.months{display:grid;grid-template-columns:1fr;gap:14px}
+@media(min-width:560px){.months{grid-template-columns:1fr 1fr}}
+@media(min-width:900px){.months{grid-template-columns:repeat(3,1fr)}}
+@media(min-width:1100px){.months{grid-template-columns:repeat(4,1fr)}}
+.mo{background:var(--paper);border:1px solid var(--line);border-radius:var(--radius);padding:12px 10px 10px;box-shadow:var(--shadow-sm)}
+.mo h3{margin:0 0 8px 4px;font-size:.9rem;font-weight:900;letter-spacing:.02em;color:var(--navy-2)}
+.mo h3 small{font-weight:700;color:var(--muted);font-size:.72rem;margin-left:6px}
+table.cal{width:100%;border-collapse:collapse;table-layout:fixed}
+table.cal th{font-size:.66rem;color:var(--muted);font-weight:800;padding:0 0 4px}
+table.cal th.we{color:var(--coral)}
+table.cal td{padding:1px;text-align:center;vertical-align:top}
+.cell{position:relative;border-radius:9px;padding:3px 0 4px;font-size:.78rem;font-weight:700;line-height:1.15;
+  border:1.5px solid transparent;background:none;width:100%;display:block}
+.cell .n{display:block}
+.cell.we{color:var(--coral)}
+.cell.some{background:rgba(121,217,230,.24)}
+.cell.all{background:var(--go);color:#fff;border-color:var(--go)}
+.cell.all.we{color:#fff}
+.cell.inwin{border-color:var(--go);border-style:dashed}
+.cell.all.inwin{border-style:solid}
+.cell.sel{outline:2px solid var(--navy);outline-offset:1px}
+.bars{display:flex;gap:1px;justify-content:center;height:3px;margin-top:2px}
+.bars i{width:5px;height:3px;border-radius:2px;display:block}
+.cell.pad{opacity:.25;font-weight:400}
+
+/* Legend + detail */
+.legend{display:flex;flex-wrap:wrap;gap:12px;font-size:.76rem;color:var(--muted);margin-top:14px}
+.legend span{display:inline-flex;align-items:center;gap:6px}
+.lg{width:14px;height:14px;border-radius:5px;border:1.5px solid transparent}
+#detail{position:fixed;left:0;right:0;bottom:0;z-index:80;background:var(--paper);border-top:1px solid var(--line);
+  border-radius:20px 20px 0 0;box-shadow:0 -14px 40px rgba(6,42,58,.18);padding:16px 18px calc(18px + env(safe-area-inset-bottom));
+  transform:translateY(110%);transition:transform .24s cubic-bezier(.16,1,.3,1);max-height:60vh;overflow:auto}
+#detail.on{transform:none}
+#detail h4{margin:0 0 10px;font-size:1rem}
+#detail .row{display:flex;gap:9px;align-items:flex-start;padding:5px 0;border-top:1px solid var(--line);font-size:.85rem}
+#detail .row:first-of-type{border-top:0}
+#detail .row .f{width:1.6em;flex-shrink:0}
+#detail .row .nm{font-weight:800;width:5.2em;flex-shrink:0;font-size:.8rem}
+#detail .row .h{color:var(--muted)}
+#detail .close{position:absolute;top:12px;right:14px;border:0;background:none;font-size:1.2rem;color:var(--muted)}
+.src{font-size:.74rem;color:var(--muted);line-height:1.7}
+.src code{background:rgba(6,42,58,.06);padding:1px 5px;border-radius:5px}
+footer{padding:26px 0 60px;text-align:center;font-size:.76rem;color:var(--muted)}
+.est{display:inline-block;background:var(--sun);color:var(--navy);border-radius:5px;padding:0 5px;font-size:.66rem;font-weight:900;margin-left:5px}
+</style>
+<!-- 各站可放同層 calendar-theme.css 覆寫配色；不存在時 404 無害 -->
+<link rel="stylesheet" href="calendar-theme.css">
+</head>
+<body>
+
+<div class="hero">
+  <div class="shell">
+    <a class="backlink" id="backlink" href="../">← 回首頁</a>
+    <div class="eyebrow">Family Trip Planner</div>
+    <h1>亞洲假期年曆</h1>
+    <p>勾選家人所在地 → 找出「大家同時放假」的日子；勾選想去的國家 → 避開當地連假人潮。</p>
+    <div class="yearpick" id="yearpick"></div>
+  </div>
+</div>
+
+<div class="shell">
+
+  <div class="panel">
+    <h2>① 家人在哪裡（要湊在一起的）</h2>
+    <p class="hint">這些國家同時放假的日子會標成綠色。</p>
+    <div class="chips" id="homeChips"></div>
+  </div>
+
+  <div class="panel">
+    <h2>② 想去哪裡（要避開人潮的）</h2>
+    <p class="hint">這些國家放假的日子，會在日期下方出現對應顏色的細條 — 條越多代表當地越擠。</p>
+    <div class="chips" id="destChips"></div>
+  </div>
+
+  <div class="panel">
+    <h2>③ 最佳共同出遊窗口</h2>
+    <p class="hint" id="winHint"></p>
+    <div class="wins" id="wins"></div>
+  </div>
+
+  <div class="months" id="months"></div>
+
+  <div class="legend">
+    <span><i class="lg" style="background:var(--go)"></i> 全部家人都放假</span>
+    <span><i class="lg" style="background:rgba(121,217,230,.4)"></i> 部分家人放假</span>
+    <span><i class="lg" style="border-color:var(--go);border-style:dashed"></i> 建議窗口內</span>
+    <span><i class="lg" style="background:linear-gradient(90deg,#e8724a,#7b5cd6)"></i> 目的地放假（人多）</span>
+  </div>
+
+  <div class="panel">
+    <h2>資料來源與準確度</h2>
+    <div class="src" id="srcBox"></div>
+  </div>
+</div>
+
+<div id="detail"><button class="close" onclick="closeDetail()">✕</button><h4></h4><div class="body"></div></div>
+
+<footer>Suniverse · 資料為人工核對整理，出發前請以各地政府公告為準</footer>
+
+<script>
+// 資料位置：頁面在 /calendar/ 目錄下 → 用站台的 data/；否則找同層的 holidays.json
+const PATHS = /\/calendar\/?$/.test(location.pathname)
+  ? ['../data/holidays.json','./holidays.json']
+  : ['./holidays.json','../data/holidays.json','data/holidays.json'];
+const COLORS = {TW:'#e8724a',HK:'#0f9d76',MO:'#c56bb0',CN:'#d4373c',JP:'#e0568a',KR:'#3f6fd6',TH:'#7b5cd6',SG:'#e0a020',VN:'#1f9ab5'};
+const WD = ['一','二','三','四','五','六','日'];
+let DB=null, YEAR='2027', HOME=new Set(), DEST=new Set(), WINS=[], SELDAY=null;
+
+const iso = d => d.toISOString().slice(0,10);
+const mkd = s => { const [y,m,dd]=s.split('-').map(Number); return new Date(Date.UTC(y,m-1,dd)); };
+const addDays=(d,n)=>new Date(d.getTime()+n*86400000);
+const wdIdx = d => (d.getUTCDay()+6)%7;               // 0=Mon .. 6=Sun
+
+// ---- holiday index across all loaded years (so year-end bridges work) ----
+const IDX={};   // code -> { 'YYYY-MM-DD': name }
+const WORK={};  // code -> Set of forced workdays
+function buildIndex(){
+  for(const c of DB.countries){
+    IDX[c.code]={}; WORK[c.code]=new Set();
+    for(const y of Object.keys(DB.years)){
+      const v=DB.years[y][c.code]; if(!v) continue;
+      for(const h of v.holidays){ if(h[2]==='half') continue; IDX[c.code][h[0]]=h; }
+      (v.workdays||[]).forEach(w=>WORK[c.code].add(w));
+    }
+  }
+}
+const isHol=(c,s)=>!!IDX[c][s];
+function isOff(c,s,d){
+  if(WORK[c].has(s)) return false;
+  if(IDX[c][s]) return true;
+  return wdIdx(d)>=5;
+}
+
+// ---- best-window search ----
+function findWindows(codes, from, to, budget=5, topN=14){
+  if(!codes.length) return [];
+  const days=[]; for(let d=mkd(from); d<=mkd(to); d=addDays(d,1)) days.push({d,s:iso(d)});
+  const off = days.map(x=>codes.map(c=>isOff(c,x.s,x.d)));
+  const anyOff = off.map(r=>r.some(Boolean));       // 端點：至少一邊放假（另一邊請假來接）
+  const anyHol = days.map(x=>codes.some(c=>isHol(c,x.s)));
+  const out=[];
+  for(let i=0;i<days.length;i++){
+    if(!anyOff[i]) continue;
+    let hol=false;
+    for(let j=i;j<Math.min(i+21,days.length);j++){
+      if(anyHol[j]) hol=true;
+      if(!anyOff[j] || !hol) continue;
+      const len=j-i+1; if(len<3) continue;
+      const leave={}; let worst=0, total=0;
+      codes.forEach((c,ci)=>{ let n=0,dates=[];
+        for(let k=i;k<=j;k++) if(!off[k][ci]){n++;dates.push(days[k].s);}
+        leave[c]={n,dates}; worst=Math.max(worst,n); total+=n; });
+      if(worst>budget) continue;
+      const score=len-1.6*(total/codes.length);     // 用平均請假天數計分
+      if(score<2.2) continue;                       // 濾掉「純燒年假」型窗口
+      out.push({len,worst,from:days[i].s,to:days[j].s,leave,score});
+    }
+  }
+  out.sort((a,b)=> b.score-a.score || b.len-a.len);
+  const kept=[];
+  for(const w of out){
+    if(kept.some(k=>!(w.to<k.from||w.from>k.to))) continue;
+    kept.push(w); if(kept.length>=topN) break;
+  }
+  kept.sort((a,b)=>a.from<b.from?-1:1);
+  return kept;
+}
+function crowdOf(w){
+  const out=[];
+  for(const c of DEST){
+    let n=0; for(let d=mkd(w.from); d<=mkd(w.to); d=addDays(d,1)) if(isHol(c,iso(d))) n++;
+    if(n) out.push({c,n});
+  }
+  return out.sort((a,b)=>b.n-a.n);
+}
+
+// ---- rendering ----
+const cName = c => DB.countries.find(x=>x.code===c);
+const fmt = s => { const d=mkd(s); return `${d.getUTCMonth()+1}/${d.getUTCDate()}(${WD[wdIdx(d)]})`; };
+
+function renderChips(){
+  const box=(el,set,cls)=>{
+    el.innerHTML = DB.countries.map(c=>{
+      const st=DB.years[YEAR][c.code]?.status;
+      const badge = st==='official' ? '' : `<span class="warn">${st==='estimated'?'預估':'部分預估'}</span>`;
+      return `<button class="chip ${cls} ${set.has(c.code)?'on':''}" style="--c:${COLORS[c.code]}" data-c="${c.code}" data-set="${cls}">
+        <i class="sw"></i>${c.flag} ${c.name}${badge}</button>`;
+    }).join('');
+  };
+  box(document.getElementById('homeChips'),HOME,'home');
+  box(document.getElementById('destChips'),DEST,'dest');
+  document.querySelectorAll('.chip').forEach(b=>b.onclick=()=>{
+    const set = b.dataset.set==='home'?HOME:DEST;
+    set.has(b.dataset.c)?set.delete(b.dataset.c):set.add(b.dataset.c);
+    save(); renderAll();
+  });
+}
+
+function renderWins(){
+  const codes=[...HOME], el=document.getElementById('wins');
+  document.getElementById('winHint').textContent =
+    codes.length ? `以「${codes.map(c=>cName(c).name).join(' + ')}」都能休假為條件，每人請假上限 5 天。` : '';
+  if(!codes.length){ el.innerHTML='<div class="empty">先在上面勾選至少一個「家人所在地」。</div>'; WINS=[]; return; }
+  const from=`${YEAR}-01-01`, to=`${+YEAR+1}-01-05`;
+  const zero  = findWindows(codes, from, to, 0, 20);         // 完全不用請假
+  const cheap = findWindows(codes, from, to, 1, 20);         // 每人最多請 1 天
+  const paid  = findWindows(codes, from, to, 5, 14);         // 願意請假可拉長
+  const seen = new Set();
+  WINS = [];
+  for(const w of zero.concat(cheap, paid)){
+    const k = w.from+'~'+w.to;
+    if(seen.has(k)) continue;
+    seen.add(k); WINS.push(w);
+  }
+  WINS.sort((a,b)=> a.from<b.from?-1:(a.from>b.from?1:a.len-b.len));
+  if(!WINS.length){ el.innerHTML='<div class="empty">這一年找不到共同窗口，試著少勾一個地區。</div>'; return; }
+  el.innerHTML = WINS.map(w=>{
+    const free = w.worst===0;
+    const leave = codes.map(c=>{
+      const l=w.leave[c];
+      return `<b>${cName(c).flag}${cName(c).name}</b> 請 ${l.n} 天${l.n?`（${l.dates.map(fmt).join('、')}）`:''}`;
+    }).join(' · ');
+    const cw = crowdOf(w);
+    const crowd = cw.length
+      ? `⚠️ 期間放假的目的地：${cw.map(x=>`${cName(x.c).flag}${cName(x.c).name} ${x.n} 天`).join('、')}`
+      : '✅ 勾選的目的地都沒有連假，人潮相對緩和';
+    return `<div class="win ${free?'best':''}">
+      <div class="win-top">
+        <span class="win-range">${fmt(w.from)} → ${fmt(w.to)}</span>
+        <span class="win-len ${free?'free':''}">${w.len} 天${free?' · 0 請假':''}</span>
+      </div>
+      <div class="win-sub">${leave}</div>
+      <div class="${cw.length?'win-crowd':'win-why'}">${crowd}</div>
+    </div>`;
+  }).join('');
+}
+
+function inWindow(s){ return WINS.some(w=>s>=w.from&&s<=w.to); }
+
+function renderMonths(){
+  const codes=[...HOME], dests=[...DEST], out=[];
+  for(let m=0;m<12;m++){
+    const first=new Date(Date.UTC(+YEAR,m,1)), lead=wdIdx(first);
+    const dim=new Date(Date.UTC(+YEAR,m+1,0)).getUTCDate();
+    let rows='', cells=[], nCommon=0;
+    for(let i=0;i<lead;i++) cells.push('<td></td>');
+    for(let day=1;day<=dim;day++){
+      const d=new Date(Date.UTC(+YEAR,m,day)), s=iso(d), we=wdIdx(d)>=5;
+      let nOff=0; codes.forEach(c=>{ if(isOff(c,s,d)) nOff++; });
+      const anyHol = codes.some(c=>isHol(c,s));
+      let cls='cell'+(we?' we':'');
+      if(codes.length && nOff===codes.length && anyHol){ cls+=' all'; nCommon++; }
+      else if(nOff>0 && anyHol) cls+=' some';
+      if(inWindow(s)) cls+=' inwin';
+      const bars = dests.filter(c=>isHol(c,s))
+        .map(c=>`<i style="background:${COLORS[c]}"></i>`).join('');
+      cells.push(`<td><button class="${cls}" data-d="${s}"><span class="n">${day}</span><span class="bars">${bars}</span></button></td>`);
+    }
+    while(cells.length%7) cells.push('<td></td>');
+    for(let i=0;i<cells.length;i+=7) rows+=`<tr>${cells.slice(i,i+7).join('')}</tr>`;
+    out.push(`<div class="mo"><h3>${m+1} 月${nCommon?`<small>共同 ${nCommon} 天</small>`:''}</h3>
+      <table class="cal"><tr>${WD.map((w,i)=>`<th class="${i>=5?'we':''}">${w}</th>`).join('')}</tr>${rows}</table></div>`);
+  }
+  const box=document.getElementById('months'); box.innerHTML=out.join('');
+  box.querySelectorAll('.cell').forEach(b=>b.onclick=()=>openDetail(b.dataset.d,b));
+}
+
+function openDetail(s,btn){
+  document.querySelectorAll('.cell.sel').forEach(x=>x.classList.remove('sel'));
+  btn.classList.add('sel');
+  const d=mkd(s), box=document.getElementById('detail');
+  box.querySelector('h4').textContent=`${s}（星期${WD[wdIdx(d)]}）`;
+  const rows=DB.countries.map(c=>{
+    const h=IDX[c.code][s];
+    const off=isOff(c.code,s,d);
+    const est=h&&h[2]==='est'?'<span class="est">預估</span>':'';
+    const sub=h&&h[2]==='sub'?'（補假）':'';
+    const txt = h ? `${h[1]}${sub}${est}` : (WORK[c.code].has(s)?'調休上班日':(off?'週末':'上班日'));
+    return `<div class="row"><span class="f">${c.flag}</span><span class="nm">${c.name}</span><span class="h" style="${h?'color:'+COLORS[c.code]+';font-weight:700':''}">${txt}</span></div>`;
+  }).join('');
+  box.querySelector('.body').innerHTML=rows;
+  box.classList.add('on');
+}
+function closeDetail(){ document.getElementById('detail').classList.remove('on');
+  document.querySelectorAll('.cell.sel').forEach(x=>x.classList.remove('sel')); }
+
+function renderSrc(){
+  const m=DB._meta, y=DB.years[YEAR];
+  document.getElementById('srcBox').innerHTML =
+    `資料更新：<code>${m.updated}</code>　${YEAR} 年狀態：` +
+    DB.countries.map(c=>{
+      const st=y[c.code]?.status;
+      const lab = st==='official'?'已官方公布':(st==='estimated'?'<b style="color:var(--coral)">尚未公布 · 預估</b>':'部分預估');
+      return `${c.flag}${c.name} ${lab}`;
+    }).join('　') +
+    '<br><br>' + Object.entries(m.sources).map(([k,v])=>`<b>${k}</b>：${v}`).join('<br>');
+}
+
+function renderAll(){
+  document.getElementById('yearpick').innerHTML = Object.keys(DB.years).sort()
+    .map(y=>`<button class="${y===YEAR?'on':''}" data-y="${y}">${y}</button>`).join('');
+  document.querySelectorAll('#yearpick button').forEach(b=>b.onclick=()=>{YEAR=b.dataset.y;save();renderAll();});
+  renderChips(); renderWins(); renderMonths(); renderSrc();
+}
+
+function save(){ try{ localStorage.setItem('holcal',JSON.stringify({YEAR,home:[...HOME],dest:[...DEST]})); }catch(e){} }
+function load(){ try{ const v=JSON.parse(localStorage.getItem('holcal')||'null');
+  if(v){ if(DB.years[v.YEAR]) YEAR=v.YEAR; HOME=new Set(v.home); DEST=new Set(v.dest); return true; } }catch(e){} return false; }
+
+(async function(){
+  // 回首頁連結：在 /calendar/ 目錄下回上一層，否則回同層 index.html
+  document.getElementById('backlink').href =
+    /\/calendar\/?$/.test(location.pathname) ? '../' : 'index.html';
+  for(const p of PATHS){
+    try{ const r=await fetch(p); if(r.ok){ DB=await r.json(); break; } }catch(e){}
+  }
+  if(!DB){ document.getElementById('months').innerHTML='<div class="empty">假期資料載入失敗。</div>'; return; }
+  buildIndex();
+  const years=Object.keys(DB.years).sort();
+  const thisYear=String(new Date().getFullYear());
+  YEAR = years.includes(thisYear)?thisYear:years[0];
+  if(!load()){ HOME=new Set(['TW','HK']); DEST=new Set(['JP','KR','TH']); }
+  renderAll();
+})();
+</script>
+</body>
+</html>
