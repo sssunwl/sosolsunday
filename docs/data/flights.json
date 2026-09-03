@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-07-13 11:36 HKT",
+  "updated_at": "2026-09-03 19:24 HKT",
   "routes": [
     {
       "key": "HKG_TPE",
@@ -10,45 +10,38 @@
       "flag": "🇭🇰→🇹🇼",
       "months": [
         {
-          "month": "2026-07",
-          "price": 1197,
-          "date": "2026-07-15",
-          "airline": "北部灣航空",
-          "is_cheapest": false
-        },
-        {
-          "month": "2026-08",
-          "price": 1202,
-          "date": "2026-08-15",
-          "airline": "香港快運",
-          "is_cheapest": false
-        },
-        {
           "month": "2026-09",
-          "price": 1173,
-          "date": "2026-09-10",
+          "price": 1343,
+          "date": "2026-09-15",
           "airline": "香港快運",
-          "is_cheapest": true
+          "is_cheapest": false
         },
         {
           "month": "2026-10",
-          "price": 1220,
-          "date": "2026-10-24",
+          "price": 1368,
+          "date": "2026-10-08",
           "airline": "香港快運",
           "is_cheapest": false
         },
         {
           "month": "2026-11",
-          "price": 1304,
-          "date": "2026-11-24",
+          "price": 1302,
+          "date": "2026-11-12",
           "airline": "北部灣航空",
-          "is_cheapest": false
+          "is_cheapest": true
         },
         {
           "month": "2026-12",
-          "price": 2217,
-          "date": "2026-12-26",
-          "airline": "長榮",
+          "price": 1302,
+          "date": "2026-12-02",
+          "airline": "北部灣航空",
+          "is_cheapest": true
+        },
+        {
+          "month": "2027-01",
+          "price": 1359,
+          "date": "2027-01-25",
+          "airline": "香港快運",
           "is_cheapest": false
         }
       ]
@@ -62,37 +55,30 @@
       "flag": "🇭🇰→🇯🇵",
       "months": [
         {
-          "month": "2026-07",
-          "price": 2369,
-          "date": "2026-07-17",
-          "airline": "香港快運",
-          "is_cheapest": false
-        },
-        {
-          "month": "2026-08",
-          "price": 1990,
-          "date": "2026-08-16",
-          "airline": "香港快運",
-          "is_cheapest": false
-        },
-        {
           "month": "2026-09",
-          "price": 1442,
-          "date": "2026-09-08",
+          "price": 1618,
+          "date": "2026-09-14",
+          "airline": "香港快運",
+          "is_cheapest": false
+        },
+        {
+          "month": "2026-10",
+          "price": 1616,
+          "date": "2026-10-19",
           "airline": "香港快運",
           "is_cheapest": true
         },
         {
-          "month": "2026-10",
-          "price": 1600,
-          "date": "2026-10-11",
-          "airline": "香港快運",
+          "month": "2026-12",
+          "price": 2775,
+          "date": "2026-12-31",
+          "airline": "香港航空",
           "is_cheapest": false
         },
         {
-          "month": "2026-11",
-          "price": 1812,
-          "date": "2026-11-05",
+          "month": "2027-02",
+          "price": 2163,
+          "date": "2027-02-15",
           "airline": "香港快運",
           "is_cheapest": false
         }
@@ -107,38 +93,38 @@
       "flag": "🇹🇼→🇭🇰",
       "months": [
         {
-          "month": "2026-07",
-          "price": 1312,
-          "date": "2026-07-20",
-          "airline": "香港快運",
-          "is_cheapest": false
-        },
-        {
-          "month": "2026-08",
-          "price": 1324,
-          "date": "2026-08-14",
-          "airline": "香港快運",
-          "is_cheapest": false
-        },
-        {
           "month": "2026-09",
-          "price": 1229,
-          "date": "2026-09-08",
+          "price": 1405,
+          "date": "2026-09-10",
           "airline": "香港快運",
           "is_cheapest": false
         },
         {
           "month": "2026-10",
-          "price": 1087,
-          "date": "2026-10-02",
+          "price": 1278,
+          "date": "2026-10-27",
           "airline": "香港快運",
           "is_cheapest": true
         },
         {
           "month": "2026-11",
-          "price": 1354,
-          "date": "2026-11-30",
+          "price": 1294,
+          "date": "2026-11-12",
           "airline": "香港快運",
+          "is_cheapest": false
+        },
+        {
+          "month": "2026-12",
+          "price": 1982,
+          "date": "2026-12-24",
+          "airline": "JX",
+          "is_cheapest": false
+        },
+        {
+          "month": "2027-01",
+          "price": 2149,
+          "date": "2027-01-30",
+          "airline": "中華航空",
           "is_cheapest": false
         }
       ]
@@ -152,37 +138,99 @@
       "flag": "🇹🇼→🇯🇵",
       "months": [
         {
-          "month": "2026-07",
-          "price": 2226,
-          "date": "2026-07-21",
+          "month": "2026-09",
+          "price": 1332,
+          "date": "2026-09-08",
           "airline": "VietJet",
           "is_cheapest": false
         },
         {
-          "month": "2026-08",
-          "price": 1550,
-          "date": "2026-08-27",
+          "month": "2026-10",
+          "price": 1325,
+          "date": "2026-10-27",
+          "airline": "台灣虎航",
+          "is_cheapest": false
+        },
+        {
+          "month": "2026-11",
+          "price": 1381,
+          "date": "2026-11-09",
           "airline": "樂桃",
           "is_cheapest": false
         },
         {
-          "month": "2026-09",
-          "price": 1529,
-          "date": "2026-09-07",
+          "month": "2026-12",
+          "price": 1168,
+          "date": "2026-12-09",
+          "airline": "台灣虎航",
+          "is_cheapest": true
+        },
+        {
+          "month": "2027-01",
+          "price": 1207,
+          "date": "2027-01-05",
           "airline": "樂桃",
           "is_cheapest": false
+        },
+        {
+          "month": "2027-02",
+          "price": 1685,
+          "date": "2027-02-24",
+          "airline": "樂桃",
+          "is_cheapest": false
+        }
+      ]
+    },
+    {
+      "key": "OKA_HKG",
+      "origin": "OKA",
+      "dest": "HKG",
+      "origin_name": "沖繩",
+      "dest_name": "香港",
+      "flag": "🇯🇵→🇭🇰",
+      "months": [
+        {
+          "month": "2026-09",
+          "price": 1584,
+          "date": "2026-09-10",
+          "airline": "香港快運",
+          "is_cheapest": true
         },
         {
           "month": "2026-10",
-          "price": 1333,
-          "date": "2026-10-15",
+          "price": 1618,
+          "date": "2026-10-14",
+          "airline": "香港快運",
+          "is_cheapest": false
+        }
+      ]
+    },
+    {
+      "key": "OKA_TPE",
+      "origin": "OKA",
+      "dest": "TPE",
+      "origin_name": "沖繩",
+      "dest_name": "台北",
+      "flag": "🇯🇵→🇹🇼",
+      "months": [
+        {
+          "month": "2026-09",
+          "price": 1860,
+          "date": "2026-09-17",
+          "airline": "台灣虎航",
+          "is_cheapest": false
+        },
+        {
+          "month": "2026-11",
+          "price": 1408,
+          "date": "2026-11-15",
           "airline": "樂桃",
           "is_cheapest": true
         },
         {
-          "month": "2026-12",
-          "price": 1527,
-          "date": "2026-12-19",
+          "month": "2027-01",
+          "price": 1499,
+          "date": "2027-01-06",
           "airline": "樂桃",
           "is_cheapest": false
         }
@@ -192,56 +240,56 @@
   "destinations": {
     "HKG": [
       {
-        "price": 1080,
+        "price": 1011,
+        "name": "上海",
+        "code": "SHA"
+      },
+      {
+        "price": 1193,
+        "name": "富國島",
+        "code": "PQC"
+      },
+      {
+        "price": 1200,
+        "name": "三亞",
+        "code": "SYX"
+      },
+      {
+        "price": 1278,
         "name": "馬尼拉",
         "code": "MNL"
       },
       {
-        "price": 1197,
-        "name": "台北",
-        "code": "TPE"
-      },
-      {
-        "price": 1262,
-        "name": "CRK",
-        "code": "CRK"
-      },
-      {
-        "price": 1361,
-        "name": "峴港",
-        "code": "DAD"
-      },
-      {
-        "price": 1386,
-        "name": "曼谷",
-        "code": "BKK"
+        "price": 1333,
+        "name": "NKG",
+        "code": "NKG"
       }
     ],
     "TPE": [
       {
-        "price": 1018,
-        "name": "TTT",
-        "code": "TTT"
+        "price": 1067,
+        "name": "MZG",
+        "code": "MZG"
       },
       {
-        "price": 1238,
+        "price": 1145,
+        "name": "首爾",
+        "code": "SEL"
+      },
+      {
+        "price": 1208,
         "name": "曼谷",
         "code": "BKK"
       },
       {
-        "price": 1312,
-        "name": "香港",
-        "code": "HKG"
+        "price": 1231,
+        "name": "胡志明",
+        "code": "SGN"
       },
       {
-        "price": 1420,
-        "name": "馬尼拉",
-        "code": "MNL"
-      },
-      {
-        "price": 1617,
-        "name": "新加坡",
-        "code": "SIN"
+        "price": 1240,
+        "name": "TAE",
+        "code": "TAE"
       }
     ]
   }
