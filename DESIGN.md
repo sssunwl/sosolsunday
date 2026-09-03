@@ -1,7 +1,7 @@
 # SoSolsunday 改版設計規格 v2
 
 > 給執行者（ChatGPT / Codex）的施工說明書。
-> **參考實作已經寫好**：`docs/index.new.html` + `docs/assets/sosol.css`。
+> **參考實作已經完成並上線到 `docs/index.html`**，設計系統在 `docs/assets/sosol.css`。
 > 先把這兩個檔看完再動手；設計系統以 `sosol.css` 為唯一真相來源，不要在頁面裡另開色票。
 
 ---
@@ -88,7 +88,7 @@ font-family:"Noto Sans TC","PingFang TC","Hiragino Sans",system-ui,sans-serif;
 
 ## 2. 首頁結構（`docs/index.html`）
 
-**把現在的 tab 版整個換掉**，改成參考實作 `docs/index.new.html` 的單頁向下滑結構：
+**把 tab 版整個換掉**（已完成），改成單頁向下滑結構：
 
 ```
 site-header（sticky、毛玻璃、捲動後加陰影）
@@ -124,7 +124,7 @@ site-footer  深色三欄
   - 條件：台灣、香港雙方都放假、且至少有一天是國定假日、連續 ≥3 天、**兩邊都 0 請假**
   - 顯示：日期區間、連休天數、距今幾天、是哪兩個節日湊出來的
   - 例：`12/25(五) – 12/27(日) ／ 連休 3 天 · 還有 113 天 ／ 行憲紀念日 × 聖誕節翌日`
-- 演算法已經寫在 `index.new.html` 的 `nextWindow()`，直接沿用
+- 演算法在 `docs/assets/site.js` 的 `nextWindow()`，直接沿用
 
 ---
 
@@ -212,8 +212,8 @@ SoSolsunday/
 ├── DESIGN.md                     ← 本檔
 └── docs/
     ├── assets/sosol.css          ← 設計系統（唯一色票來源）
-    ├── index.new.html            ← 參考實作，驗收後改名蓋掉 index.html
-    ├── index.html                ← 舊版，改完刪
+    ├── index.html                ← v2 首頁（連續捲動）
+    ├── places/                   ← 口袋地點
     ├── calendar/                 ← 已是新設計，只補站頭站尾
     ├── data/holidays.json        ← 假期資料唯一真相來源
     ├── destinations/             ← 待改
