@@ -191,6 +191,9 @@ docs/data/                       ← published，前端讀這裡
 
 **只用 stdlib `statistics`**，不要引入 numpy/pandas。`requirements.txt` 維持只有 `requests`。
 
+`p10` 的插值法指定為 `statistics.quantiles(prices, n=10, method="inclusive")[0]`，樣本數為 1 時直接取該值。
+百分比一律四捨五入（half away from zero），不要用 Python 內建 `round()` 的銀行家捨入。
+
 **同一天多次執行**（例如手動 dispatch）：以 `(d, o, dst, m)` 為唯一鍵**覆寫**當日該筆，不要 append 出重複列，否則會扭曲樣本數。
 
 ### 4.2 窗口推導 `windows`
@@ -316,8 +319,14 @@ Travelpayouts **本身就是聯盟網絡**，目前只當免費資料源用，ma
 **PR 1 — 基準線地基**（最優先，先合併先開始累積歷史）
 - 新增 `data/history/flights.ndjson` 寫入邏輯
 - `flights.json` 加 `baseline` / `return_date` / `is_round_trip`
+- **workflow 第 42 行的 `git add` 必須同時加上 `data/history/`**
 - 全部 `verdict` 初期會是 `unknown`，正常
 - 驗收：跑兩次（間隔改日期模擬），history 有 2 日資料且不重複
+
+> ⚠️ **這一條是 PR 1 的成敗關鍵，v1 規格漏了。**
+> CI runner 每次都是全新 checkout。若 `data/history/` 不進 `git add`，檔案每日重置為空，
+> 基準線永遠累積不到樣本 —— PR 1 的唯一目的直接失效。
+> 由 Codex 在 PR 1 實作時發現並回報。
 
 **PR 2 — 窗口與套餐**
 - 窗口推導（第 4.2 節）
@@ -339,7 +348,9 @@ Travelpayouts **本身就是聯盟網絡**，目前只當免費資料源用，ma
 3. **`docs/data/*.json` 既有欄位只加不改**：不准改名、不准刪除、不准改型別。前端正在改版，任何破壞性變更會讓兩邊同時炸
 4. **`requirements.txt` 維持只有 `requests`** —— 統計用 stdlib `statistics`
 5. **金鑰不進 repo** —— 沿用現有 4 個 GitHub secrets，不新增硬編碼
-6. `data/history/` 必須進版控，**不要**加進 `.gitignore`
+6. `data/history/` 必須進版控。這有**兩個**條件，缺一不可：
+   - 不要加進 `.gitignore`
+   - workflow 的 `git add` **必須包含 `data/history/`**（v1 規格只寫了前者，導致 PR 1 一度會靜默失效）
 
 ---
 
