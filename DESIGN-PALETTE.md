@@ -101,22 +101,13 @@ v2 直接沿用 OkinawaSundays 的色票（`#062a3a` 深海藍 + `#79d9e6` 亮�
 
 ---
 
-## 4. 給 ChatGPT 的施工指令
+## 4. 施工狀態：✅ 已折回主檔（2026-09-04）
 
-現在的做法是 **override 檔**：`docs/assets/sosol.css` 原封不動，後面再 link 一支 `docs/assets/palette-terracotta.css` 蓋掉。好處是可以隨時 A/B、拿掉一行就回到沖繩配色。
+配色已定案並折進 `docs/assets/sosol.css`，`palette-terracotta.css` 覆蓋層與六個頁面的 `<link>` 都已移除。
+現在**唯一的色票來源就是 `sosol.css` 開頭的 `:root`**，換色只改那裡的值。
 
-**定案後請折回主檔，不要長期維持兩層：**
-
-1. 把 `palette-terracotta.css` 的 `:root{...}` 內容，**逐一取代** `docs/assets/sosol.css` 開頭 `:root` 裡的對應變數（變數名完全不變，只換值）。
-2. 把 `palette-terracotta.css` 裡 `:root` 以外的規則，併進 `sosol.css` 的對應段落：
-   - `.site-header` / `.site-header.stuck` 的 `background`（那兩個 rgba 是 `--sand` 的硬寫版，要跟著改）
-   - `.hero::before` 的 `background` 與 `opacity`、`.hero::after` 的 `border-color`
-   - `.calband` 的 `linear-gradient`、`.calband::after` 的 `radial-gradient`
-   - `.site-footer` / `.footer-brand p` / `.footer-col a` / `.footer-base` 的文字色（原本是硬寫的 `#e5f4f6`、`#a9cad1`、`#8fb4bd`）
-   - `.ocean-waves` 的 `opacity`、`height`，與兩條 `path` 的 `fill`
-3. 刪掉 `docs/assets/palette-terracotta.css`，並把五個頁面裡多出來的那一行 `<link ... palette-terracotta.css>` 移除：
-   `docs/index.html`、`docs/index.new.html`、`docs/destinations/index.html`、`docs/destinations/city.html`、`docs/seasonal/index.html`
-4. `docs/calendar/calendar-theme.css` 末尾已經加了一整組 `:root`（年曆頁自帶色票，必須在那裡覆蓋）。這支**留著**，只要跟 `sosol.css` 的值保持同步。
+年曆頁（`docs/calendar/index.html`）自帶一份 `:root`，因為它跟 `SunFamilyTrip/calendar.html` 是同一份檔案，
+所以本站的配色走 `docs/calendar/calendar-theme.css` 覆蓋；改主色時兩邊要一起改。
 
 ### 三條紅線
 - **不要改 `docs/calendar/index.html`。** 它跟 `SunFamilyTrip/calendar.html` 是同一份檔案（SHA-1 必須一致），年曆頁的配色只能走 `calendar-theme.css`。

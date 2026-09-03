@@ -1,30 +1,31 @@
 /* ============================================================
-   SoSolsunday 設計系統 v2  —  沿用 OkinawaSundays 視覺語言
+   SoSolsunday 設計系統 v2  —  配色方案「地中海街景」Terracotta × Sage
+   色票說明見 DESIGN-PALETTE.md；版型結構見 DESIGN.md
    單一來源：所有頁面都 link 這一支，不要在頁面內另開色票
    ============================================================ */
 
 :root{
-  /* 主色 —— 與 OkinawaSundays 同一組 */
-  --navy:#062a3a;          /* 最深，footer / 主按鈕 / 大標 */
-  --navy-2:#0b4052;
-  --blue:#087f9c;          /* 連結、eyebrow、hover */
-  --lagoon:#79d9e6;        /* 裝飾色塊 */
-  --lagoon-soft:#dff7f8;   /* 淺底 */
-  --coral:#ff665a;         /* 警示、假日紅 */
-  --sun:#ffd447;           /* 螢光筆底線、強調 */
-  --sand:#fff7e8;          /* 頁面底色（不要用白） */
-  --paper:#fffefb;         /* 卡片底色 */
-  --ink:#112f3b;
-  --muted:#5d737a;
-  --line:rgba(6,42,58,.13);
+  /* 主色 —— 陶土 × 鴨綠（不是 OkinawaSundays 那組；換色只改這裡的值，變數名不動） */
+  --navy:#1E4A45;          /* 最深，footer / 主按鈕 / 大標 */
+  --navy-2:#2B615A;
+  --blue:#B84E29;          /* 深陶土：連結、eyebrow、hover 邊框、focus（變數名沿用） */
+  --lagoon:#8FBFB2;        /* 鼠尾草綠：裝飾色塊 */
+  --lagoon-soft:#E6F1EC;   /* 淺底 */
+  --coral:#CF5730;         /* 陶土橘：週末日期、hero 色塊、重點標籤 */
+  --sun:#E8A62F;           /* 芥末金：螢光筆底線、次要 CTA、深底上的亮字 */
+  --sand:#FBF4EC;          /* 頁面底色（不要用白） */
+  --paper:#FFFCF7;         /* 卡片底色 */
+  --ink:#26312E;
+  --muted:#6E6459;
+  --line:rgba(38,49,46,.14);
 
   /* 語意色（價格 / 狀態） */
-  --good:#0f9d76;          /* 最低價、可出發 */
-  --warn:#d48b20;
-  --bad:#c03030;
+  --good:#1F7A63;          /* 最低價、可出發 */
+  --warn:#7A6C5C;          /* 中間價：中性灰褐，刻意不搶眼 */
+  --bad:#8E2F22;           /* 最貴：深氧化紅，跟品牌陶土拉開 */
 
-  --shadow:0 18px 50px rgba(6,42,58,.11);
-  --shadow-sm:0 9px 24px rgba(6,42,58,.09);
+  --shadow:0 18px 50px rgba(74,52,36,.13);
+  --shadow-sm:0 9px 24px rgba(74,52,36,.10);
   --radius-xl:32px; --radius-lg:24px; --radius:16px;
   --max:1180px;
 }
@@ -68,10 +69,10 @@ img,svg{display:block;max-width:100%}
 .btn-sun:hover{transform:translateY(-2px);box-shadow:var(--shadow-sm)}
 
 /* ---------- 站頭 ---------- */
-.site-header{position:sticky;top:0;z-index:100;background:rgba(255,247,232,.72);
+.site-header{position:sticky;top:0;z-index:100;background:rgba(251,244,236,.74);
   backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);
   border-bottom:1px solid transparent;transition:background .25s,box-shadow .25s,border-color .25s}
-.site-header.stuck{background:rgba(255,247,232,.94);border-bottom-color:var(--line);box-shadow:var(--shadow-sm)}
+.site-header.stuck{background:rgba(251,244,236,.95);border-bottom-color:var(--line);box-shadow:var(--shadow-sm)}
 .site-header .nav{display:flex;align-items:center;justify-content:space-between;gap:18px;padding:12px 0}
 .brand{display:inline-flex;align-items:center;gap:10px;text-decoration:none;font-weight:900;letter-spacing:-.02em}
 .brand-mark{width:34px;height:34px;border-radius:50%;background:linear-gradient(140deg,var(--sun),var(--coral));
@@ -94,10 +95,10 @@ img,svg{display:block;max-width:100%}
 /* ---------- Hero ---------- */
 .hero{position:relative;padding:56px 0 46px;overflow:hidden}
 .hero::before{content:"";position:absolute;width:520px;height:520px;right:-170px;top:-170px;
-  background:var(--lagoon);border-radius:47% 53% 64% 36%/45% 42% 58% 55%;opacity:.34;z-index:0;
+  background:var(--coral);border-radius:47% 53% 64% 36%/45% 42% 58% 55%;opacity:.20;z-index:0;
   animation:blob 12s ease-in-out infinite alternate}
 .hero::after{content:"";position:absolute;width:250px;height:250px;left:-130px;bottom:-140px;
-  border:52px solid rgba(255,102,90,.12);border-radius:50%;z-index:0}
+  border:52px solid rgba(143,191,178,.34);border-radius:50%;z-index:0}
 @keyframes blob{to{border-radius:58% 42% 38% 62%/52% 60% 40% 48%;transform:translateY(14px)}}
 .hero .shell{position:relative;z-index:1}
 .hero-grid{display:grid;grid-template-columns:1.08fr .92fr;gap:48px;align-items:center}
@@ -153,10 +154,10 @@ img,svg{display:block;max-width:100%}
 .dcard .meta{font-size:.74rem;color:var(--muted);font-weight:700;position:relative}
 
 /* ---------- 年曆 banner（招牌功能） ---------- */
-.calband{background:linear-gradient(150deg,var(--navy) 0%,var(--navy-2) 58%,#0d5468 100%);
+.calband{background:linear-gradient(150deg,var(--navy) 0%,var(--navy-2) 58%,#3A7F6E 100%) 0%,var(--navy-2) 58%,#0d5468 100%);
   color:#fff;border-radius:var(--radius-xl);padding:30px 32px;position:relative;overflow:hidden}
 .calband::after{content:"";position:absolute;right:-90px;bottom:-120px;width:320px;height:320px;
-  border-radius:50%;background:radial-gradient(circle at 30% 30%,rgba(121,217,230,.45),transparent 70%)}
+  border-radius:50%;background:radial-gradient(circle at 30% 30%,rgba(232,166,47,.30),transparent 70%)}
 .calband-grid{display:grid;grid-template-columns:1.15fr .85fr;gap:30px;align-items:center;position:relative;z-index:1}
 @media(max-width:820px){.calband{padding:24px 22px}.calband-grid{grid-template-columns:1fr;gap:22px}}
 .calband .eyebrow{color:var(--lagoon)}
@@ -200,19 +201,21 @@ img,svg{display:block;max-width:100%}
 .loading,.nodata{padding:26px;text-align:center;color:var(--muted);font-size:.84rem}
 
 /* ---------- Footer ---------- */
-.site-footer{background:var(--navy);color:#e5f4f6;margin-top:40px;padding:44px 0 34px}
+.site-footer{background:var(--navy);color:#EAF2EE;margin-top:40px;padding:44px 0 34px}
 .footer-grid{display:grid;grid-template-columns:1.5fr 1fr 1fr;gap:44px}
 @media(max-width:820px){.footer-grid{grid-template-columns:1fr;gap:26px}}
 .site-footer .brand{color:#fff}
-.footer-brand p{max-width:400px;color:#a9cad1;font-size:.85rem;margin:12px 0 0}
+.footer-brand p{max-width:400px;color:#B7C9C1;font-size:.85rem;margin:12px 0 0}
 .footer-col strong{display:block;color:var(--lagoon);font-size:.7rem;letter-spacing:.14em;margin-bottom:12px;text-transform:uppercase}
-.footer-col a{display:block;text-decoration:none;color:#e5f4f6;margin:7px 0;font-size:.85rem}
+.footer-col a{display:block;text-decoration:none;color:#EAF2EE;margin:7px 0;font-size:.85rem}
 .footer-col a:hover{color:var(--sun)}
 .footer-base{margin-top:30px;padding-top:18px;border-top:1px solid rgba(255,255,255,.12);
-  color:#8fb4bd;font-size:.74rem;display:flex;justify-content:space-between;gap:14px;flex-wrap:wrap}
+  color:#A3B6AE;font-size:.74rem;display:flex;justify-content:space-between;gap:14px;flex-wrap:wrap}
 
 /* ---------- 海浪裝飾（沿用 OkinawaSundays） ---------- */
-.ocean-waves{position:fixed;left:0;right:0;bottom:0;height:110px;z-index:-1;pointer-events:none;opacity:.85;overflow:hidden}
+.ocean-waves{position:fixed;left:0;right:0;bottom:0;height:92px;z-index:-1;pointer-events:none;opacity:.42;overflow:hidden}
+.ocean-waves path:first-of-type{fill:rgba(143,191,178,.55)}
+.ocean-waves path:last-of-type{fill:rgba(38,112,95,.34)}
 .ocean-waves svg{width:200%;height:100%}
 
 /* ---------- 共用可用性 / 小螢幕 ---------- */

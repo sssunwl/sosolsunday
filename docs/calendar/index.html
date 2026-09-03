@@ -28,6 +28,39 @@ button{-webkit-tap-highlight-color:transparent;cursor:pointer}
 .hero .eyebrow{font-size:.7rem;font-weight:900;letter-spacing:.18em;text-transform:uppercase;color:var(--lagoon)}
 .hero h1{font-size:clamp(1.7rem,4.5vw,2.7rem);line-height:1.15;letter-spacing:-.03em;margin:6px 0 8px}
 .hero p{margin:0;color:rgba(255,255,255,.72);font-size:.92rem;max-width:640px}
+.rangebar{display:flex;flex-wrap:wrap;gap:10px 16px;align-items:center;margin-top:18px}
+.rangepick{display:flex;align-items:center;gap:8px;background:rgba(255,255,255,.10);
+  border:1px solid rgba(255,255,255,.22);border-radius:999px;padding:6px 12px}
+.rangepick label{display:inline-flex;align-items:center;gap:6px;font-size:.78rem;font-weight:800;color:rgba(255,255,255,.72)}
+.rangepick select{background:transparent;border:0;color:#fff;font-weight:900;font-size:.9rem;padding:2px 0}
+.rangepick select option{color:#111}
+.rangepick .arrow{color:rgba(255,255,255,.5);font-weight:900}
+.presets{display:flex;flex-wrap:wrap;gap:6px}
+.presets button{padding:6px 13px;border-radius:999px;border:1.5px solid rgba(255,255,255,.28);
+  background:none;color:rgba(255,255,255,.78);font-weight:800;font-size:.78rem;transition:.16s}
+.presets button:hover{border-color:var(--sun);color:var(--sun)}
+.presets button.on{background:var(--sun);border-color:var(--sun);color:var(--navy)}
+.rangenote{font-size:.75rem;color:rgba(255,255,255,.55);width:100%;margin:0}
+.jumpcal{font-size:.78rem;font-weight:900;color:var(--sun);text-decoration:none;
+  border:1.5px solid var(--sun);border-radius:999px;padding:6px 13px}
+.jumpcal:hover{background:var(--sun);color:var(--navy)}
+
+.panel-row{display:grid;grid-template-columns:1fr;gap:0}
+@media(min-width:900px){.panel-row{grid-template-columns:1fr 1fr;gap:16px;align-items:start}
+  .panel-row>.panel{margin:18px 0}}
+
+.calwrap{scroll-margin-top:16px;background:var(--paper);border:1px solid var(--line);border-radius:var(--radius-lg);
+  box-shadow:var(--shadow-sm);padding:6px 20px 20px;margin:18px 0}
+.calwrap>summary{list-style:none;cursor:pointer;padding:14px 0;display:flex;align-items:center;
+  justify-content:space-between;gap:12px;font-weight:900;font-size:1.05rem;letter-spacing:-.02em}
+.calwrap>summary::-webkit-details-marker{display:none}
+.calwrap>summary .sub{font-size:.8rem;font-weight:700;color:var(--muted)}
+.calwrap>summary .caret{color:var(--blue);font-size:.82rem;font-weight:900;white-space:nowrap}
+.calwrap[open]>summary .caret::after{content:" 收合 ▲"}
+.calwrap:not([open])>summary .caret::after{content:" 展開 ▼"}
+.winmore{width:100%;margin-top:10px;padding:11px;border-radius:var(--radius);border:1.5px dashed var(--line);
+  background:none;color:var(--blue);font-weight:900;font-size:.85rem}
+.winmore:hover{border-color:var(--blue);background:var(--lagoon-soft)}
 .yearpick{display:flex;gap:8px;margin-top:18px}
 .yearpick button{padding:8px 20px;border-radius:999px;border:1.5px solid rgba(255,255,255,.3);background:none;color:rgba(255,255,255,.8);font-weight:800;transition:.18s}
 .yearpick button.on{background:var(--sun);border-color:var(--sun);color:var(--navy)}
@@ -116,38 +149,55 @@ footer{padding:26px 0 60px;text-align:center;font-size:.76rem;color:var(--muted)
     <div class="eyebrow">Family Trip Planner</div>
     <h1>亞洲假期年曆</h1>
     <p>勾選家人所在地 → 找出「大家同時放假」的日子；勾選想去的國家 → 避開當地連假人潮。</p>
-    <div class="yearpick" id="yearpick"></div>
+    <div class="rangebar">
+      <div class="rangepick">
+        <label>從 <select id="fromSel" aria-label="起始年月"></select></label>
+        <span class="arrow">→</span>
+        <label>到 <select id="toSel" aria-label="結束年月"></select></label>
+      </div>
+      <div class="presets" id="presets"></div>
+      <p class="rangenote" id="rangeNote"></p>
+      <a class="jumpcal" href="#calBox">跳到年曆 ↓</a>
+    </div>
   </div>
 </div>
 
 <div class="shell">
 
-  <div class="panel">
-    <h2>① 家人在哪裡（要湊在一起的）</h2>
-    <p class="hint">這些國家同時放假的日子會標成綠色。</p>
-    <div class="chips" id="homeChips"></div>
-  </div>
+  <div class="panel-row">
+    <div class="panel">
+      <h2>① 家人在哪裡（要湊在一起的）</h2>
+      <p class="hint">這些國家同時放假的日子會標成綠色。</p>
+      <div class="chips" id="homeChips"></div>
+    </div>
 
-  <div class="panel">
-    <h2>② 想去哪裡（要避開人潮的）</h2>
-    <p class="hint">這些國家放假的日子，會在日期下方出現對應顏色的細條 — 條越多代表當地越擠。</p>
-    <div class="chips" id="destChips"></div>
+    <div class="panel">
+      <h2>② 想去哪裡（要避開人潮的）</h2>
+      <p class="hint">這些國家放假的日子，會在日期下方出現對應顏色的細條 — 條越多代表當地越擠。</p>
+      <div class="chips" id="destChips"></div>
+    </div>
   </div>
 
   <div class="panel">
     <h2>③ 最佳共同出遊窗口</h2>
     <p class="hint" id="winHint"></p>
     <div class="wins" id="wins"></div>
+    <button class="winmore" id="winMore" hidden></button>
   </div>
 
-  <div class="months" id="months"></div>
-
-  <div class="legend">
-    <span><i class="lg" style="background:var(--go)"></i> 全部家人都放假</span>
-    <span><i class="lg" style="background:rgba(121,217,230,.4)"></i> 部分家人放假</span>
-    <span><i class="lg" style="border-color:var(--go);border-style:dashed"></i> 建議窗口內</span>
-    <span><i class="lg" style="background:linear-gradient(90deg,#e8724a,#7b5cd6)"></i> 目的地放假（人多）</span>
-  </div>
+  <details class="calwrap" id="calBox" open>
+    <summary>
+      <span>④ 年曆<span class="sub" id="calSub"></span></span>
+      <span class="caret"></span>
+    </summary>
+    <div class="months" id="months"></div>
+    <div class="legend">
+      <span><i class="lg" style="background:var(--go)"></i> 全部家人都放假</span>
+      <span><i class="lg" style="background:rgba(121,217,230,.4)"></i> 部分家人放假</span>
+      <span><i class="lg" style="border-color:var(--go);border-style:dashed"></i> 建議窗口內</span>
+      <span><i class="lg" style="background:linear-gradient(90deg,#e8724a,#7b5cd6)"></i> 目的地放假（人多）</span>
+    </div>
+  </details>
 
   <div class="panel">
     <h2>資料來源與準確度</h2>
@@ -166,7 +216,15 @@ const PATHS = /\/calendar\/?$/.test(location.pathname)
   : ['./holidays.json','../data/holidays.json','data/holidays.json'];
 const COLORS = {TW:'#e8724a',HK:'#0f9d76',MO:'#c56bb0',CN:'#d4373c',JP:'#e0568a',KR:'#3f6fd6',TH:'#7b5cd6',SG:'#e0a020',VN:'#1f9ab5'};
 const WD = ['一','二','三','四','五','六','日'];
-let DB=null, YEAR='2027', HOME=new Set(), DEST=new Set(), WINS=[], SELDAY=null;
+let DB=null, FROM='', TO='', HOME=new Set(), DEST=new Set(), WINS=[], SELDAY=null, WIN_ALL=false;
+const MONTH_SPAN=6;                       // 預設顯示的月份數
+const ym  = d => `${d.getUTCFullYear()}-${String(d.getUTCMonth()+1).padStart(2,'0')}`;
+const ymD = s => { const[y,m]=s.split('-').map(Number); return new Date(Date.UTC(y,m-1,1)); };
+const ymAdd = (s,n) => { const d=ymD(s); return ym(new Date(Date.UTC(d.getUTCFullYear(),d.getUTCMonth()+n,1))); };
+const ymLabel = s => { const[y,m]=s.split('-'); return `${y} 年 ${+m} 月`; };
+const ymDiff = (a,b) => { const A=ymD(a),B=ymD(b);
+  return (B.getUTCFullYear()-A.getUTCFullYear())*12 + (B.getUTCMonth()-A.getUTCMonth()); };
+let ALL_MONTHS=[];                        // 資料涵蓋的所有 YYYY-MM
 
 const iso = d => d.toISOString().slice(0,10);
 const mkd = s => { const [y,m,dd]=s.split('-').map(Number); return new Date(Date.UTC(y,m-1,dd)); };
@@ -238,12 +296,18 @@ function crowdOf(w){
 
 // ---- rendering ----
 const cName = c => DB.countries.find(x=>x.code===c);
-const fmt = s => { const d=mkd(s); return `${d.getUTCMonth()+1}/${d.getUTCDate()}(${WD[wdIdx(d)]})`; };
+const fmt  = s => { const d=mkd(s); return `${d.getUTCFullYear()}/${d.getUTCMonth()+1}/${d.getUTCDate()}(${WD[wdIdx(d)]})`; };
+// 請假日期：同一年就省略年份，跨年才補上，避免整串太長
+const fmtIn = (s,baseYear) => { const d=mkd(s);
+  const head = d.getUTCFullYear()===baseYear ? '' : d.getUTCFullYear()+'/';
+  return `${head}${d.getUTCMonth()+1}/${d.getUTCDate()}(${WD[wdIdx(d)]})`; };
 
 function renderChips(){
   const box=(el,set,cls)=>{
     el.innerHTML = DB.countries.map(c=>{
-      const st=DB.years[YEAR][c.code]?.status;
+      const st=rangeYears().map(y=>DB.years[y]?.[c.code]?.status)
+        .reduce((a,b)=> a==='estimated'||b==='estimated' ? 'estimated'
+          : a==='partial'||b==='partial' ? 'partial' : (a||b||'official'), null);
       const badge = st==='official' ? '' : `<span class="warn">${st==='estimated'?'預估':'部分預估'}</span>`;
       return `<button class="chip ${cls} ${set.has(c.code)?'on':''}" style="--c:${COLORS[c.code]}" data-c="${c.code}" data-set="${cls}">
         <i class="sw"></i>${c.flag} ${c.name}${badge}</button>`;
@@ -258,12 +322,21 @@ function renderChips(){
   });
 }
 
+// 預設先列幾個，其餘收起來；手機少列一些，年曆才不會被推到很下面
+const winPreview = () => window.matchMedia('(max-width:700px)').matches ? 3 : 6;
+function rangeYears(){
+  const out=new Set();
+  for(let i=0;i<=ymDiff(FROM,TO);i++) out.add(ymAdd(FROM,i).slice(0,4));
+  return [...out].filter(y=>DB.years[y]);
+}
 function renderWins(){
-  const codes=[...HOME], el=document.getElementById('wins');
-  document.getElementById('winHint').textContent =
-    codes.length ? `以「${codes.map(c=>cName(c).name).join(' + ')}」都能休假為條件，每人請假上限 5 天。` : '';
-  if(!codes.length){ el.innerHTML='<div class="empty">先在上面勾選至少一個「家人所在地」。</div>'; WINS=[]; return; }
-  const from=`${YEAR}-01-01`, to=`${+YEAR+1}-01-05`;
+  const codes=[...HOME], el=document.getElementById('wins'), more=document.getElementById('winMore');
+  document.getElementById('winHint').textContent = codes.length
+    ? `${ymLabel(FROM)}–${ymLabel(TO)}，以「${codes.map(c=>cName(c).name).join(' + ')}」都能休假為條件，每人請假上限 5 天。` : '';
+  if(!codes.length){ el.innerHTML='<div class="empty">先在上面勾選至少一個「家人所在地」。</div>';
+    WINS=[]; more.hidden=true; return; }
+  const endD=new Date(Date.UTC(+TO.slice(0,4), +TO.slice(5)-0, 5));   // 到 TO 月底再多 5 天，讓跨月連假算得出來
+  const from=`${FROM}-01`, to=iso(endD);
   const zero  = findWindows(codes, from, to, 0, 20);         // 完全不用請假
   const cheap = findWindows(codes, from, to, 1, 20);         // 每人最多請 1 天
   const paid  = findWindows(codes, from, to, 5, 14);         // 願意請假可拉長
@@ -275,12 +348,18 @@ function renderWins(){
     seen.add(k); WINS.push(w);
   }
   WINS.sort((a,b)=> a.from<b.from?-1:(a.from>b.from?1:a.len-b.len));
-  if(!WINS.length){ el.innerHTML='<div class="empty">這一年找不到共同窗口，試著少勾一個地區。</div>'; return; }
-  el.innerHTML = WINS.map(w=>{
+  if(!WINS.length){ el.innerHTML='<div class="empty">這個範圍找不到共同窗口，試著拉長期間或少勾一個地區。</div>';
+    more.hidden=true; return; }
+  const n = winPreview();
+  const list = WIN_ALL ? WINS : WINS.slice(0,n);
+  more.hidden = WINS.length<=n;
+  more.textContent = WIN_ALL ? `收合，只看前 ${n} 個 ▲` : `展開全部 ${WINS.length} 個窗口 ▼`;
+  el.innerHTML = list.map(w=>{
     const free = w.worst===0;
     const leave = codes.map(c=>{
       const l=w.leave[c];
-      return `<b>${cName(c).flag}${cName(c).name}</b> 請 ${l.n} 天${l.n?`（${l.dates.map(fmt).join('、')}）`:''}`;
+      const baseY=+w.from.slice(0,4);
+      return `<b>${cName(c).flag}${cName(c).name}</b> 請 ${l.n} 天${l.n?`（${l.dates.map(d=>fmtIn(d,baseY)).join('、')}）`:''}`;
     }).join(' · ');
     const cw = crowdOf(w);
     const crowd = cw.length
@@ -301,13 +380,15 @@ function inWindow(s){ return WINS.some(w=>s>=w.from&&s<=w.to); }
 
 function renderMonths(){
   const codes=[...HOME], dests=[...DEST], out=[];
-  for(let m=0;m<12;m++){
-    const first=new Date(Date.UTC(+YEAR,m,1)), lead=wdIdx(first);
-    const dim=new Date(Date.UTC(+YEAR,m+1,0)).getUTCDate();
+  const span=ymDiff(FROM,TO);
+  for(let k=0;k<=span;k++){
+    const key=ymAdd(FROM,k), Y=+key.slice(0,4), m=+key.slice(5)-1;
+    const first=new Date(Date.UTC(Y,m,1)), lead=wdIdx(first);
+    const dim=new Date(Date.UTC(Y,m+1,0)).getUTCDate();
     let rows='', cells=[], nCommon=0;
     for(let i=0;i<lead;i++) cells.push('<td></td>');
     for(let day=1;day<=dim;day++){
-      const d=new Date(Date.UTC(+YEAR,m,day)), s=iso(d), we=wdIdx(d)>=5;
+      const d=new Date(Date.UTC(Y,m,day)), s=iso(d), we=wdIdx(d)>=5;
       let nOff=0; codes.forEach(c=>{ if(isOff(c,s,d)) nOff++; });
       const anyHol = codes.some(c=>isHol(c,s));
       let cls='cell'+(we?' we':'');
@@ -320,11 +401,13 @@ function renderMonths(){
     }
     while(cells.length%7) cells.push('<td></td>');
     for(let i=0;i<cells.length;i+=7) rows+=`<tr>${cells.slice(i,i+7).join('')}</tr>`;
-    out.push(`<div class="mo"><h3>${m+1} 月${nCommon?`<small>共同 ${nCommon} 天</small>`:''}</h3>
+    const showY = k===0 || m===0;                       // 一月或第一格才標年份
+    out.push(`<div class="mo"><h3>${showY?`${Y} 年 `:''}${m+1} 月${nCommon?`<small>共同 ${nCommon} 天</small>`:''}</h3>
       <table class="cal"><tr>${WD.map((w,i)=>`<th class="${i>=5?'we':''}">${w}</th>`).join('')}</tr>${rows}</table></div>`);
   }
   const box=document.getElementById('months'); box.innerHTML=out.join('');
   box.querySelectorAll('.cell').forEach(b=>b.onclick=()=>openDetail(b.dataset.d,b));
+  document.getElementById('calSub').textContent = ` · ${ymLabel(FROM)} – ${ymLabel(TO)}，共 ${span+1} 個月`;
 }
 
 function openDetail(s,btn){
@@ -347,27 +430,61 @@ function closeDetail(){ document.getElementById('detail').classList.remove('on')
   document.querySelectorAll('.cell.sel').forEach(x=>x.classList.remove('sel')); }
 
 function renderSrc(){
-  const m=DB._meta, y=DB.years[YEAR];
+  const m=DB._meta, ys=rangeYears();
   document.getElementById('srcBox').innerHTML =
-    `資料更新：<code>${m.updated}</code>　${YEAR} 年狀態：` +
+    `資料更新：<code>${m.updated}</code>　${ys.join('、')} 年狀態：` +
     DB.countries.map(c=>{
-      const st=y[c.code]?.status;
+      const st=ys.map(y=>DB.years[y]?.[c.code]?.status)
+        .reduce((a,b)=> a==='estimated'||b==='estimated' ? 'estimated'
+          : a==='partial'||b==='partial' ? 'partial' : (a||b||'official'), null);
       const lab = st==='official'?'已官方公布':(st==='estimated'?'<b style="color:var(--coral)">尚未公布 · 預估</b>':'部分預估');
       return `${c.flag}${c.name} ${lab}`;
     }).join('　') +
     '<br><br>' + Object.entries(m.sources).map(([k,v])=>`<b>${k}</b>：${v}`).join('<br>');
 }
 
+function clampRange(){
+  if(!ALL_MONTHS.includes(FROM)) FROM=ALL_MONTHS[0];
+  if(!ALL_MONTHS.includes(TO) || ymDiff(FROM,TO)<0) TO=ALL_MONTHS[Math.min(
+    ALL_MONTHS.indexOf(FROM)+MONTH_SPAN-1, ALL_MONTHS.length-1)];
+}
+function presetList(){
+  const now=ym(new Date()), start=ALL_MONTHS.includes(now)?now:ALL_MONTHS[0];
+  const at=n=>ALL_MONTHS[Math.min(ALL_MONTHS.indexOf(start)+n-1, ALL_MONTHS.length-1)];
+  const out=[{k:'6',  t:'未來 6 個月',  f:start, to:at(6)},
+             {k:'12', t:'未來 12 個月', f:start, to:at(12)}];
+  for(const y of Object.keys(DB.years).sort())
+    out.push({k:y, t:`${y} 全年`, f:`${y}-01`, to:`${y}-12`});
+  out.push({k:'all', t:'全部', f:ALL_MONTHS[0], to:ALL_MONTHS.at(-1)});
+  return out;
+}
+function renderRange(){
+  const opt=sel=>ALL_MONTHS.map(k=>`<option value="${k}"${k===sel?' selected':''}>${ymLabel(k)}</option>`).join('');
+  const f=document.getElementById('fromSel'), t=document.getElementById('toSel');
+  f.innerHTML=opt(FROM); t.innerHTML=opt(TO);
+  f.onchange=()=>{ FROM=f.value; if(ymDiff(FROM,TO)<0) TO=FROM; save(); renderAll(); };
+  t.onchange=()=>{ TO=t.value;   if(ymDiff(FROM,TO)<0) FROM=TO; save(); renderAll(); };
+  document.getElementById('presets').innerHTML = presetList()
+    .map(p=>`<button data-f="${p.f}" data-t="${p.to}" class="${p.f===FROM&&p.to===TO?'on':''}">${p.t}</button>`).join('');
+  document.querySelectorAll('#presets button').forEach(b=>b.onclick=()=>{
+    FROM=b.dataset.f; TO=b.dataset.t; save(); renderAll(); });
+  document.getElementById('rangeNote').textContent =
+    `資料涵蓋 ${ymLabel(ALL_MONTHS[0])} – ${ymLabel(ALL_MONTHS.at(-1))}；跨出結束月的連假仍會完整算出來。`;
+}
 function renderAll(){
-  document.getElementById('yearpick').innerHTML = Object.keys(DB.years).sort()
-    .map(y=>`<button class="${y===YEAR?'on':''}" data-y="${y}">${y}</button>`).join('');
-  document.querySelectorAll('#yearpick button').forEach(b=>b.onclick=()=>{YEAR=b.dataset.y;save();renderAll();});
+  clampRange(); renderRange();
   renderChips(); renderWins(); renderMonths(); renderSrc();
 }
 
-function save(){ try{ localStorage.setItem('holcal',JSON.stringify({YEAR,home:[...HOME],dest:[...DEST]})); }catch(e){} }
+function save(){ try{ localStorage.setItem('holcal',
+  JSON.stringify({FROM,TO,home:[...HOME],dest:[...DEST],all:WIN_ALL})); }catch(e){} }
 function load(){ try{ const v=JSON.parse(localStorage.getItem('holcal')||'null');
-  if(v){ if(DB.years[v.YEAR]) YEAR=v.YEAR; HOME=new Set(v.home); DEST=new Set(v.dest); return true; } }catch(e){} return false; }
+  if(!v) return false;
+  if(ALL_MONTHS.includes(v.FROM)) FROM=v.FROM;
+  if(ALL_MONTHS.includes(v.TO))   TO=v.TO;
+  WIN_ALL=!!v.all;
+  if(Array.isArray(v.home)&&Array.isArray(v.dest)){ HOME=new Set(v.home); DEST=new Set(v.dest); return true; }
+  }catch(e){} return false; }
 
 (async function(){
   // 回首頁連結：在 /calendar/ 目錄下回上一層，否則回同層 index.html
@@ -378,10 +495,17 @@ function load(){ try{ const v=JSON.parse(localStorage.getItem('holcal')||'null')
   }
   if(!DB){ document.getElementById('months').innerHTML='<div class="empty">假期資料載入失敗。</div>'; return; }
   buildIndex();
-  const years=Object.keys(DB.years).sort();
-  const thisYear=String(new Date().getFullYear());
-  YEAR = years.includes(thisYear)?thisYear:years[0];
+  ALL_MONTHS = Object.keys(DB.years).sort()
+    .flatMap(y=>Array.from({length:12},(_,i)=>`${y}-${String(i+1).padStart(2,'0')}`));
+  const now=ym(new Date());
+  FROM = ALL_MONTHS.includes(now) ? now : ALL_MONTHS[0];              // 預設從當月起算
+  TO   = ALL_MONTHS[Math.min(ALL_MONTHS.indexOf(FROM)+MONTH_SPAN-1, ALL_MONTHS.length-1)];
   if(!load()){ HOME=new Set(['TW','HK']); DEST=new Set(['JP','KR','TH']); }
+  document.getElementById('winMore').onclick=()=>{ WIN_ALL=!WIN_ALL; save(); renderWins(); renderMonths(); };
+  document.getElementById('calBox').addEventListener('toggle',e=>{
+    try{ localStorage.setItem('holcal_cal', e.target.open?'1':'0'); }catch(_){}
+  });
+  try{ if(localStorage.getItem('holcal_cal')==='0') document.getElementById('calBox').open=false; }catch(_){}
   renderAll();
 })();
 </script>
