@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-09-03 19:24 HKT",
+  "updated_at": "2026-09-03 23:39 HKT",
   "routes": [
     {
       "key": "HKG_TPE",
@@ -19,13 +19,13 @@
           "is_round_trip": false,
           "baseline": {
             "n_days": 90,
-            "samples": 0,
-            "median": null,
-            "p10": null,
-            "min": null,
-            "max": null,
-            "percentile": null,
-            "vs_median_pct": null,
+            "samples": 1,
+            "median": 1343,
+            "p10": 1343,
+            "min": 1343,
+            "max": 1343,
+            "percentile": 0,
+            "vs_median_pct": 0,
             "verdict": "unknown"
           }
         },
@@ -39,13 +39,13 @@
           "is_round_trip": false,
           "baseline": {
             "n_days": 90,
-            "samples": 0,
-            "median": null,
-            "p10": null,
-            "min": null,
-            "max": null,
-            "percentile": null,
-            "vs_median_pct": null,
+            "samples": 1,
+            "median": 1368,
+            "p10": 1368,
+            "min": 1368,
+            "max": 1368,
+            "percentile": 0,
+            "vs_median_pct": 0,
             "verdict": "unknown"
           }
         },
@@ -59,13 +59,13 @@
           "is_round_trip": false,
           "baseline": {
             "n_days": 90,
-            "samples": 0,
-            "median": null,
-            "p10": null,
-            "min": null,
-            "max": null,
-            "percentile": null,
-            "vs_median_pct": null,
+            "samples": 1,
+            "median": 1302,
+            "p10": 1302,
+            "min": 1302,
+            "max": 1302,
+            "percentile": 0,
+            "vs_median_pct": 0,
             "verdict": "unknown"
           }
         },
@@ -79,13 +79,13 @@
           "is_round_trip": false,
           "baseline": {
             "n_days": 90,
-            "samples": 0,
-            "median": null,
-            "p10": null,
-            "min": null,
-            "max": null,
-            "percentile": null,
-            "vs_median_pct": null,
+            "samples": 1,
+            "median": 1302,
+            "p10": 1302,
+            "min": 1302,
+            "max": 1302,
+            "percentile": 0,
+            "vs_median_pct": 0,
             "verdict": "unknown"
           }
         },
@@ -99,13 +99,13 @@
           "is_round_trip": false,
           "baseline": {
             "n_days": 90,
-            "samples": 0,
-            "median": null,
-            "p10": null,
-            "min": null,
-            "max": null,
-            "percentile": null,
-            "vs_median_pct": null,
+            "samples": 1,
+            "median": 1359,
+            "p10": 1359,
+            "min": 1359,
+            "max": 1359,
+            "percentile": 0,
+            "vs_median_pct": 0,
             "verdict": "unknown"
           }
         }
@@ -121,7 +121,7 @@
       "months": [
         {
           "month": "2026-09",
-          "price": 1618,
+          "price": 1617,
           "date": "2026-09-14",
           "airline": "香港快運",
           "is_cheapest": false,
@@ -129,13 +129,13 @@
           "is_round_trip": false,
           "baseline": {
             "n_days": 90,
-            "samples": 0,
-            "median": null,
-            "p10": null,
-            "min": null,
-            "max": null,
-            "percentile": null,
-            "vs_median_pct": null,
+            "samples": 1,
+            "median": 1617,
+            "p10": 1617,
+            "min": 1617,
+            "max": 1617,
+            "percentile": 0,
+            "vs_median_pct": 0,
             "verdict": "unknown"
           }
         },
@@ -149,13 +149,13 @@
           "is_round_trip": false,
           "baseline": {
             "n_days": 90,
-            "samples": 0,
-            "median": null,
-            "p10": null,
-            "min": null,
-            "max": null,
-            "percentile": null,
-            "vs_median_pct": null,
+            "samples": 1,
+            "median": 1616,
+            "p10": 1616,
+            "min": 1616,
+            "max": 1616,
+            "percentile": 0,
+            "vs_median_pct": 0,
             "verdict": "unknown"
           }
         },
@@ -169,13 +169,13 @@
           "is_round_trip": false,
           "baseline": {
             "n_days": 90,
-            "samples": 0,
-            "median": null,
-            "p10": null,
-            "min": null,
-            "max": null,
-            "percentile": null,
-            "vs_median_pct": null,
+            "samples": 1,
+            "median": 2775,
+            "p10": 2775,
+            "min": 2775,
+            "max": 2775,
+            "percentile": 0,
+            "vs_median_pct": 0,
             "verdict": "unknown"
           }
         },
@@ -189,13 +189,13 @@
           "is_round_trip": false,
           "baseline": {
             "n_days": 90,
-            "samples": 0,
-            "median": null,
-            "p10": null,
-            "min": null,
-            "max": null,
-            "percentile": null,
-            "vs_median_pct": null,
+            "samples": 1,
+            "median": 2163,
+            "p10": 2163,
+            "min": 2163,
+            "max": 2163,
+            "percentile": 0,
+            "vs_median_pct": 0,
             "verdict": "unknown"
           }
         }
@@ -219,13 +219,13 @@
           "is_round_trip": false,
           "baseline": {
             "n_days": 90,
-            "samples": 0,
-            "median": null,
-            "p10": null,
-            "min": null,
-            "max": null,
-            "percentile": null,
-            "vs_median_pct": null,
+            "samples": 1,
+            "median": 1405,
+            "p10": 1405,
+            "min": 1405,
+            "max": 1405,
+            "percentile": 0,
+            "vs_median_pct": 0,
             "verdict": "unknown"
           }
         },
@@ -239,13 +239,13 @@
           "is_round_trip": false,
           "baseline": {
             "n_days": 90,
-            "samples": 0,
-            "median": null,
-            "p10": null,
-            "min": null,
-            "max": null,
-            "percentile": null,
-            "vs_median_pct": null,
+            "samples": 1,
+            "median": 1278,
+            "p10": 1278,
+            "min": 1278,
+            "max": 1278,
+            "percentile": 0,
+            "vs_median_pct": 0,
             "verdict": "unknown"
           }
         },
@@ -259,13 +259,13 @@
           "is_round_trip": false,
           "baseline": {
             "n_days": 90,
-            "samples": 0,
-            "median": null,
-            "p10": null,
-            "min": null,
-            "max": null,
-            "percentile": null,
-            "vs_median_pct": null,
+            "samples": 1,
+            "median": 1294,
+            "p10": 1294,
+            "min": 1294,
+            "max": 1294,
+            "percentile": 0,
+            "vs_median_pct": 0,
             "verdict": "unknown"
           }
         },
@@ -279,13 +279,13 @@
           "is_round_trip": false,
           "baseline": {
             "n_days": 90,
-            "samples": 0,
-            "median": null,
-            "p10": null,
-            "min": null,
-            "max": null,
-            "percentile": null,
-            "vs_median_pct": null,
+            "samples": 1,
+            "median": 1982,
+            "p10": 1982,
+            "min": 1982,
+            "max": 1982,
+            "percentile": 0,
+            "vs_median_pct": 0,
             "verdict": "unknown"
           }
         },
@@ -299,13 +299,13 @@
           "is_round_trip": false,
           "baseline": {
             "n_days": 90,
-            "samples": 0,
-            "median": null,
-            "p10": null,
-            "min": null,
-            "max": null,
-            "percentile": null,
-            "vs_median_pct": null,
+            "samples": 1,
+            "median": 2149,
+            "p10": 2149,
+            "min": 2149,
+            "max": 2149,
+            "percentile": 0,
+            "vs_median_pct": 0,
             "verdict": "unknown"
           }
         }
@@ -329,13 +329,13 @@
           "is_round_trip": false,
           "baseline": {
             "n_days": 90,
-            "samples": 0,
-            "median": null,
-            "p10": null,
-            "min": null,
-            "max": null,
-            "percentile": null,
-            "vs_median_pct": null,
+            "samples": 1,
+            "median": 1332,
+            "p10": 1332,
+            "min": 1332,
+            "max": 1332,
+            "percentile": 0,
+            "vs_median_pct": 0,
             "verdict": "unknown"
           }
         },
@@ -349,13 +349,13 @@
           "is_round_trip": false,
           "baseline": {
             "n_days": 90,
-            "samples": 0,
-            "median": null,
-            "p10": null,
-            "min": null,
-            "max": null,
-            "percentile": null,
-            "vs_median_pct": null,
+            "samples": 1,
+            "median": 1325,
+            "p10": 1325,
+            "min": 1325,
+            "max": 1325,
+            "percentile": 0,
+            "vs_median_pct": 0,
             "verdict": "unknown"
           }
         },
@@ -369,33 +369,33 @@
           "is_round_trip": false,
           "baseline": {
             "n_days": 90,
-            "samples": 0,
-            "median": null,
-            "p10": null,
-            "min": null,
-            "max": null,
-            "percentile": null,
-            "vs_median_pct": null,
+            "samples": 1,
+            "median": 1381,
+            "p10": 1381,
+            "min": 1381,
+            "max": 1381,
+            "percentile": 0,
+            "vs_median_pct": 0,
             "verdict": "unknown"
           }
         },
         {
           "month": "2026-12",
-          "price": 1168,
-          "date": "2026-12-09",
-          "airline": "台灣虎航",
+          "price": 1012,
+          "date": "2026-12-02",
+          "airline": "樂桃",
           "is_cheapest": true,
           "return_date": null,
           "is_round_trip": false,
           "baseline": {
             "n_days": 90,
-            "samples": 0,
-            "median": null,
-            "p10": null,
-            "min": null,
-            "max": null,
-            "percentile": null,
-            "vs_median_pct": null,
+            "samples": 1,
+            "median": 1012,
+            "p10": 1012,
+            "min": 1012,
+            "max": 1012,
+            "percentile": 0,
+            "vs_median_pct": 0,
             "verdict": "unknown"
           }
         },
@@ -409,13 +409,13 @@
           "is_round_trip": false,
           "baseline": {
             "n_days": 90,
-            "samples": 0,
-            "median": null,
-            "p10": null,
-            "min": null,
-            "max": null,
-            "percentile": null,
-            "vs_median_pct": null,
+            "samples": 1,
+            "median": 1207,
+            "p10": 1207,
+            "min": 1207,
+            "max": 1207,
+            "percentile": 0,
+            "vs_median_pct": 0,
             "verdict": "unknown"
           }
         },
@@ -429,13 +429,13 @@
           "is_round_trip": false,
           "baseline": {
             "n_days": 90,
-            "samples": 0,
-            "median": null,
-            "p10": null,
-            "min": null,
-            "max": null,
-            "percentile": null,
-            "vs_median_pct": null,
+            "samples": 1,
+            "median": 1685,
+            "p10": 1685,
+            "min": 1685,
+            "max": 1685,
+            "percentile": 0,
+            "vs_median_pct": 0,
             "verdict": "unknown"
           }
         }
@@ -459,13 +459,13 @@
           "is_round_trip": false,
           "baseline": {
             "n_days": 90,
-            "samples": 0,
-            "median": null,
-            "p10": null,
-            "min": null,
-            "max": null,
-            "percentile": null,
-            "vs_median_pct": null,
+            "samples": 1,
+            "median": 1584,
+            "p10": 1584,
+            "min": 1584,
+            "max": 1584,
+            "percentile": 0,
+            "vs_median_pct": 0,
             "verdict": "unknown"
           }
         },
@@ -479,13 +479,13 @@
           "is_round_trip": false,
           "baseline": {
             "n_days": 90,
-            "samples": 0,
-            "median": null,
-            "p10": null,
-            "min": null,
-            "max": null,
-            "percentile": null,
-            "vs_median_pct": null,
+            "samples": 1,
+            "median": 1618,
+            "p10": 1618,
+            "min": 1618,
+            "max": 1618,
+            "percentile": 0,
+            "vs_median_pct": 0,
             "verdict": "unknown"
           }
         }
@@ -509,13 +509,13 @@
           "is_round_trip": false,
           "baseline": {
             "n_days": 90,
-            "samples": 0,
-            "median": null,
-            "p10": null,
-            "min": null,
-            "max": null,
-            "percentile": null,
-            "vs_median_pct": null,
+            "samples": 1,
+            "median": 1860,
+            "p10": 1860,
+            "min": 1860,
+            "max": 1860,
+            "percentile": 0,
+            "vs_median_pct": 0,
             "verdict": "unknown"
           }
         },
@@ -529,13 +529,13 @@
           "is_round_trip": false,
           "baseline": {
             "n_days": 90,
-            "samples": 0,
-            "median": null,
-            "p10": null,
-            "min": null,
-            "max": null,
-            "percentile": null,
-            "vs_median_pct": null,
+            "samples": 1,
+            "median": 1408,
+            "p10": 1408,
+            "min": 1408,
+            "max": 1408,
+            "percentile": 0,
+            "vs_median_pct": 0,
             "verdict": "unknown"
           }
         },
@@ -549,13 +549,13 @@
           "is_round_trip": false,
           "baseline": {
             "n_days": 90,
-            "samples": 0,
-            "median": null,
-            "p10": null,
-            "min": null,
-            "max": null,
-            "percentile": null,
-            "vs_median_pct": null,
+            "samples": 1,
+            "median": 1499,
+            "p10": 1499,
+            "min": 1499,
+            "max": 1499,
+            "percentile": 0,
+            "vs_median_pct": 0,
             "verdict": "unknown"
           }
         }
@@ -565,7 +565,7 @@
   "destinations": {
     "HKG": [
       {
-        "price": 1011,
+        "price": 1105,
         "name": "上海",
         "code": "SHA"
       },
@@ -607,14 +607,14 @@
         "code": "BKK"
       },
       {
+        "price": 1216,
+        "name": "馬尼拉",
+        "code": "MNL"
+      },
+      {
         "price": 1231,
         "name": "胡志明",
         "code": "SGN"
-      },
-      {
-        "price": 1240,
-        "name": "TAE",
-        "code": "TAE"
       }
     ]
   }
