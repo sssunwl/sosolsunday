@@ -328,3 +328,47 @@ button:disabled{opacity:.45;cursor:not-allowed}
   .hotel-controls{width:100%}.section-head{gap:16px}.page-hero h1{line-height:1.12}
 }
 @media(prefers-reduced-motion:reduce){*,*::before,*::after{animation:none!important;transition:none!important;scroll-behavior:auto!important}}
+
+/* ---------- 口袋地點 Places ---------- */
+.pl-toolbar{display:flex;gap:10px;align-items:center;flex-wrap:wrap;margin-bottom:14px}
+.pl-chips{display:flex;gap:8px;overflow-x:auto;padding-bottom:2px;scrollbar-width:none;-webkit-overflow-scrolling:touch}
+.pl-chips::-webkit-scrollbar{display:none}
+.pl-chip{flex:0 0 auto;padding:7px 14px;border-radius:999px;border:1.5px solid var(--line);background:var(--paper);
+  color:var(--muted);font-size:.84rem;font-weight:800;white-space:nowrap;transition:.16s}
+.pl-chip:hover{border-color:var(--blue);color:var(--blue)}
+.pl-chip[aria-pressed="true"]{background:var(--navy);border-color:var(--navy);color:#fff}
+.pl-count{font-size:.78rem;color:var(--muted);font-weight:700;margin-left:auto}
+
+.pl-layout{display:grid;grid-template-columns:1fr;gap:16px}
+@media(min-width:920px){.pl-layout{grid-template-columns:minmax(0,1.05fr) minmax(0,.95fr);align-items:start}
+  .pl-mapwrap{position:sticky;top:82px}}
+.pl-mapwrap{background:var(--paper);border:1px solid var(--line);border-radius:var(--radius-lg);
+  box-shadow:var(--shadow-sm);padding:10px;overflow:hidden}
+#placeMap{height:340px;border-radius:var(--radius);z-index:0}
+@media(max-width:919px){#placeMap{height:260px}}
+.pl-maphint{font-size:.72rem;color:var(--muted);font-weight:700;padding:8px 6px 2px}
+
+.pl-list{display:grid;gap:11px}
+.pl-card{width:100%;text-align:left;background:var(--paper);border:1px solid var(--line);border-left:4px solid var(--coral);
+  border-radius:var(--radius);padding:15px 17px;transition:.16s}
+.pl-card:hover{transform:translateY(-2px);box-shadow:var(--shadow-sm);border-color:var(--blue);border-left-color:var(--coral)}
+.pl-card[aria-current="true"]{border-color:var(--blue);border-left-color:var(--blue);background:var(--lagoon-soft)}
+.pl-card-hd{display:flex;justify-content:space-between;align-items:flex-start;gap:10px}
+.pl-card-nm{font-size:1rem;font-weight:900;letter-spacing:-.02em;line-height:1.3}
+.pl-card-cat{flex:0 0 auto;font-size:.7rem;font-weight:900;color:var(--navy);background:var(--sun);
+  padding:3px 9px;border-radius:999px}
+.pl-card-region{font-size:.74rem;color:var(--blue);font-weight:900;margin-top:3px}
+.pl-card-sum{font-size:.85rem;color:var(--muted);margin-top:7px;line-height:1.6}
+.pl-tags{margin-top:9px;display:flex;flex-wrap:wrap;gap:6px}
+.pl-tag{font-size:.7rem;color:var(--muted);background:var(--lagoon-soft);padding:3px 9px;border-radius:999px;font-weight:700}
+.pl-links{margin-top:11px;display:flex;gap:8px;flex-wrap:wrap}
+.pl-links a{font-size:.76rem;font-weight:800;text-decoration:none;color:var(--blue);
+  border:1px solid var(--line);background:var(--paper);border-radius:999px;padding:6px 12px}
+.pl-links a:hover{border-color:var(--blue)}
+.pl-unverified{font-size:.7rem;color:var(--warn);font-weight:800;margin-top:8px}
+.pl-empty{border:1.5px dashed var(--line);border-radius:var(--radius-lg);padding:36px 24px;text-align:center;
+  color:var(--muted);font-size:.88rem;line-height:1.8}
+.pl-empty strong{display:block;color:var(--ink);font-size:1rem;margin-bottom:6px}
+.leaflet-popup-content{font-family:inherit;font-size:.82rem;line-height:1.55;margin:10px 13px}
+.leaflet-popup-content b{color:var(--navy)}
+.leaflet-container{font-family:inherit;background:var(--lagoon-soft)}

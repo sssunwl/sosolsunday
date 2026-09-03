@@ -25,7 +25,7 @@
     <nav class="desktop-nav">
       <a href="./" aria-current="page">首頁</a>
       <a href="#deals">機票・酒店</a>
-      <a href="destinations/">目的地</a>
+      <a href="destinations/">目的地</a><a href="places/">口袋地點</a>
       <a href="seasonal/">季節限定</a>
       <a href="calendar/">假期年曆</a>
     </nav>
@@ -35,7 +35,7 @@
     </div>
   </div>
   <nav class="drop-nav shell" id="dropNav" hidden>
-    <a href="#deals">機票・酒店</a><a href="destinations/">目的地</a>
+    <a href="#deals">機票・酒店</a><a href="destinations/">目的地</a><a href="places/">口袋地點</a>
     <a href="seasonal/">季節限定</a><a href="calendar/">假期年曆</a>
   </nav>
 </header>
@@ -118,6 +118,19 @@
   </div>
 </section>
 
+
+<!-- ══ 口袋地點 ══ -->
+<section class="section" id="places">
+  <div class="shell">
+    <div class="section-head">
+      <div><span class="eyebrow">Pocket Places</span><h2>口袋地點</h2>
+      <p>從 Notion 收藏整理出來、已經查過位置的餐廳與景點。</p></div>
+      <a class="section-link" href="places/">看地圖 <span>→</span></a>
+    </div>
+    <div class="elist" id="placePeek"><div class="loading">載入中…</div></div>
+  </div>
+</section>
+
 <!-- ══ 季節限定 ══ -->
 <section class="section">
   <div class="shell">
@@ -151,7 +164,7 @@
       </div>
       <div class="footer-col"><strong>逛逛</strong>
         <a href="#deals">機票價格</a><a href="#deals">酒店精選</a>
-        <a href="destinations/">目的地</a><a href="seasonal/">季節限定</a><a href="calendar/">假期年曆</a>
+        <a href="destinations/">目的地</a><a href="places/">口袋地點</a><a href="seasonal/">季節限定</a><a href="calendar/">假期年曆</a>
       </div>
       <div class="footer-col"><strong>關於</strong>
         <a href="https://github.com/sssunwl/sosolsunday" target="_blank" rel="noopener">GitHub</a>
@@ -163,7 +176,7 @@
 </footer>
 
 <script>
-let FD=null,HD=null,SD=null,CAL=null,origin='HKG',hWknd=0,hCity=null;
+let FD=null,HD=null,SD=null,CAL=null,PLD=null,origin='HKG',hWknd=0,hCity=null;
 const FLAG={'三亞':'🇨🇳','桂林':'🇨🇳','寧波':'🇨🇳','廣州':'🇨🇳','深圳':'🇨🇳','上海':'🇨🇳','北京':'🇨🇳','成都':'🇨🇳',
 '台北':'🇹🇼','高雄':'🇹🇼','台中':'🇹🇼','香港':'🇭🇰','沖繩那覇':'🇯🇵','石垣島':'🇯🇵','宮古島':'🇯🇵','東京':'🇯🇵',
 '大阪':'🇯🇵','福岡':'🇯🇵','札幌':'🇯🇵','名古屋':'🇯🇵','首爾':'🇰🇷','釜山':'🇰🇷','濟州':'🇰🇷','馬尼拉':'🇵🇭',
@@ -300,11 +313,29 @@ document.getElementById('originToggle').querySelectorAll('button').forEach(b=>b.
 document.getElementById('menuBtn').onclick=()=>{const n=document.getElementById('dropNav');n.hidden=!n.hidden;};
 addEventListener('scroll',()=>document.getElementById('hdr').classList.toggle('stuck',scrollY>10));
 
+function renderPlacePeek(){
+  const el=document.getElementById('placePeek');
+  if(!el) return;
+  const ps=(PLD?.places)||[];
+  if(!ps.length){
+    el.innerHTML='<div class="pl-empty" style="grid-column:1/-1"><strong>還沒有收藏的地點 🗺️</strong>'
+      +'在 Notion「IG 收藏整理」把項目發佈到含「地圖站」並標成已整理，下次同步就會出現。</div>';
+    return;
+  }
+  el.innerHTML=ps.slice(0,3).map(p=>`
+    <a class="ecard" href="places/">
+      <div class="ico">📍</div>
+      <div><h3>${p.name}</h3>
+      <div class="when">${p.region||''}${p.category?' · '+p.category:''}</div>
+      <div class="cat">${(p.summary||'').slice(0,42)}${(p.summary||'').length>42?'…':''}</div></div>
+    </a>`).join('');
+}
+
 (async()=>{
   const get=async p=>{try{const r=await fetch(p+'?v='+Date.now());return r.ok?await r.json():null;}catch(e){return null;}};
-  [FD,HD,SD,CAL]=await Promise.all([get('./data/flights.json'),get('./data/hotels.json'),
-    get('./data/seasonal.json'),get('./data/holidays.json')]);
-  renderStats();renderDests();renderTable();renderCities();renderEvents();renderHotels();renderNext();
+  [FD,HD,SD,CAL,PLD]=await Promise.all([get('./data/flights.json'),get('./data/hotels.json'),
+    get('./data/seasonal.json'),get('./data/holidays.json'),get('./data/places.json')]);
+  renderStats();renderDests();renderTable();renderCities();renderEvents();renderHotels();renderNext();renderPlacePeek();
 })();
 </script>
 </body>

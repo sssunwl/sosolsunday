@@ -7,7 +7,7 @@ const root=path.join(__dirname,'..');
 const read=p=>fs.readFileSync(path.join(root,p),'utf8');
 const api=require('../docs/assets/site.js');
 const cal=JSON.parse(read('docs/data/holidays.json'));
-const pages=['docs/index.html','docs/destinations/index.html','docs/destinations/city.html','docs/seasonal/index.html'];
+const pages=['docs/index.html','docs/destinations/index.html','docs/destinations/city.html','docs/seasonal/index.html','docs/places/index.html'];
 
 test('September 3: the next shared window is December 25–27 with both countries represented',()=>{
   const win=api.nextWindow(cal,'2026-09-03');
@@ -78,7 +78,7 @@ test('Data fetch handles network, HTTP, and JSON errors without throwing',async(
   }finally{global.fetch=original;}
 });
 
-test('All four pages share the stylesheet, navigation, footer, waves, and one main landmark',()=>{
+test('All shared pages carry the stylesheet, navigation, footer, waves, and one main landmark',()=>{
   for(const file of pages){
     const html=read(file);
     assert.match(html,/<link rel="stylesheet" href="(?:\.\.\/)?assets\/sosol\.css">/);
@@ -89,7 +89,7 @@ test('All four pages share the stylesheet, navigation, footer, waves, and one ma
     assert.match(html,/class="ocean-waves"/);
     assert.match(html,/aria-expanded="false"/);
     assert.match(html,/id="dropNav"[^>]*hidden/);
-    const active=file.includes('seasonal')?'seasonal/':file.includes('destinations')?'destinations/':'./';
+    const active=file.includes('seasonal')?'seasonal/':file.includes('destinations')?'destinations/':file.includes('places')?'places/':'./';
     assert.match(html,new RegExp('href="[^"\\n]*'+active.replaceAll('.','\\.')+'" aria-current="page"'));
   }
   const home=read(pages[0]);

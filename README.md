@@ -61,6 +61,6 @@ v2 成果已提交到分支 `feat/v2-redesign`，並合併 origin/main（本機�
 - **機酒資料已更新至 2026-09-03 19:24 HKT。** 遠端每日管線運作正常；先前「資料停在 7/7」是本機 checkout 落後造成的誤判，不是管線停更。
 - 新增配色方案 A「地中海街景」（陶土 × 鴨綠），脫離 OkinawaSundays 色票，規格見 [DESIGN-PALETTE.md](DESIGN-PALETTE.md)。目前以 `docs/assets/palette-terracotta.css` 覆蓋層實作，**尚未定案**，定案後折回 `sosol.css`。
 - 補上 9/3 新資料帶進來的目的地國旗（沖繩、富國島、MZG、NKG、TAE），原本會 fallback 成 🌍。
-- **待辦：口袋地點尚未移植到 v2。** 遠端 `e0289f8`（PR #1）在舊版 tab 結構與 navy/gold 色票上做了 Leaflet 地圖 × 地區篩選 × 卡片列表，與 v2 改寫後的首頁無法自動合併。合併時 `docs/index.html` 保留 v2 版本，`docs/data/places.json` 資料完整保留，功能需依 v2 設計系統重做。
+- **口袋地點已依 v2 設計系統重做**：改為獨立頁 `docs/places/`（原本是首頁的一個 tab），加進主導覽與頁尾，首頁另有一段預覽區塊。地圖 × 地區篩選 × 卡片列表功能與原版一致，Leaflet CDN 掛掉時仍看得到卡片。原始實作見 `e0289f8`（PR #1）。
 
 改版仍未部署上線。
