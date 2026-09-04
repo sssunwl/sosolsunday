@@ -97,9 +97,8 @@
         <h2>本月最抵機票</h2>
         <p>六條主力航線、六個月來回報價（港幣）。★ 是該航線目前追蹤期間的最低點。</p>
       </div>
-      <div class="toggle" id="originToggle">
+      <div class="toggle" id="originToggle" aria-label="出發地">
         <button class="on" data-o="HKG" aria-pressed="true">🇭🇰 香港出發</button>
-        <button data-o="TPE" aria-pressed="false">🇹🇼 台北出發</button>
       </div>
     </div>
     <div class="hrow" id="destRow"><div class="loading">載入中…</div></div>
@@ -207,18 +206,43 @@ function renderNext(){
 }
 
 /* ── 機票 ── */
-function renderDests(){
-  const el=document.getElementById('destRow'),ds=[...(FD?.destinations?.[origin]||[])].filter(d=>Number.isFinite(d.price)&&d.price>0).sort((a,b)=>a.price-b.price);
-  el.innerHTML=ds.length?ds.map(d=>`<a class="pcard" href="destinations/">
-    <div class="flag">${FLAG[d.name]||'🌍'}</div><div class="city">${d.name}</div>
-    <div class="price">HK$${d.price.toLocaleString()}</div><div class="sub">本月最低</div></a>`).join('')
-    :'<div class="nodata">暫無數據</div>';
-  const h=document.getElementById('heroList');
-  h.className=''; document.getElementById('heroOrigin').textContent=origin;
+const ORIGIN_FLAG={HKG:'🇭🇰',TPE:'🇹🇼',OKA:'🇯🇵',KHH:'🇹🇼',TPE_:'🇹🇼'};
+const originName=o=>(FD?.routes||[]).find(r=>r.origin===o)?.origin_name||o;
+const cheapest=o=>[...(FD?.destinations?.[o]||[])]
+  .filter(d=>Number.isFinite(d.price)&&d.price>0).sort((a,b)=>a.price-b.price);
+
+// 出發地按鈕依實際資料產生，資料新增出發地時不用改程式
+function renderOriginToggle(){
+  const origins=[...new Set((FD?.routes||[]).map(r=>r.origin))];
+  if(!origins.length) return;
+  if(!origins.includes(origin)) origin=origins[0];
+  const box=document.getElementById('originToggle');
+  box.innerHTML=origins.map(o=>`<button data-o="${o}" class="${o===origin?'on':''}"
+    aria-pressed="${o===origin}">${ORIGIN_FLAG[o]||'✈️'} ${originName(o)}出發</button>`).join('');
+  box.querySelectorAll('button').forEach(b=>b.onclick=()=>{
+    origin=b.dataset.o;
+    box.querySelectorAll('button').forEach(x=>{x.classList.remove('on');x.setAttribute('aria-pressed',String(x===b));});
+    b.classList.add('on'); renderDests(); renderTable();
+  });
+}
+
+function renderHeroList(){
+  // hero 卡片固定看有「本月最低」資料的第一個出發地，不跟著下方切換跑掉
+  const o=Object.keys(FD?.destinations||{}).find(k=>cheapest(k).length)||origin;
+  const ds=cheapest(o), h=document.getElementById('heroList');
+  h.className=''; document.getElementById('heroOrigin').textContent=o;
   h.innerHTML=ds.slice(0,4).map(d=>`<div class="hrow-card hero-price-row">
     <span class="hero-price-flag">${FLAG[d.name]||'🌍'}</span>
     <div class="info"><div class="nm">${d.name}</div><div class="sub">來回含稅</div></div>
     <div class="amt">HK$${d.price.toLocaleString()}</div></div>`).join('')||'<div class="nodata">暫無數據</div>';
+}
+
+function renderDests(){
+  const el=document.getElementById('destRow'), ds=cheapest(origin);
+  el.innerHTML=ds.length?ds.map(d=>`<a class="pcard" href="destinations/">
+    <div class="flag">${FLAG[d.name]||'🌍'}</div><div class="city">${d.name}</div>
+    <div class="price">HK$${d.price.toLocaleString()}</div><div class="sub">本月最低</div></a>`).join('')
+    :`<div class="nodata">${originName(origin)}出發還沒有「本月最低」的彙整，往下看六個月價格表。</div>`;
 }
 function renderTable(){
   const el=document.getElementById('priceTable');
@@ -282,12 +306,6 @@ function renderStats(){
   SoSol.updateStatus(FD,HD);
 }
 
-document.getElementById('originToggle').querySelectorAll('button').forEach(b=>b.onclick=()=>{
-  origin=b.dataset.o;
-  document.querySelectorAll('#originToggle button').forEach(x=>{x.classList.remove('on');x.setAttribute('aria-pressed',String(x===b));});
-  b.classList.add('on'); renderDests(); renderTable();
-});
-
 function renderPlacePeek(){
   const el=document.getElementById('placePeek');
   if(!el) return;
@@ -310,7 +328,7 @@ function renderPlacePeek(){
   const get=SoSol.getJSON;
   [FD,HD,SD,CAL,PLD]=await Promise.all([get('./data/flights.json'),get('./data/hotels.json'),
     get('./data/seasonal.json'),get('./data/holidays.json'),get('./data/places.json')]);
-  renderStats();renderDests();renderTable();renderCities();renderEvents();renderHotels();renderNext();renderPlacePeek();
+  renderStats();renderOriginToggle();renderHeroList();renderDests();renderTable();renderCities();renderEvents();renderHotels();renderNext();renderPlacePeek();
 })();
 </script>
 </body>

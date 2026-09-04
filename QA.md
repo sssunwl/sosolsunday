@@ -32,3 +32,29 @@ git diff --check
 ```
 
 14 項測試全部通過，涵蓋共同連假、跨年、補班、半日假、時區、城市假期、網路與 JSON 失敗狀態、現有資料渲染、無效城市、頁面結構、在地連結和年曆副本。測試無額外套件相依，亦不鎖定每日更新報價的檔案雜湊。
+
+---
+
+## 2026-09-04 併入 main 後重跑驗收
+
+合併 `origin/main` 4 筆（PR #4 資料基準線 + 每日更新），機酒資料為 **2026-09-03 23:39 HKT**。
+
+**測試**
+- `node --test tests/frontend.test.cjs` — 14 項全過
+- `python3 -m unittest discover -s tests -p test_baseline.py` — 10 項全過（新的資料管線測試）
+- `git diff --check` 乾淨
+
+**六個路徑逐一開過**：`/`、`/calendar/`、`/places/`、`/destinations/`、`/destinations/city.html?key=okinawa`、`/seasonal/`
+全部 HTTP 200，console 無 error、無 warning，1180px 與 375px 都沒有橫向溢出，沒有殘留的載入中狀態。
+
+**新資料帶出的一個問題（已修）**
+`flights.json` 這次多了第三個出發地 **OKA（沖繩）**，共 2 條航線，但首頁的出發地切換是寫死的「香港／台北」兩顆按鈕，
+等於有三分之一的航線在畫面上看不到。已改成**依 `routes` 的實際 origin 動態產生按鈕**，之後資料再加出發地不用改程式。
+
+同時把 hero 的「今日最低機票」卡片鎖在有 `destinations` 彙整的出發地（HKG），不再跟著下方切換跑掉 —— 因為
+`destinations` 只有 HKG／TPE 兩組，切到沖繩會讓 hero 整個空掉。沖繩出發的價格表正常顯示，
+上方橫捲卡改為顯示「沖繩出發還沒有『本月最低』的彙整，往下看六個月價格表」。
+
+**schema 相容性**：`months[]` 這次新增 `date`、`airline`、`is_cheapest`、`return_date`、`is_round_trip`、`baseline`，
+原有的 `month`／`price` 未變動，前端照舊可讀。`baseline.verdict`（great／good／normal／high／unknown）目前前端還沒用上，
+是之後可以拿來標「這個價格算不算便宜」的資料。
