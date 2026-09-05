@@ -5,173 +5,155 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>☀️</text></svg>">
   <title>探索目的地 · SoSolsunday</title>
-  <style>
-    :root {
-      --navy:#1B2F4A; --gold:#C9A84C; --sand:#F2EDE6;
-      --white:#fff; --text:#1E2D3D; --muted:#6B7D90;
-      --sh:0 2px 12px rgba(0,0,0,.08);
-    }
-    *{margin:0;padding:0;box-sizing:border-box}
-    body{font-family:-apple-system,'Helvetica Neue',sans-serif;background:var(--sand);color:var(--text);min-height:100vh}
-
-    .hdr{background:var(--navy);padding:13px 18px;display:flex;align-items:center;gap:14px;position:sticky;top:0;z-index:100}
-    .hdr-back{color:rgba(255,255,255,.6);font-size:13px;text-decoration:none;display:flex;align-items:center;gap:4px}
-    .hdr-back:hover{color:var(--gold)}
-    .hdr-title{color:var(--gold);font-size:16px;font-weight:700;letter-spacing:.6px}
-
-    .hero{background:linear-gradient(160deg,#1B2F4A 0%,#243D5F 60%,#1B2F4A 100%);padding:36px 20px 28px;text-align:center}
-    .hero h1{color:var(--gold);font-size:22px;font-weight:300;letter-spacing:3px;margin-bottom:6px}
-    .hero p{color:rgba(255,255,255,.5);font-size:12px;letter-spacing:1px}
-
-    .region-tabs{display:flex;gap:8px;padding:14px 16px 2px;overflow-x:auto;scrollbar-width:none}
-    .region-tabs::-webkit-scrollbar{display:none}
-    .rtab{white-space:nowrap;padding:8px 18px;border-radius:20px;border:1.5px solid rgba(27,47,74,.25);background:none;color:var(--muted);font-size:12px;cursor:pointer;transition:all .2s}
-    .rtab.on{background:var(--navy);border-color:var(--navy);color:var(--gold);font-weight:600}
-    .rtab.soon{opacity:.45;cursor:default}
-
-    .region-panel{display:none;padding-bottom:60px}
-    .region-panel.on{display:block}
-
-    .country-sec{padding:18px 16px 6px}
-    .country-hdr{display:flex;align-items:center;gap:8px;margin-bottom:12px}
-    .country-flag{font-size:22px}
-    .country-name{font-size:15px;font-weight:700;color:var(--navy)}
-    .country-count{font-size:11px;color:var(--muted);margin-left:auto}
-
-    .city-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:10px}
-    @media(min-width:480px){.city-grid{grid-template-columns:repeat(3,1fr)}}
-
-    .city-card{background:var(--white);border-radius:12px;padding:16px 14px 14px;box-shadow:var(--sh);cursor:pointer;text-decoration:none;display:block;transition:transform .15s,box-shadow .15s}
-    .city-card:hover{transform:translateY(-2px);box-shadow:0 6px 20px rgba(0,0,0,.12)}
-    .city-card-flag{font-size:24px;margin-bottom:6px}
-    .city-card-name{font-size:14px;font-weight:700;color:var(--navy);margin-bottom:3px}
-    .city-card-sub{font-size:11px;color:var(--muted);line-height:1.3}
-    .city-card-tag{display:inline-block;margin-top:8px;padding:3px 8px;border-radius:10px;background:#EEF2F7;color:var(--navy);font-size:10px;font-weight:600}
-
-    .coming-soon-banner{margin:20px 16px;background:var(--white);border-radius:12px;padding:24px;text-align:center;box-shadow:var(--sh)}
-    .coming-soon-banner .icon{font-size:32px;margin-bottom:8px}
-    .coming-soon-banner p{color:var(--muted);font-size:13px}
-
-    footer{background:var(--navy);padding:16px 20px;text-align:center;color:rgba(255,255,255,.3);font-size:10.5px;margin-top:4px}
-    footer a{color:var(--gold);text-decoration:none}
-  </style>
+  <meta name="description" content="探索日本、韓國、台灣 8 個精選城市：交通、景點、美食、機酒報價與當地假期提醒。">
+  <link rel="stylesheet" href="../assets/sosol.css">
 </head>
 <body>
+<a class="skip-link" href="#main">跳到主要內容</a>
+<div class="ocean-waves" aria-hidden="true">
+  <svg viewBox="0 0 2400 120" preserveAspectRatio="none">
+    <path class="ocean-wave-back" d="M0,70 C50,40 150,100 200,70 C250,40 350,100 400,70 C450,40 550,100 600,70 C650,40 750,100 800,70 C850,40 950,100 1000,70 C1050,40 1150,100 1200,70 C1250,40 1350,100 1400,70 C1450,40 1550,100 1600,70 C1650,40 1750,100 1800,70 C1850,40 1950,100 2000,70 C2050,40 2150,100 2200,70 C2250,40 2350,100 2400,70 L2400,120 L0,120 Z" fill="rgba(121,217,230,.5)"/>
+    <path class="ocean-wave-front" d="M0,86 C50,64 150,110 200,86 C250,64 350,110 400,86 C450,64 550,110 600,86 C650,64 750,110 800,86 C850,64 950,110 1000,86 C1050,64 1150,110 1200,86 C1250,64 1350,110 1400,86 C1450,64 1550,110 1600,86 C1650,64 1750,110 1800,86 C1850,64 1950,110 2000,86 C2050,64 2150,110 2200,86 C2250,64 2350,110 2400,86 L2400,120 L0,120 Z" fill="rgba(8,127,156,.42)"/>
+  </svg>
+</div>
 
-<header class="hdr">
-  <a class="hdr-back" href="../">← 返回</a>
-  <div class="hdr-title">☀ SoSolsunday</div>
+<header class="site-header" id="hdr">
+  <div class="shell nav">
+    <a class="brand" href="../"><span class="brand-mark">☀</span> SoSolsunday</a>
+    <nav class="desktop-nav" aria-label="主要導覽">
+      <a href="../">首頁</a>
+      <a href="../#deals">機票・酒店</a>
+      <a href="../destinations/" aria-current="page">目的地</a><a href="../places/">口袋地點</a>
+      <a href="../seasonal/">季節限定</a>
+      <a href="../calendar/">假期年曆</a>
+    </nav>
+    <div class="nav-actions">
+      <span class="pill" id="updPill"><span class="dot"></span>載入中</span>
+      <button class="icon-btn menu-btn" id="menuBtn" aria-label="選單" aria-controls="dropNav" aria-expanded="false">☰</button>
+    </div>
+  </div>
+  <nav class="drop-nav shell" id="dropNav" aria-label="手機導覽" hidden>
+    <a href="../">首頁</a>
+    <a href="../#deals">機票・酒店</a><a href="../destinations/" aria-current="page">目的地</a><a href="../places/">口袋地點</a>
+    <a href="../seasonal/">季節限定</a><a href="../calendar/">假期年曆</a>
+  </nav>
 </header>
+<main id="main">
 
-<div class="hero">
-  <h1>探索目的地</h1>
-  <p>亞洲 · 精選城市旅遊指南</p>
+<section class="hero page-hero"><div class="shell"><span class="eyebrow">Destinations · 亞洲</span><h1>探索<span class="play">目的地</span></h1><p class="hero-lead">從城市街角到離島海岸，找到適合你的下一站。</p></div></section>
+
+<div class="shell"><div class="toggle region-tabs" aria-label="地區">
+  <button class="on" aria-pressed="true" >🌏 亞洲</button>
+  <button disabled title="即將推出">🌍 歐洲・籌備中</button>
+  <button disabled title="即將推出">🌎 美洲・籌備中</button>
 </div>
 
-<div class="region-tabs">
-  <button class="rtab on"  onclick="setRegion('asia',this)">🌏 亞洲</button>
-  <button class="rtab soon" title="即將推出">🌍 歐洲</button>
-  <button class="rtab soon" title="即將推出">🌎 美洲</button>
 </div>
-
-<div class="region-panel on" id="r-asia">
-  <div class="country-sec">
-    <div class="country-hdr">
+<div class="shell" id="r-asia">
+  <div class="section country-section">
+    <div class="section-head country-head">
       <span class="country-flag">🇯🇵</span>
-      <span class="country-name">日本</span>
+      <h2>日本</h2>
       <span class="country-count">5 個城市</span>
     </div>
-    <div class="city-grid">
-      <a class="city-card" href="city.html?key=okinawa">
-        <div class="city-card-flag">🇯🇵</div>
-        <div class="city-card-name">沖繩</div>
-        <div class="city-card-sub">琉球文化 · 珊瑚礁 · 南北三區探索</div>
-        <span class="city-card-tag">潛水聖地</span>
+    <div class="dgrid">
+      <a class="dcard destination-card" href="city.html?key=okinawa">
+        <div class="flag">🇯🇵</div>
+        <div class="name">沖繩</div>
+        <div class="meta">琉球文化 · 珊瑚礁 · 南北三區探索</div>
+        <span class="pill city-tag">潛水聖地</span>
       </a>
-      <a class="city-card" href="city.html?key=ishigaki">
-        <div class="city-card-flag">🇯🇵</div>
-        <div class="city-card-name">石垣島</div>
-        <div class="city-card-sub">沖繩離島 · 頂級珊瑚礁 · 慢活</div>
-        <span class="city-card-tag">離島天堂</span>
+      <a class="dcard destination-card" href="city.html?key=ishigaki">
+        <div class="flag">🇯🇵</div>
+        <div class="name">石垣島</div>
+        <div class="meta">沖繩離島 · 頂級珊瑚礁 · 慢活</div>
+        <span class="pill city-tag">離島天堂</span>
       </a>
-      <a class="city-card" href="city.html?key=miyakojima">
-        <div class="city-card-flag">🇯🇵</div>
-        <div class="city-card-name">宮古島</div>
-        <div class="city-card-sub">透明海水 · 無人海灘 · 橋梁景觀</div>
-        <span class="city-card-tag">絕美海灘</span>
+      <a class="dcard destination-card" href="city.html?key=miyakojima">
+        <div class="flag">🇯🇵</div>
+        <div class="name">宮古島</div>
+        <div class="meta">透明海水 · 無人海灘 · 橋梁景觀</div>
+        <span class="pill city-tag">絕美海灘</span>
       </a>
-      <a class="city-card" href="city.html?key=tokyo">
-        <div class="city-card-flag">🇯🇵</div>
-        <div class="city-card-name">東京</div>
-        <div class="city-card-sub">都市探索 · 潮流文化 · 米芝蓮美食</div>
-        <span class="city-card-tag">都市精選</span>
+      <a class="dcard destination-card" href="city.html?key=tokyo">
+        <div class="flag">🇯🇵</div>
+        <div class="name">東京</div>
+        <div class="meta">都市探索 · 潮流文化 · 米芝蓮美食</div>
+        <span class="pill city-tag">都市精選</span>
       </a>
-      <a class="city-card" href="city.html?key=fukuoka">
-        <div class="city-card-flag">🇯🇵</div>
-        <div class="city-card-name">福岡</div>
-        <div class="city-card-sub">九州玄關 · 博多拉麵 · 屋台文化</div>
-        <span class="city-card-tag">美食之都</span>
+      <a class="dcard destination-card" href="city.html?key=fukuoka">
+        <div class="flag">🇯🇵</div>
+        <div class="name">福岡</div>
+        <div class="meta">九州玄關 · 博多拉麵 · 屋台文化</div>
+        <span class="pill city-tag">美食之都</span>
       </a>
     </div>
   </div>
 
-  <div class="country-sec">
-    <div class="country-hdr">
+  <div class="section country-section">
+    <div class="section-head country-head">
       <span class="country-flag">🇰🇷</span>
-      <span class="country-name">韓國</span>
+      <h2>韓國</h2>
       <span class="country-count">2 個城市</span>
     </div>
-    <div class="city-grid">
-      <a class="city-card" href="city.html?key=seoul">
-        <div class="city-card-flag">🇰🇷</div>
-        <div class="city-card-name">首爾</div>
-        <div class="city-card-sub">時尚文化 · K-beauty · 夜生活</div>
-        <span class="city-card-tag">潮流之城</span>
+    <div class="dgrid">
+      <a class="dcard destination-card" href="city.html?key=seoul">
+        <div class="flag">🇰🇷</div>
+        <div class="name">首爾</div>
+        <div class="meta">時尚文化 · K-beauty · 夜生活</div>
+        <span class="pill city-tag">潮流之城</span>
       </a>
-      <a class="city-card" href="city.html?key=busan">
-        <div class="city-card-flag">🇰🇷</div>
-        <div class="city-card-name">釜山</div>
-        <div class="city-card-sub">海岸城市 · 海雲台 · 漁港美食</div>
-        <span class="city-card-tag">海岸城市</span>
+      <a class="dcard destination-card" href="city.html?key=busan">
+        <div class="flag">🇰🇷</div>
+        <div class="name">釜山</div>
+        <div class="meta">海岸城市 · 海雲台 · 漁港美食</div>
+        <span class="pill city-tag">海岸城市</span>
       </a>
     </div>
   </div>
 
-  <div class="country-sec">
-    <div class="country-hdr">
+  <div class="section country-section">
+    <div class="section-head country-head">
       <span class="country-flag">🇹🇼</span>
-      <span class="country-name">台灣</span>
+      <h2>台灣</h2>
       <span class="country-count">1 個城市</span>
     </div>
-    <div class="city-grid">
-      <a class="city-card" href="city.html?key=taipei">
-        <div class="city-card-flag">🇹🇼</div>
-        <div class="city-card-name">台北</div>
-        <div class="city-card-sub">夜市文化 · 小籠包 · 山景城市</div>
-        <span class="city-card-tag">美食天堂</span>
+    <div class="dgrid">
+      <a class="dcard destination-card" href="city.html?key=taipei">
+        <div class="flag">🇹🇼</div>
+        <div class="name">台北</div>
+        <div class="meta">夜市文化 · 小籠包 · 山景城市</div>
+        <span class="pill city-tag">美食天堂</span>
       </a>
     </div>
   </div>
 </div>
 
-<div class="region-panel" id="r-europe">
-  <div class="coming-soon-banner">
-    <div class="icon">🌍</div>
-    <p>歐洲城市指南即將推出</p>
-  </div>
-</div>
 
-<footer>
-  <a href="../">☀ SoSolsunday</a> · 旅遊優惠速報 &amp; 目的地指南
+</main>
+<footer class="site-footer">
+  <div class="shell">
+    <div class="footer-grid">
+      <div class="footer-brand">
+        <a class="brand" href="../"><span class="brand-mark">☀</span> SoSolsunday</a>
+        <p>香港與台北出發的旅遊速報。機酒價格每日自動更新，假期年曆人工核對官方公告。Suniverse × Sosol 出品。</p>
+      </div>
+      <div class="footer-col"><strong>逛逛</strong>
+        <a href="../#deals">機票價格</a><a href="../#hotels">酒店精選</a>
+        <a href="../destinations/">目的地</a><a href="../places/">口袋地點</a><a href="../seasonal/">季節限定</a><a href="../calendar/">假期年曆</a>
+      </div>
+      <div class="footer-col"><strong>關於</strong>
+        <a href="https://github.com/sssunwl/sosolsunday" target="_blank" rel="noopener">GitHub</a>
+        <a href="../calendar/">假期資料來源</a>
+      </div>
+    </div>
+    <div class="footer-base"><span id="footUpd">—</span><span>價格僅供參考，實際以訂購平台為準</span></div>
+  </div>
 </footer>
 
+<script src="../assets/site.js"></script>
 <script>
-function setRegion(key, btn) {
-  document.querySelectorAll('.rtab:not(.soon)').forEach(b => b.classList.remove('on'));
-  document.querySelectorAll('.region-panel').forEach(p => p.classList.remove('on'));
-  btn.classList.add('on');
-  document.getElementById('r-' + key).classList.add('on');
-}
+SoSol.getJSON('../data/flights.json').then(data=>SoSol.updateStatus(data));
 </script>
 </body>
 </html>

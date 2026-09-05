@@ -1,0 +1,37 @@
+/* 只覆寫 SoSolsunday 的站頭站尾外觀，不改共用年曆 HTML 或功能。 */
+.hero{background:var(--sand);color:var(--ink);border-bottom:1px solid var(--line)}
+.hero .backlink{display:inline-flex;gap:12px;align-items:center;color:var(--blue);font-size:.85rem;margin-bottom:26px}
+.hero .backlink::before{content:"☀ SoSolsunday";font-size:1.05rem;font-weight:900;letter-spacing:-.02em;color:var(--navy)}
+.hero .backlink:hover{color:var(--navy)}
+.hero .eyebrow{color:var(--blue)}
+.hero h1{font-weight:900;letter-spacing:-.05em;color:var(--navy)}
+.hero p{color:var(--muted)}
+.yearpick button{border-color:var(--line);color:var(--muted);background:var(--paper)}
+.yearpick button.on{background:var(--navy);color:var(--sun);border-color:var(--navy)}
+/* 範圍選擇器：本站 hero 是淺底，要把預設的深底樣式翻過來 */
+.rangepick{background:var(--paper);border-color:var(--line)}
+.rangepick label{color:var(--muted)}
+.rangepick select{color:var(--navy)}
+.rangepick .arrow{color:var(--muted)}
+.presets button{border-color:var(--line);color:var(--muted);background:var(--paper)}
+.presets button:hover{border-color:var(--blue);color:var(--blue)}
+.presets button.on{background:var(--navy);border-color:var(--navy);color:var(--sun)}
+.rangenote{color:var(--muted)}
+.jumpcal{color:var(--blue);border-color:var(--blue)}
+.jumpcal:hover{background:var(--blue);color:#fff}
+footer{background:var(--navy);color:var(--lagoon-soft);margin-top:40px;padding:32px 20px}
+footer a{color:var(--sun)}
+:focus-visible{outline:3px solid var(--blue);outline-offset:3px}
+@media(prefers-reduced-motion:reduce){*,*::before,*::after{animation:none!important;transition:none!important;scroll-behavior:auto!important}}
+
+/* ── 配色方案 A「地中海街景」：年曆頁自帶 :root，這裡整組覆蓋 ── */
+:root{
+  --sand:#FBF4EC; --paper:#FFFCF7;
+  --navy:#1E4A45; --navy-2:#2B615A; --ink:#26312E; --muted:#6E6459;
+  --line:rgba(38,49,46,.14);
+  --blue:#B84E29; --lagoon:#8FBFB2; --lagoon-soft:#E6F1EC;
+  --coral:#CF5730; --sun:#E8A62F;
+  --go:#1F7A63; --go-soft:#E4F1EB;          /* 「全部家人都放假」的綠 */
+  --shadow-sm:0 9px 24px rgba(74,52,36,.10);
+}
+.hero{background:var(--sand)}

@@ -5,161 +5,128 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>☀️</text></svg>">
   <title>城市指南 · SoSolsunday</title>
-  <style>
-    :root{
-      --navy:#1B2F4A;--gold:#C9A84C;--sand:#F2EDE6;
-      --white:#fff;--text:#1E2D3D;--muted:#6B7D90;
-      --green:#2D9B6F;--amber:#D48B20;--red:#C03030;
-      --sh:0 2px 12px rgba(0,0,0,.08);
-    }
-    *{margin:0;padding:0;box-sizing:border-box}
-    body{font-family:-apple-system,'Helvetica Neue',sans-serif;background:var(--sand);color:var(--text);min-height:100vh}
-
-    .hdr{background:var(--navy);padding:13px 18px;display:flex;align-items:center;gap:12px;position:sticky;top:0;z-index:100}
-    .hdr-back{color:rgba(255,255,255,.6);font-size:13px;text-decoration:none}
-    .hdr-back:hover{color:var(--gold)}
-    .hdr-city{color:var(--gold);font-size:15px;font-weight:700;letter-spacing:.5px}
-    .hdr-logo{margin-left:auto;color:rgba(255,255,255,.3);font-size:11px;text-decoration:none}
-    .hdr-logo:hover{color:var(--gold)}
-
-    .hero{background:linear-gradient(160deg,#1B2F4A 0%,#1E3A5F 55%,#243352 100%);padding:32px 20px 26px;text-align:center}
-    .hero-flag{font-size:36px;margin-bottom:8px}
-    .hero h1{color:var(--gold);font-size:24px;font-weight:300;letter-spacing:2px;margin-bottom:6px}
-    .hero-tagline{color:rgba(255,255,255,.55);font-size:12px;letter-spacing:1px;margin-bottom:14px}
-    .best-months{display:flex;gap:6px;justify-content:center;flex-wrap:wrap}
-    .month-chip{padding:4px 10px;border-radius:12px;background:rgba(201,168,76,.15);border:1px solid rgba(201,168,76,.3);color:var(--gold);font-size:11px}
-
-    .qinfo{background:var(--navy);padding:12px 20px;display:flex;gap:0;overflow-x:auto;scrollbar-width:none}
-    .qinfo::-webkit-scrollbar{display:none}
-    .qi{flex-shrink:0;padding:0 16px;border-right:1px solid rgba(255,255,255,.1);text-align:center}
-    .qi:first-child{padding-left:0}
-    .qi:last-child{border-right:none}
-    .qi-label{font-size:9px;color:rgba(255,255,255,.4);letter-spacing:.8px;text-transform:uppercase;margin-bottom:3px}
-    .qi-val{font-size:12px;color:rgba(255,255,255,.8);white-space:nowrap}
-
-    /* Area tabs (for multi-area cities) */
-    .area-tabs{display:flex;gap:7px;overflow-x:auto;padding:14px 16px 4px;scrollbar-width:none;border-bottom:1px solid rgba(0,0,0,.06)}
-    .area-tabs::-webkit-scrollbar{display:none}
-    .atab{white-space:nowrap;padding:8px 16px;border-radius:20px;border:1.5px solid rgba(27,47,74,.2);background:none;color:var(--muted);font-size:12px;cursor:pointer;transition:all .2s;flex-shrink:0}
-    .atab.on{background:var(--navy);border-color:var(--navy);color:var(--gold);font-weight:600}
-    .area-desc{padding:6px 16px 2px;font-size:11px;color:var(--muted)}
-
-    .sec{padding:18px 16px 6px}
-    .sec-ttl{font-size:11px;font-weight:700;color:var(--muted);letter-spacing:1.2px;text-transform:uppercase;margin-bottom:12px}
-
-    .flight-row{background:var(--white);border-radius:10px;padding:12px 14px;margin-bottom:8px;box-shadow:var(--sh);display:flex;align-items:center;justify-content:space-between}
-    .flight-route{font-size:13px;font-weight:600;color:var(--navy)}
-    .flight-meta{font-size:10px;color:var(--muted);margin-top:2px}
-    .flight-price{font-size:18px;font-weight:700;color:var(--green)}
-    .flight-month{font-size:10px;color:var(--muted);text-align:right}
-
-    .hotel-row{background:var(--white);border-radius:10px;padding:12px 14px;margin-bottom:8px;box-shadow:var(--sh);display:flex;align-items:center;justify-content:space-between}
-    .hotel-name{font-size:13px;font-weight:600;color:var(--navy);line-height:1.3}
-    .hotel-sub{font-size:10px;color:var(--muted);margin-top:2px}
-    .hotel-price{font-size:17px;font-weight:700;color:var(--green);text-align:right}
-    .hotel-nights{font-size:10px;color:var(--muted)}
-
-    /* Highlights & Foods grid */
-    .card-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:9px}
-    .spot-card{background:var(--white);border-radius:10px;padding:13px 12px;box-shadow:var(--sh)}
-    .spot-tag{display:inline-block;padding:2px 8px;border-radius:8px;background:#EEF2F7;color:var(--navy);font-size:9px;font-weight:700;margin-bottom:6px}
-    .food-tag{background:#FFF3E0;color:#B35C00}
-    .spot-name{font-size:13px;font-weight:600;color:var(--navy);margin-bottom:4px}
-    .spot-desc{font-size:11px;color:var(--muted);line-height:1.4}
-
-    .art-card{background:var(--white);border-radius:12px;padding:14px 16px;margin-bottom:9px;box-shadow:var(--sh)}
-    .art-tags{display:flex;gap:5px;flex-wrap:wrap;margin-bottom:7px}
-    .art-tag{padding:2px 8px;border-radius:8px;background:#EEF2F7;color:var(--navy);font-size:9px;font-weight:700}
-    .art-title{font-size:14px;font-weight:600;color:var(--navy);margin-bottom:5px;line-height:1.4}
-    .art-summary{font-size:12px;color:var(--muted);line-height:1.5}
-    .art-date{font-size:10px;color:var(--muted);margin-top:7px}
-
-    .nodata{text-align:center;padding:20px;color:var(--muted);font-size:12px}
-    .loading{text-align:center;padding:28px;color:var(--muted);font-size:12px}
-
-    footer{background:var(--navy);padding:16px 20px;text-align:center;color:rgba(255,255,255,.3);font-size:10.5px;margin-top:8px;padding-bottom:24px}
-    footer a{color:var(--gold);text-decoration:none}
-  </style>
+  <link rel="stylesheet" href="../assets/sosol.css">
 </head>
 <body>
+<a class="skip-link" href="#main">跳到主要內容</a>
+<div class="ocean-waves" aria-hidden="true">
+  <svg viewBox="0 0 2400 120" preserveAspectRatio="none">
+    <path class="ocean-wave-back" d="M0,70 C50,40 150,100 200,70 C250,40 350,100 400,70 C450,40 550,100 600,70 C650,40 750,100 800,70 C850,40 950,100 1000,70 C1050,40 1150,100 1200,70 C1250,40 1350,100 1400,70 C1450,40 1550,100 1600,70 C1650,40 1750,100 1800,70 C1850,40 1950,100 2000,70 C2050,40 2150,100 2200,70 C2250,40 2350,100 2400,70 L2400,120 L0,120 Z" fill="rgba(121,217,230,.5)"/>
+    <path class="ocean-wave-front" d="M0,86 C50,64 150,110 200,86 C250,64 350,110 400,86 C450,64 550,110 600,86 C650,64 750,110 800,86 C850,64 950,110 1000,86 C1050,64 1150,110 1200,86 C1250,64 1350,110 1400,86 C1450,64 1550,110 1600,86 C1650,64 1750,110 1800,86 C1850,64 1950,110 2000,86 C2050,64 2150,110 2200,86 C2250,64 2350,110 2400,86 L2400,120 L0,120 Z" fill="rgba(8,127,156,.42)"/>
+  </svg>
+</div>
 
-<header class="hdr">
-  <a class="hdr-back" href="./">← 目的地</a>
-  <span class="hdr-city" id="hdr-city">載入中…</span>
-  <a class="hdr-logo" href="../">☀ SoSolsunday</a>
+<header class="site-header" id="hdr">
+  <div class="shell nav">
+    <a class="brand" href="../"><span class="brand-mark">☀</span> SoSolsunday</a>
+    <nav class="desktop-nav" aria-label="主要導覽">
+      <a href="../">首頁</a>
+      <a href="../#deals">機票・酒店</a>
+      <a href="../destinations/" aria-current="page">目的地</a><a href="../places/">口袋地點</a>
+      <a href="../seasonal/">季節限定</a>
+      <a href="../calendar/">假期年曆</a>
+    </nav>
+    <div class="nav-actions">
+      <span class="pill" id="updPill"><span class="dot"></span>載入中</span>
+      <button class="icon-btn menu-btn" id="menuBtn" aria-label="選單" aria-controls="dropNav" aria-expanded="false">☰</button>
+    </div>
+  </div>
+  <nav class="drop-nav shell" id="dropNav" aria-label="手機導覽" hidden>
+    <a href="../">首頁</a>
+    <a href="../#deals">機票・酒店</a><a href="../destinations/" aria-current="page">目的地</a><a href="../places/">口袋地點</a>
+    <a href="../seasonal/">季節限定</a><a href="../calendar/">假期年曆</a>
+  </nav>
 </header>
+<main id="main">
 
-<div class="hero">
+<section class="hero page-hero"><div class="shell">
+  <a class="section-link" href="./">← 所有目的地</a>
+  <div class="eyebrow" id="hdr-city">City Guide</div>
   <div class="hero-flag" id="hero-flag">🌍</div>
   <h1 id="hero-name">—</h1>
-  <div class="hero-tagline" id="hero-tagline">—</div>
+  <div class="hero-lead" id="hero-tagline">—</div>
   <div class="best-months" id="best-months"></div>
 </div>
-<div class="qinfo" id="qinfo"></div>
+</section><div class="shell"><div class="qinfo" id="qinfo"></div></div>
 
 <!-- Area tabs (only shown for multi-area cities) -->
-<div id="area-tabs-wrap" style="display:none">
-  <div class="area-tabs" id="area-tabs"></div>
+<div class="shell" id="area-tabs-wrap" hidden>
+  <div class="toggle area-tabs" id="area-tabs"></div>
   <div class="area-desc" id="area-desc"></div>
 </div>
 
-<div class="sec">
-  <div class="sec-ttl">即時機票最低價</div>
+<div class="section shell">
+  <div class="section-head"><div><span class="eyebrow">Flights</span><h2>即時機票最低價</h2><p>香港與台北出發，追蹤期間的最低來回報價（港幣）。</p></div></div>
   <div id="live-flights"><div class="loading">載入中…</div></div>
 </div>
 
-<div class="sec">
-  <div class="sec-ttl">本週末酒店報價（4星+）</div>
+<div class="section shell">
+  <div class="section-head"><div><span class="eyebrow">Hotels</span><h2>週末酒店報價</h2><p>四星以上、兩人兩晚；住宿日期依最近一期資料顯示。</p></div></div>
   <div id="live-hotels"><div class="loading">載入中…</div></div>
 </div>
 
-<div class="sec">
-  <div class="sec-ttl">必去亮點</div>
+<section class="section shell" id="local-holidays"><div class="section-head"><div><span class="eyebrow">Local Holidays</span><h2>今年的公眾假期</h2><p>未來三個當地假期，先留意人潮再安排出發。</p></div><a class="section-link" href="../calendar/">完整年曆 <span>→</span></a></div><div class="hlist" id="holiday-list"><div class="loading">載入中…</div></div></section>
+<div class="section shell">
+  <div class="section-head"><div><span class="eyebrow">Explore</span><h2>必去亮點</h2><p>走進這座城市的風景與日常。</p></div></div>
   <div class="card-grid" id="highlights"></div>
 </div>
 
-<div class="sec">
-  <div class="sec-ttl">必吃美食</div>
+<div class="section shell">
+  <div class="section-head"><div><span class="eyebrow">Taste</span><h2>必吃美食</h2><p>值得留一餐時間的在地滋味。</p></div></div>
   <div class="card-grid" id="foods"></div>
 </div>
 
-<div class="sec">
-  <div class="sec-ttl">旅遊攻略</div>
+<div class="section shell">
+  <div class="section-head"><div><span class="eyebrow">City Notes</span><h2>旅遊攻略</h2><p>行前規劃與玩法筆記。</p></div></div>
   <div id="articles"><div class="loading">載入中…</div></div>
 </div>
 
-<footer>
-  <a href="../">☀ SoSolsunday</a> · 旅遊優惠速報 &amp; 目的地指南
+</main>
+<footer class="site-footer">
+  <div class="shell">
+    <div class="footer-grid">
+      <div class="footer-brand">
+        <a class="brand" href="../"><span class="brand-mark">☀</span> SoSolsunday</a>
+        <p>香港與台北出發的旅遊速報。機酒價格每日自動更新，假期年曆人工核對官方公告。Suniverse × Sosol 出品。</p>
+      </div>
+      <div class="footer-col"><strong>逛逛</strong>
+        <a href="../#deals">機票價格</a><a href="../#hotels">酒店精選</a>
+        <a href="../destinations/">目的地</a><a href="../places/">口袋地點</a><a href="../seasonal/">季節限定</a><a href="../calendar/">假期年曆</a>
+      </div>
+      <div class="footer-col"><strong>關於</strong>
+        <a href="https://github.com/sssunwl/sosolsunday" target="_blank" rel="noopener">GitHub</a>
+        <a href="../calendar/">假期資料來源</a>
+      </div>
+    </div>
+    <div class="footer-base"><span id="footUpd">—</span><span>價格僅供參考，實際以訂購平台為準</span></div>
+  </div>
 </footer>
 
+<script src="../assets/site.js"></script>
 <script>
 const params  = new URLSearchParams(location.search);
 const CITY_KEY = params.get('key') || '';
 
-let CD = null, FD = null, HD = null;
+let CD = null, FD = null, HD = null, CAL = null;
+const COUNTRY={okinawa:'JP',tokyo:'JP',fukuoka:'JP',ishigaki:'JP',miyakojima:'JP',seoul:'KR',busan:'KR',taipei:'TW'};
 let currentArea = null;
 
 async function boot() {
-  if (!CITY_KEY) { document.getElementById('hdr-city').textContent = '找不到城市'; return; }
-  const ts = '?v=' + Date.now();
-  const [cr, fr, hr] = await Promise.all([
-    fetch('./data/' + CITY_KEY + '.json' + ts).catch(() => null),
-    fetch('../data/flights.json' + ts).catch(() => null),
-    fetch('../data/hotels.json'  + ts).catch(() => null),
+  if (!Object.hasOwn(COUNTRY,CITY_KEY)) { renderMissing(); return; }
+  [CD,FD,HD,CAL]=await Promise.all([
+    SoSol.getJSON('./data/'+CITY_KEY+'.json'),SoSol.getJSON('../data/flights.json'),
+    SoSol.getJSON('../data/hotels.json'),SoSol.getJSON('../data/holidays.json')
   ]);
-  CD = cr?.ok ? await cr.json() : null;
-  FD = fr?.ok ? await fr.json() : null;
-  HD = hr?.ok ? await hr.json() : null;
-
-  if (!CD) { document.getElementById('hdr-city').textContent = '城市資料不存在'; return; }
-
+  SoSol.updateStatus(FD,HD);
+  if (!CD) { renderMissing(); return; }
   document.title = CD.city + ' · SoSolsunday';
   renderHero();
   renderFlights();
+  renderHolidays();
 
   if (CD.areas?.length) {
     renderAreaTabs();
-    setArea(CD.areas[0]);
+    setArea(CD.areas[0], document.querySelector('.atab'));
   } else {
     renderHotels(CD.hotel_city_key);
     renderSpots(CD.highlights, 'highlights', false);
@@ -168,6 +135,15 @@ async function boot() {
   }
 }
 
+function renderMissing(){
+  document.title='找不到城市 · SoSolsunday';
+  document.getElementById('main').innerHTML='<section class="section shell"><div class="card"><h1>找不到這個城市</h1><p>城市連結可能有誤，或資料暫時無法載入。</p><a class="btn btn-primary" href="./">返回目的地</a></div></section>';
+  SoSol.updateStatus();
+}
+function renderHolidays(){
+  const list=SoSol.upcomingHolidays(CAL,COUNTRY[CITY_KEY]);
+  document.getElementById('holiday-list').innerHTML=list.length?list.map(h=>`<div class="hrow-card holiday-row"><div class="info"><div class="nm">${SoSol.esc(h.name)}</div><div class="sub">${h.date}${h.estimated?' · 預估，待官方確認':''}</div></div><span class="pill holiday-warning">${h.days>=3?'當地連假，人多 · '+h.days+' 天':'當地公眾假期'}</span></div>`).join(''):'<div class="nodata">'+(CAL?'今年已收錄的未來假期已列完，請查看完整年曆。':'假期資料暫時無法載入，請稍後再試。')+'</div>';
+}
 // ── Hero ───────────────────────────────────────────────────────────────────
 function renderHero() {
   document.getElementById('hdr-city').textContent = CD.flag + ' ' + CD.city;
@@ -178,7 +154,7 @@ function renderHero() {
   const bm = document.getElementById('best-months');
   (CD.best_months || []).forEach(m => {
     const c = document.createElement('span');
-    c.className = 'month-chip'; c.textContent = m; bm.appendChild(c);
+    c.className = 'pill'; c.textContent = m; bm.appendChild(c);
   });
 
   document.getElementById('qinfo').innerHTML = [
@@ -191,15 +167,15 @@ function renderHero() {
 
 // ── Area tabs ──────────────────────────────────────────────────────────────
 function renderAreaTabs() {
-  document.getElementById('area-tabs-wrap').style.display = 'block';
+  document.getElementById('area-tabs-wrap').hidden = false;
   document.getElementById('area-tabs').innerHTML = CD.areas.map((a, i) =>
-    `<button class="atab ${i===0?'on':''}" onclick="setArea(CD.areas[${i}], this)">${a.name}</button>`
+    `<button class="atab ${i===0?'on':''}" aria-pressed="${i===0}" onclick="setArea(CD.areas[${i}], this)">${a.name}</button>`
   ).join('');
 }
 
 function setArea(area, btn) {
   currentArea = area;
-  document.querySelectorAll('.atab').forEach(b => b.classList.remove('on'));
+  document.querySelectorAll('.atab').forEach(b => {b.classList.remove('on');b.setAttribute('aria-pressed',String(b===btn));});
   if (btn) btn.classList.add('on');
   document.getElementById('area-desc').textContent = area.desc || '';
   renderHotels(area.hotel_city_key);
@@ -226,7 +202,7 @@ function renderFlights() {
   for (const r of routes) {
     const best = r.months.reduce((a, b) => a.price < b.price ? a : b, r.months[0]);
     if (!best) continue;
-    html += `<div class="flight-row">
+    html += `<div class="hrow-card flight-row">
       <div>
         <div class="flight-route">${r.flag} ${r.origin_name} → ${r.dest_name}</div>
         <div class="flight-meta">${best.airline} · 6個月最低</div>
@@ -239,7 +215,7 @@ function renderFlights() {
   }
   if (!routes.length) {
     for (const d of destRows) {
-      html += `<div class="flight-row">
+      html += `<div class="hrow-card flight-row">
         <div>
           <div class="flight-route">🛫 從${d.origin}出發</div>
           <div class="flight-meta">本月最低價</div>
@@ -265,7 +241,7 @@ function renderHotels(cityKey) {
   if (!hotels.length) { el.innerHTML = '<div class="nodata">本週末暫無報價</div>'; return; }
 
   el.innerHTML = hotels.map(h => `
-    <div class="hotel-row">
+    <div class="hrow-card hotel-row">
       <div style="flex:1;min-width:0">
         <div class="hotel-name">${h.name}</div>
         <div class="hotel-sub">⭐${h.rating} · ${'★'.repeat(h.stars||4)} · ${wknd?.label||''} · 2晚2人</div>
@@ -285,7 +261,7 @@ function renderSpots(items, elId, isFood) {
     return;
   }
   el.innerHTML = items.map(h => `
-    <div class="spot-card">
+    <div class="card spot-card">
       <span class="spot-tag ${isFood ? 'food-tag' : ''}">${h.tag}</span>
       <div class="spot-name">${h.name}</div>
       <div class="spot-desc">${h.desc}</div>
@@ -297,7 +273,7 @@ function renderArticles(arts) {
   const el = document.getElementById('articles');
   if (!arts?.length) { el.innerHTML = '<div class="nodata">攻略文章即將加入</div>'; return; }
   el.innerHTML = arts.map(a => `
-    <div class="art-card">
+    <div class="card art-card">
       <div class="art-tags">${(a.tags||[]).map(t=>`<span class="art-tag">${t}</span>`).join('')}</div>
       <div class="art-title">${a.title}</div>
       <div class="art-summary">${a.summary}</div>

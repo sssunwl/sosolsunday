@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>☀️</text></svg>">
+  <title>口袋地點 · SoSolsunday</title>
+  <meta name="description" content="從 Notion 收藏整理出來的餐廳與景點，按地區篩選、在地圖上看位置。">
+  <link rel="stylesheet" href="../assets/sosol.css">
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
+        integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="">
+</head>
+<body>
+<a class="skip-link" href="#main">跳到主要內容</a>
+<div class="ocean-waves" aria-hidden="true">
+  <svg viewBox="0 0 2400 120" preserveAspectRatio="none">
+    <path class="ocean-wave-back" d="M0,70 C50,40 150,100 200,70 C250,40 350,100 400,70 C450,40 550,100 600,70 C650,40 750,100 800,70 C850,40 950,100 1000,70 C1050,40 1150,100 1200,70 C1250,40 1350,100 1400,70 C1450,40 1550,100 1600,70 C1650,40 1750,100 1800,70 C1850,40 1950,100 2000,70 C2050,40 2150,100 2200,70 C2250,40 2350,100 2400,70 L2400,120 L0,120 Z" fill="rgba(121,217,230,.5)"/>
+    <path class="ocean-wave-front" d="M0,86 C50,64 150,110 200,86 C250,64 350,110 400,86 C450,64 550,110 600,86 C650,64 750,110 800,86 C850,64 950,110 1000,86 C1050,64 1150,110 1200,86 C1250,64 1350,110 1400,86 C1450,64 1550,110 1600,86 C1650,64 1750,110 1800,86 C1850,64 1950,110 2000,86 C2050,64 2150,110 2200,86 C2250,64 2350,110 2400,86 L2400,120 L0,120 Z" fill="rgba(8,127,156,.42)"/>
+  </svg>
+</div>
+
+<header class="site-header" id="hdr">
+  <div class="shell nav">
+    <a class="brand" href="../"><span class="brand-mark">☀</span> SoSolsunday</a>
+    <nav class="desktop-nav" aria-label="主要導覽">
+      <a href="../">首頁</a>
+      <a href="../#deals">機票・酒店</a>
+      <a href="../destinations/">目的地</a>
+      <a href="../places/" aria-current="page">口袋地點</a>
+      <a href="../seasonal/">季節限定</a>
+      <a href="../calendar/">假期年曆</a>
+    </nav>
+    <div class="nav-actions">
+      <span class="pill" id="updPill"><span class="dot"></span>載入中</span>
+      <button class="icon-btn menu-btn" id="menuBtn" aria-label="選單" aria-controls="dropNav" aria-expanded="false">☰</button>
+    </div>
+  </div>
+  <nav class="drop-nav shell" id="dropNav" aria-label="手機導覽" hidden>
+    <a href="../">首頁</a>
+    <a href="../#deals">機票・酒店</a><a href="../destinations/">目的地</a>
+    <a href="../places/" aria-current="page">口袋地點</a>
+    <a href="../seasonal/">季節限定</a><a href="../calendar/">假期年曆</a>
+  </nav>
+</header>
+
+<main id="main">
+  <section class="hero page-hero"><div class="shell">
+    <span class="eyebrow">Pocket Places</span>
+    <h1>口袋<span class="play">地點</span></h1>
+    <p class="hero-lead">從 Notion「IG 收藏整理」挑出來、已經查過位置的餐廳與景點。按地區看，點卡片在地圖上找它。</p>
+  </div></section>
+
+  <div class="shell">
+    <div class="section">
+      <div class="pl-toolbar">
+        <div class="pl-chips" id="plChips" role="group" aria-label="地區篩選"></div>
+        <span class="pl-count" id="plCount"></span>
+      </div>
+
+      <div class="pl-layout">
+        <div class="pl-mapwrap" id="plMapWrap">
+          <div id="placeMap" role="application" aria-label="地點地圖"></div>
+          <div class="pl-maphint">點卡片可在地圖上定位；地圖不會被滾輪縮放。</div>
+        </div>
+        <div class="pl-list" id="plList"><div class="loading">載入中…</div></div>
+      </div>
+    </div>
+  </div>
+</main>
+
+<footer class="site-footer">
+  <div class="shell">
+    <div class="footer-grid">
+      <div class="footer-brand">
+        <a class="brand" href="../"><span class="brand-mark">☀</span> SoSolsunday</a>
+        <p>香港與台北出發的旅遊速報。機酒價格每日自動更新，假期年曆人工核對官方公告。Suniverse × Sosol 出品。</p>
+      </div>
+      <div class="footer-col"><strong>逛逛</strong>
+        <a href="../#deals">機票價格</a><a href="../#hotels">酒店精選</a>
+        <a href="../destinations/">目的地</a><a href="../places/">口袋地點</a>
+        <a href="../seasonal/">季節限定</a><a href="../calendar/">假期年曆</a>
+      </div>
+      <div class="footer-col"><strong>關於</strong>
+        <a href="https://github.com/sssunwl/sosolsunday" target="_blank" rel="noopener">GitHub</a>
+        <a href="../calendar/">假期資料來源</a>
+      </div>
+    </div>
+    <div class="footer-base"><span id="footUpd">—</span><span>地點資料來自個人收藏，出發前請自行確認營業狀態</span></div>
+  </div>
+</footer>
+
+<script src="../assets/site.js"></script>
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
+        integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
+<script>
+const REGION_CENTER={'釜山':[35.1151,129.0413],'沖繩':[26.2124,127.6809],'首爾':[37.5665,126.9780],
+ '台北':[25.0330,121.5654],'東京':[35.6762,139.6503],'福岡':[33.5904,130.4017],
+ '石垣':[24.3448,124.1572],'宮古島':[24.8055,125.2811]};
+const esc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+let PLACES=[],region='all',map=null,layer=null,markers={},shown=[];
+
+function ensureMap(){
+  if(map||typeof L==='undefined')return;
+  map=L.map('placeMap',{scrollWheelZoom:false}).setView([28,128],4);
+  L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
+    {maxZoom:19,attribution:'&copy; OpenStreetMap'}).addTo(map);
+  layer=L.layerGroup().addTo(map);
+}
+
+function renderChips(){
+  const regions=[...new Set(PLACES.map(p=>p.region).filter(Boolean))];
+  document.getElementById('plChips').innerHTML=
+    [`<button class="pl-chip" data-r="all" aria-pressed="true">全部</button>`]
+    .concat(regions.map(r=>`<button class="pl-chip" data-r="${esc(r)}" aria-pressed="false">${esc(r)}</button>`)).join('');
+  document.querySelectorAll('#plChips .pl-chip').forEach(b=>b.onclick=()=>{
+    region=b.dataset.r;
+    document.querySelectorAll('#plChips .pl-chip').forEach(x=>x.setAttribute('aria-pressed',String(x===b)));
+    render();
+  });
+}
+
+function render(){
+  shown=PLACES.filter(p=>region==='all'||p.region===region);
+  const listEl=document.getElementById('plList');
+  document.getElementById('plCount').textContent=PLACES.length?`${shown.length} 個地點`:'';
+
+  if(!shown.length){
+    listEl.innerHTML=`<div class="pl-empty"><strong>${PLACES.length?'這個地區還沒有收藏':'還沒有收藏的地點'} 🗺️</strong>
+      在 Notion「IG 收藏整理」把項目發佈到含「地圖站」並標成已整理，下次同步就會出現在這裡。</div>`;
+  }else{
+    listEl.innerHTML=shown.map((p,i)=>`
+      <button class="pl-card" data-i="${i}" aria-current="false">
+        <div class="pl-card-hd">
+          <div>
+            <div class="pl-card-nm">${esc(p.name)}</div>
+            ${p.region?`<div class="pl-card-region">📍 ${esc(p.region)}</div>`:''}
+          </div>
+          ${p.category?`<span class="pl-card-cat">${esc(p.category)}</span>`:''}
+        </div>
+        ${p.summary?`<div class="pl-card-sum">${esc(p.summary)}</div>`:''}
+        ${(p.tags||[]).length?`<div class="pl-tags">${p.tags.map(t=>`<span class="pl-tag">#${esc(t)}</span>`).join('')}</div>`:''}
+        <div class="pl-links">
+          ${p.link?`<a href="${esc(p.link)}" target="_blank" rel="noopener">🔗 來源</a>`:''}
+          ${(p.lat&&p.lon)?`<a href="https://www.google.com/maps/search/?api=1&query=${p.lat},${p.lon}" target="_blank" rel="noopener">🧭 導航</a>`:''}
+        </div>
+        ${p.verified===false?`<div class="pl-unverified">⚠️ 座標為整理時查填，尚未實地確認</div>`:''}
+      </button>`).join('');
+    listEl.querySelectorAll('.pl-card').forEach(c=>{
+      c.querySelectorAll('a').forEach(a=>a.onclick=e=>e.stopPropagation());
+      c.onclick=()=>focus(+c.dataset.i,c);
+    });
+  }
+
+  ensureMap();
+  const wrap=document.getElementById('plMapWrap');
+  if(!map){wrap.style.display='none';return;}     // Leaflet CDN 掛掉時仍看得到卡片
+  wrap.style.display='';
+  layer.clearLayers(); markers={};
+  const pins=shown.filter(p=>p.lat&&p.lon);
+  pins.forEach(p=>{
+    markers[shown.indexOf(p)]=L.marker([p.lat,p.lon]).addTo(layer)
+      .bindPopup(`<b>${esc(p.name)}</b>${p.category?` · ${esc(p.category)}`:''}<br>${esc(p.summary||'')}`);
+  });
+  setTimeout(()=>{
+    map.invalidateSize();
+    if(pins.length===1)map.setView([pins[0].lat,pins[0].lon],15);
+    else if(pins.length>1)map.fitBounds(pins.map(p=>[p.lat,p.lon]),{padding:[40,40],maxZoom:14});
+    else if(region!=='all'&&REGION_CENTER[region])map.setView(REGION_CENTER[region],12);
+    else map.setView([28,128],4);
+  },60);
+}
+
+function focus(i,card){
+  document.querySelectorAll('.pl-card').forEach(c=>c.setAttribute('aria-current','false'));
+  card.setAttribute('aria-current','true');
+  const m=markers[i];
+  if(!m)return;
+  map.setView(m.getLatLng(),16); m.openPopup();
+  if(window.matchMedia('(max-width:919px)').matches)
+    document.getElementById('placeMap').scrollIntoView({behavior:'smooth',block:'center'});
+}
+
+(async()=>{
+  let d=null;
+  try{const r=await fetch('../data/places.json?v='+Date.now()); if(r.ok)d=await r.json();}catch(e){}
+  PLACES=d?.places||[];
+  const stamp=d?.updated||'—';
+  document.getElementById('updPill').innerHTML='<span class="dot"></span>地點 '+stamp;
+  document.getElementById('footUpd').textContent='地點資料更新：'+stamp;
+  renderChips(); render();
+})();
+</script>
+</body>
+</html>
